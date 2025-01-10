@@ -1,0 +1,128 @@
+.preview {
+    padding: 44px 0;
+    margin-bottom: 21px;
+    @include md {
+        padding: 34px 0;
+    }
+    @include sm {
+        padding: 24px 0;
+    }
+    &-inner {
+        max-width: 1055px;
+    }
+    &-item {
+        row-gap: 20px;
+        @include md {
+            row-gap: 16px;
+        }
+        @include sm {
+            row-gap: 12px;
+        }
+        &-img {
+            padding-bottom: 74%;
+        }
+        & h6 {
+            font-size: 14px;
+            font-family: $font-1;
+            color: rgba($color: #8B8B8B, $alpha: .60);
+            background-color: #151517;
+            border: 1px solid #242426;
+            border-radius: 14px;
+            padding: 14px 20px;
+        }
+        &-actions {
+            margin: 30px;
+            @include md {
+                margin: 24px;
+            }
+            @include sm {
+                margin: 20px;
+            }
+            & button,
+            & a:not(.list a) {
+                background-color: #47474C;
+                border-radius: 12px;
+                color: $white;
+                width: 56px;
+                height: 48px;
+                transform: scale(1);
+                @include sm {
+                    width: 44px;
+                    height: 38px;
+                    & svg {
+                        scale: .8;
+                    }
+                }
+                &:hover {
+                    transform: scale(1.05);
+                }
+            }
+            & .list {
+                background-color: #2C2C2E;
+                border: 1px solid #343435;
+                padding: 15px;
+                border-radius: 12px;
+                margin-top: 14px;
+                min-width: 200px;
+                & a {
+                    color: #DDDFE7;
+                    & span {
+                        transform: translateX(0);
+                        @include transition;
+                    }
+                    &:hover {
+                        color: $primary;
+                        & span {
+                            transform: translateX(5px);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    &-left {
+        width: 78.67%;
+        flex: 0 0 auto;
+        row-gap: 20px;
+        @include md {
+            width: 73%;
+            row-gap: 16px;
+        }
+        @include sm {
+            width: 100%;
+            row-gap: 12px;
+        }
+    }
+    &-right {
+        width: 21.33%;
+        flex: 0 0 auto;
+        padding-left: 70px;
+        @include lg {
+            padding-left: 40px;
+        }
+        @include md {
+            width: 27%;
+            padding-left: 24px;
+        }
+        @include sm {
+            padding-left: 0;
+            width: 100%;
+        }
+        & p {
+            color: $text;
+        }
+        & a {
+            color: #DDDFE7;
+            & span {
+                transform: translateX(0);
+                @include transition;
+            }
+            &:hover {
+                color: $primary;
+                & span {
+                    transform: translateX(5px);
+                }
+            }
+        }
+    }
+}

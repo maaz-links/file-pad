@@ -1,0 +1,97 @@
+.home {
+    &-shape {
+        opacity: 0;
+        visibility: hidden;
+        backdrop-filter: blur(10px);
+        &.blurred {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+}
+
+.ql-image .ql-stroke,
+.ql-snow .ql-fill,
+.ql-snow .ql-stroke.ql-fill {
+    stroke: #E3DFDF !important;
+}
+
+.ql-snow.ql-toolbar button:hover,
+.ql-snow .ql-toolbar button:hover,
+.ql-snow.ql-toolbar button:focus,
+.ql-snow .ql-toolbar button:focus,
+.ql-snow.ql-toolbar button.ql-active,
+.ql-snow .ql-toolbar button.ql-active,
+.ql-snow.ql-toolbar .ql-picker-label:hover,
+.ql-snow .ql-toolbar .ql-picker-label:hover,
+.ql-snow.ql-toolbar .ql-picker-label.ql-active,
+.ql-snow .ql-toolbar .ql-picker-label.ql-active,
+.ql-snow.ql-toolbar .ql-picker-item:hover,
+.ql-snow .ql-toolbar .ql-picker-item:hover,
+.ql-snow.ql-toolbar .ql-picker-item.ql-selected,
+.ql-snow .ql-toolbar .ql-picker-item.ql-selected {
+    color: $black !important;
+}
+
+.info {
+    &-items {
+        grid-template-columns: repeat(var(--item, 4), minmax(0, 1fr));
+        @include xxl {
+            --item: 3;
+        }
+        @include xl {
+            --item: 3;
+        }
+        @include lg {
+            --item: 2;
+        }
+        @include md {
+            --item: 2;
+        }
+        @include sm {
+            --item: 1;
+        }
+    }
+    &-item {
+        border-radius: 14px;
+        border: 1px solid $border;
+        background-color: $card-bg;
+        padding: 36px;
+        --icon: 24px;
+        --gap: 16px;
+        @include lg {
+            padding: 30px;
+        }
+        @include md {
+            padding: 30px;
+        }
+        @include sm {
+            padding: 20px;
+        }
+        &-icon {
+            width: var(--icon);
+            flex: 0 0 auto;
+        }
+        &-content {
+            width: calc(100% - var(--icon) - var(--gap));
+            flex: 0 0 auto;
+        }
+        & h4 {
+            font-size: 26px;
+            font-weight: 700;
+            line-height: calc(39px/26px);
+            color: $heading;
+            @include text_ellipsis(1);
+            @include xl {
+                font-size: 20px;
+            }
+            @include md {
+                font-size: 18px;
+            }
+            @include sm {
+                font-size: 20px;
+                padding-left: 0 !important;
+            }
+        }
+    }
+}

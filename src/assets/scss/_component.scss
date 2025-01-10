@@ -1,0 +1,175 @@
+.gap {
+    &-14 {
+        gap: 14px;
+        @include sm {
+            gap: 8px;
+        }
+    }
+    &-27 {
+        gap: 27px;
+        @include sm {
+            gap: 16px;
+        }
+    }
+}
+
+.allPad {
+    & table {
+        & th,
+        td {
+            &:last-child {
+                width: 248px;
+            }
+            & button {
+                padding: 9px 15px;
+            }
+        }
+    }
+}
+
+.expires {
+    &-btn {
+        @include xxxl {
+            padding: 13px 19px !important;
+        }
+        @include xxl {
+            padding: 13px 19px !important;
+        }
+        @include xl {
+            padding: 13px 19px !important;
+        }
+        @include sm {
+            height: 44px;
+        }
+    }
+    &-btn2 {
+        @include xxxl {
+            padding: 14px 20px !important;
+        }
+        @include xxl {
+            padding: 14px 20px !important;
+        }
+        @include xl {
+            padding: 14px 20px !important;
+        }
+        @include sm {
+            height: 44px;
+        }
+    }
+}
+
+.bg-shape {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1E1E20E5;
+    backdrop-filter: blur(5px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    & .Modal {
+        border-radius: 12px;
+        border: 1px solid #343435;
+        background: #2C2C2E;
+        padding: 20px;
+        padding-top: 16px;
+        max-width: 661px;
+        width: 100%;
+        @include md {
+            max-width: 70%;
+        }
+        @include sm {
+            margin: 0 20px;
+        }
+        & .form-box {
+            width: 100%;
+            max-width: 245px;
+        }
+        & .header {
+            padding-bottom: 20px;
+            border-bottom: 1px solid #343435;
+            margin-bottom: 11px;
+        }
+        & .wrap {
+            max-width: 375px;
+            margin: 0 auto;
+        }
+        & p {
+            margin-bottom: 35px;
+        }
+        & .close {
+            &:hover {
+                color: red;
+            }
+        }
+        & .bg-red {
+            background-color: #DC2625;
+            &:hover {
+                background-color: white;
+                color: black;
+            }
+        }
+        & .bg-green {
+            background-color: #17A34A;
+            &:hover {
+                background-color: white;
+                color: black;
+            }
+        }
+    }
+}
+
+.copy {
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #343435;
+    background-color: #232325;
+    max-width: max-content;
+    & button:not(.copy>button) {
+        background-color: #2E2E30 !important;
+        border: none;
+        --width: 22px;
+        width: var(--width);
+        height: var(--width);
+    }
+    &>button {
+        margin-left: 140px;
+        @include xl {
+            margin-left: 60px;
+        }
+        @include sm {
+            margin-left: 20px;
+        }
+        &:hover {
+            color: #DC2625 !important;
+        }
+    }
+}
+
+.text-ABB1AE {
+    color: #ABB1AE !important;
+}
+
+.text-858585 {
+    color: #858585 !important;
+}
+
+.list {
+    & .num,
+    & .des {
+        & p {
+            margin-bottom: 7px;
+            font-size: 17px;
+        }
+    }
+    .des {
+        border-radius: 14.688px;
+        background-color: #232325;
+        padding: 26px 30px;
+        width: 100%;
+        max-width: max-content;
+    }
+}

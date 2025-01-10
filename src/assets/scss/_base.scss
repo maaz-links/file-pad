@@ -1,0 +1,230 @@
+body {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: calc(26px/16px);
+    color: $text;
+    font-family: $font-1;
+    background-color: $bg;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: $font-2;
+    color: $heading;
+}
+
+p {
+    margin: 0;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+ul,
+ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    text-decoration: none !important;
+    @include transition;
+}
+
+input,
+textarea,
+button {
+    padding: 10px 25px;
+    border: 1px solid $border;
+    outline: none;
+    @include transition;
+    &:focus {
+        outline: none;
+        border-color: $primary;
+    }
+}
+
+
+/*Hide number spin button*/
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+.gap {
+    &-12 {
+        gap: 12px;
+    }
+    &-20 {
+        gap: 20px;
+    }
+}
+
+#root {
+    overflow: hidden;
+}
+
+.btn {
+    background-color: #363539;
+    font-family: $font-1;
+    font-size: 14px;
+    line-height: 1.37;
+    color: $white;
+    font-weight: 500;
+    border-radius: 10px;
+    padding: 14px 24px;
+    border: 1px solid transparent;
+    @include sm {
+        padding: 12px 18px;
+    }
+    &.bg-white {
+        color: #272729;
+        &:hover {
+            background-color: transparent !important;
+            color: $white;
+        }
+    }
+    &.px-20 {
+        padding-left: 20px;
+        padding-right: 20px;
+        @include sm {
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+    }
+    &:hover {
+        background-color: $white;
+        color: #5C5C5C;
+        border-color: $white;
+    }
+}
+
+.page {
+    &-dropdown {
+        &.mirrors {
+            min-width: 150px;
+            @include mmd {
+                min-width: max-content;
+            }
+        }
+        &>button {
+            font-size: 14px;
+            line-height: 1.5;
+            font-weight: 500;
+            color: $heading;
+            background-color: #272728;
+            border: 1px solid $border;
+            border-radius: 10px;
+            padding: 10px 15px;
+            @include sm {
+                padding: 8px 12px;
+                padding-right: 6px;
+            }
+            & .arrow.-scale-y-100 {
+                transform: scaleY(-1);
+            }
+        }
+        & .list {
+            background-color: #232325;
+            border: 1px solid $border;
+            min-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba($color: #343434, $alpha: .30);
+            max-height: 200px;
+            @include custom-scroll(4px);
+            & button {
+                background-color: transparent !important;
+                color: $text;
+                display: block;
+                width: 100%;
+                padding: 6px 5px;
+                text-align: left;
+                font-weight: 500;
+                border: none;
+                font-size: 14px;
+                &:hover {
+                    color: $white;
+                }
+            }
+        }
+    }
+}
+
+.form {
+    &-control {
+        height: 50px;
+        background-color: #151516 !important;
+        border: 1px solid #252526 !important;
+        font-size: 14px;
+        line-height: 1.5;
+        font-weight: 500;
+        color: #888888 !important;
+        box-shadow: 0 0 0 !important;
+        border-radius: 10px;
+        padding: 5px 20px;
+        &::placeholder {
+            color: currentColor;
+        }
+        &:focus {
+            border-color: $border;
+        }
+        .header & {
+            min-width: 170px;
+            @include lg {
+                min-width: 120px;
+                max-width: 130px;
+            }
+            @include md {
+                min-width: 170px;
+                max-width: 150px;
+            }
+        }
+    }
+    &-checkbox {
+        cursor: pointer;
+        & input:checked+.icon {
+            &::before {
+                @include show;
+            }
+        }
+        & .icon {
+            flex: 0 0 auto;
+            --size: 22px;
+            width: var(--size);
+            height: var(--size);
+            border: 1.5px solid #343434;
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+            &::before {
+                content: '✓';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 14px;
+                color: #808080;
+                @include hidden;
+            }
+        }
+        & .text {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #808080;
+        }
+    }
+}

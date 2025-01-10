@@ -1,0 +1,36 @@
+.container,
+.container-fluid {
+    padding-left: 35px;
+    padding-right: 35px;
+    @include lg {
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+    @include mmd {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
+.header {
+    & .logo {
+        width: 164px;
+        flex: 0 0 auto;
+        @include md {
+            width: 130px;
+        }
+    }
+}
+
+.footer {
+    & a {
+        font-size: 16px;
+        line-height: 1.5;
+        display: block;
+        padding: 4px 16px;
+        color: $text;
+        &:hover {
+            color: $primary;
+        }
+    }
+}
