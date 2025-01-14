@@ -10,7 +10,7 @@ import axios from 'axios';
 
 export default function CreatePad() {
 
-  const { burnAfterRead, expiryDateIncrement, mirror } = useOutletContext();
+  const { burnAfterRead, expiryDateIncrement, mirror, setCurrentUID } = useOutletContext();
   //Get values from <top> component
 
   const [isSubmitting, setIsSubmitting] = useState(false); //For upload button, unused
@@ -244,6 +244,7 @@ export default function CreatePad() {
       });
 
       console.log("Initial axios call successful:", response.data); //log
+      setCurrentUID(response.data.uid);
       const uploadFiles = async () => {
         const promises = [];  //to track for redirect
         files.forEach((file, index) => {
@@ -326,7 +327,7 @@ export default function CreatePad() {
 
   useEffect(() => {
     if (uploadModal || (files.length > 0)) { //This triggers file Uploading
-      //handleSubmit();
+      handleSubmit();
     }
     if (uploadModal || fullScreenEdit) {
       document.body.classList.add('overflow-hidden')

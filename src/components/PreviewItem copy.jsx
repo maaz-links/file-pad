@@ -1,23 +1,14 @@
 import { useState } from 'react';
 
-export default function PreviewItem({ items, handleTitleChange, ...props }) {
+export default function PreviewItem({ items, ...props }) {
     const [dropdown, setDropdown] = useState(null);
     const toggleDropdown = (index) => {
         setDropdown(dropdown === index ? null : index);
     };
-    if (items.length == 0){
-        return null;
-    }
     return (
         items.map((item, index) => (
             <div className='preview-item d-grid' {...props} key={index}>
-                {/* <h6 className="fw-medium lh-base mb-0">{item.title}</h6> */}
-                <div className="form-box d-none d-md-block">
-                    <input type="text" placeholder='Title' className="form-control" 
-                    my-data={item.itemid}
-                    
-                    onChange={(e) => handleTitleChange(index, item.itemid, e)}/>
-                  </div>
+                <h6 className="fw-medium lh-base mb-0">{item.title}</h6>
                 <div className="position-relative z-1">
                     <div className="preview-item-actions position-absolute top-0 end-0 z-2">
                         <div className='d-flex align-items-center gap-2'>

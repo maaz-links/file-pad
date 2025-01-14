@@ -7,14 +7,22 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 export default function Preview() {
 
-  const { currentUID, setCurrentUID, mirror, setPaste } = useOutletContext();
+  const { currentUID, setCurrentUID } = useOutletContext();
 
-  const itemTemp = (pitemid, ptitle, src) => {
-    return {
-      itemid: pitemid,
-      title: ptitle,
-      img: src,
+  const items = [
+    {
+      title: 'Title',
+      //img: img_1,
+      img: 'http://localhost:8000/storage/uploads/3DphyTqK1kg13KdoN5QQaL0FLhrE8VKjLFmz3VUf.png',
       action: [
+        // {
+        //   icon: (<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        //     <path d="M12.6783 4.9853L13.8464 3.81717C14.4916 3.17203 15.5376 3.17203 16.1828 3.81717C16.8278 4.46231 16.8278 5.50829 16.1828 6.15344L15.0146 7.32157M12.6783 4.9853L5.81678 11.8469C4.94569 12.718 4.51014 13.1535 4.21356 13.6842C3.91698 14.215 3.61859 15.4682 3.33325 16.6666C4.53166 16.3813 5.78491 16.0829 6.31566 15.7863C6.84641 15.4897 7.28195 15.0542 8.15304 14.1831L15.0146 7.32157M12.6783 4.9853L15.0146 7.32157" stroke="#DDDFE7" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+        //     <path d="M9.16675 16.6667H14.1667" stroke="#DDDFE7" strokeWidth="1.25" strokeLinecap="round" />
+        //   </svg>),
+        //   name: 'Edit image',
+        //   url: ''
+        // },
         {
           icon: (<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M8.33325 11.0241C8.45125 11.2174 8.59134 11.4003 8.75342 11.569C9.75967 12.6162 11.2934 12.78 12.4646 12.0601C12.6816 11.9267 12.8861 11.7631 13.0726 11.569L15.7721 8.75948C16.9648 7.51818 16.9648 5.50561 15.7721 4.2643C14.5793 3.02298 12.6456 3.02299 11.4528 4.2643L10.8583 4.88313" stroke="white" strokeWidth="1.25" strokeLinecap="round" />
@@ -42,77 +50,48 @@ export default function Preview() {
           url: ''
         },
       ]
-    }
-  }
+    },
+    
+  ]
+
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [dataItems, setDataItems] = useState(items);
+
+    useEffect(() => {
+        // Fetch the list of image URLs from the API
+        axios.post(`http://localhost:8000/api/upload/attachments/preview/D84ntM0h`)
+            .then(async (response) => {
+                console.log(response.data);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error('Error fetching images:', error);
+                setLoading(false);
+            });
+    }, []);
 
 
-  const [items, setItems] = useState([]);
-  //const [images, setImages] = useState([]);
-  //const [loading, setLoading] = useState(true);
-  const [inputTitles, setInputTitles] = useState([]);
 
-  useEffect(() => {
-    if (currentUID) {
-      console.log(items);
-      axios.post(`http://localhost:8000/api/upload/attachments/preview/${currentUID}`)
-        .then(async (response) => {
-          console.log(response.data);
-
-          const myData = response.data.data || [];
-
-          const transformedData = myData.map((data) => {
-            return itemTemp(data.id, 'title', data.thumbnail);
-          });
-          const transformedTitles = myData.map((data) => {
-            return { id: data.id, title: data.title };
-          });
-          setItems(transformedData);
-          setInputTitles(transformedTitles);
-          setPaste(`${mirror[1]}/${currentUID}`); //Sets paste value that will display on <Top>
-          setCurrentUID(''); //Reset current UID to default
-          //setLoading(false);
-        })
-        .catch(error => {
-          console.error('Error fetching images:', error);
-          //setLoading(false);
-        });
-    }
-  }, []);
+  // State to store titles for each image
+  const [titles, setTitles] = useState(images.map(() => ""));
 
   // Handle title change for each image
-  const handleTitleChange = (index, id, event) => {
-    let changeTitles = inputTitles;
-    let data = changeTitles.find(data => data.id === id);
-    if (data) {
-      data.title = event.target.value;
-      setInputTitles(changeTitles);
-    }
+  const handleTitleChange = (index, event) => {
+      const newTitles = [...titles];
+      newTitles[index] = event.target.value;
+      setTitles(newTitles);
   };
-  //   const handleTitleChange = (index,id, event) => {
-  //     const newTitles = [...titles];
-  //     newTitles[index] = event.target.value;
-  //     setTitles(newTitles);
-  //     console.log(titles);
-  // };
 
   // Handle form submission
-  const handleSubmit = async (event) => {
-    console.log(inputTitles);
-    //return;
-    event.preventDefault();
-    //const testdata = [{ id: '60', title: 'amogus' },{ id: '61', title: 'sus' }];
-    try {
-      const response = await axios.put('http://localhost:8000/api/upload/titles', {
-        items: inputTitles,
-      });
-      console.log('Updated items:', response.data.updatedItems);
-    } catch (error) {
-      console.error('Error updating titles:', error);
-    }
+  const handleSubmit = (event) => {
+      event.preventDefault();
+      // Normally, you'd send titles to a server here.
+      console.log("Titles submitted:", titles);
   };
 
 
-
+  
   const tools = [
     {
       icon: (<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -120,6 +99,14 @@ export default function Preview() {
         <path d="M10.0001 13.3334V6.66669M10.0001 13.3334C9.41658 13.3334 8.32636 11.6714 7.91675 11.25M10.0001 13.3334C10.5836 13.3334 11.6738 11.6714 12.0834 11.25" stroke="white" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
       </svg>),
       title: 'Download Now',
+      url: '/',
+    },
+    {
+      icon: (<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M10.0001 18.3334C14.6025 18.3334 18.3334 14.6024 18.3334 10C18.3334 5.39765 14.6025 1.66669 10.0001 1.66669C5.39771 1.66669 1.66675 5.39765 1.66675 10C1.66675 14.6024 5.39771 18.3334 10.0001 18.3334Z" stroke="white" strokeWidth="1.25" />
+        <path d="M10.0001 13.3334V6.66669M10.0001 13.3334C9.41658 13.3334 8.32636 11.6714 7.91675 11.25M10.0001 13.3334C10.5836 13.3334 11.6738 11.6714 12.0834 11.25" stroke="white" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>),
+      title: 'Submit',
       url: '/',
     },
     {
@@ -140,7 +127,7 @@ export default function Preview() {
           <Col xs={12}>
             <div className="preview-inner w-full mx-auto d-flex flex-wrap flex-row-reverse">
               <div className="preview-right">
-                <p className="fs-6 mb-3 mb-lg-4 text-uppercase fw-medium">Image Tools</p>
+                <p className="fs-6 mb-3 mb-lg-4 text-uppercase fw-medium">Image Tools {currentUID}</p>
                 <div className="d-flex flex-column gap-2 gap-md-3">
                   {tools.map((item, index) => (
                     <a href={item.url} key={index} target="_blank" className="d-flex w-100 align-items-center gap-2 fs-6 lh-base">
@@ -148,17 +135,13 @@ export default function Preview() {
                       <span className="d-block ps-1">{item.title}</span>
                     </a>
                   ))}
-                  <button onClick={handleSubmit} className='btn bg-white bottom-0 end-0 m-2 m-md-3 m-lg-4'>Save</button>
-                  {/* <button onClick={() => { console.log(inputTitles) }} className='btn bg-white bottom-0 end-0 m-2 m-md-3 m-lg-4'>check</button> */}
                 </div>
               </div>
               <div className="preview-left d-grid mt-4 mt-md-0">
-                <PreviewItem items={items} handleTitleChange={handleTitleChange} />
-
+                <PreviewItem items={items} />
               </div>
             </div>
           </Col>
-
         </Row>
       </Container>
     </div>
