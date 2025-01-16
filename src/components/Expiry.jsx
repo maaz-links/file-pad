@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
 
-export default function Expiry() {
-    const targetDate = new Date("2025-01-05T23:59:59");
+export default function Expiry({unix=0}) {
+    if(!unix) //var instead of const
+    {    var targetDate = new Date("2025-01-15T23:59:59")}
+    else{
+        var targetDate = new Date(unix*1000)
+    }
     const calculateTimeLeft = () => {
         const difference = targetDate - new Date();
         let timeLeft = {};

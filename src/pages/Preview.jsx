@@ -1,4 +1,5 @@
 import { Container, Row, Col } from "react-bootstrap"
+import { ToastContainer, toast } from 'react-toastify';
 import PreviewItem from "../components/PreviewItem"
 import img_1 from '../assets/img/preview/img-1.png'
 import img_2 from '../assets/img/preview/img-2.png'
@@ -7,7 +8,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 export default function Preview() {
 
-  const { currentUID, setCurrentUID, mirror, setPaste } = useOutletContext();
+  const { currentUID, setCurrentUID, mirror, paste, setPaste } = useOutletContext();
 
   const itemTemp = (pitemid, ptitle, src) => {
     return {
@@ -69,7 +70,7 @@ export default function Preview() {
           setItems(transformedData);
           setInputTitles(transformedTitles);
           setPaste(`${mirror[1]}/${currentUID}`); //Sets paste value that will display on <Top>
-          setCurrentUID(''); //Reset current UID to default
+          //setCurrentUID(''); //Reset current UID to default
           //setLoading(false);
         })
         .catch(error => {
@@ -78,6 +79,25 @@ export default function Preview() {
         });
     }
   }, []);
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(paste);
+      toast.success('Link copied to Clipboard', {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      console.log('Content copied to clipboard');
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+    }
+  }
 
   // Handle title change for each image
   const handleTitleChange = (index, id, event) => {
@@ -113,26 +133,35 @@ export default function Preview() {
 
 
 
-  const tools = [
-    {
-      icon: (<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-        <path d="M10.0001 18.3334C14.6025 18.3334 18.3334 14.6024 18.3334 10C18.3334 5.39765 14.6025 1.66669 10.0001 1.66669C5.39771 1.66669 1.66675 5.39765 1.66675 10C1.66675 14.6024 5.39771 18.3334 10.0001 18.3334Z" stroke="white" strokeWidth="1.25" />
-        <path d="M10.0001 13.3334V6.66669M10.0001 13.3334C9.41658 13.3334 8.32636 11.6714 7.91675 11.25M10.0001 13.3334C10.5836 13.3334 11.6738 11.6714 12.0834 11.25" stroke="white" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>),
-      title: 'Download Now',
-      url: '/',
-    },
-    {
-      icon: (<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-        <path d="M16.25 4.58331L15.7336 12.9376C15.6016 15.072 15.5357 16.1392 15.0007 16.9066C14.7361 17.2859 14.3956 17.6061 14.0006 17.8466C13.2017 18.3333 12.1325 18.3333 9.99392 18.3333C7.8526 18.3333 6.78192 18.3333 5.98254 17.8457C5.58733 17.6047 5.24667 17.284 4.98223 16.904C4.4474 16.1355 4.38287 15.0667 4.25384 12.9293L3.75 4.58331" stroke="white" strokeLinecap="round" />
-        <path d="M2.5 4.58335H17.5M13.3797 4.58335L12.8109 3.4098C12.433 2.63024 12.244 2.24045 11.9181 1.99736C11.8458 1.94344 11.7693 1.89547 11.6892 1.85394C11.3283 1.66669 10.8951 1.66669 10.0287 1.66669C9.14067 1.66669 8.69667 1.66669 8.32973 1.86179C8.24842 1.90503 8.17082 1.95494 8.09774 2.011C7.76803 2.26394 7.58386 2.66798 7.21551 3.47607L6.71077 4.58335" stroke="white" strokeLinecap="round" />
-        <path d="M7.91675 13.75V8.75" stroke="white" strokeLinecap="round" />
-        <path d="M12.0833 13.75V8.75" stroke="white" strokeLinecap="round" />
-      </svg>),
-      title: 'Delete image',
-      url: '',
-    },
-  ]
+  // const tools = [
+  //   {
+  //     icon: (<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  //       <path d="M10.0001 18.3334C14.6025 18.3334 18.3334 14.6024 18.3334 10C18.3334 5.39765 14.6025 1.66669 10.0001 1.66669C5.39771 1.66669 1.66675 5.39765 1.66675 10C1.66675 14.6024 5.39771 18.3334 10.0001 18.3334Z" stroke="white" strokeWidth="1.25" />
+  //       <path d="M10.0001 13.3334V6.66669M10.0001 13.3334C9.41658 13.3334 8.32636 11.6714 7.91675 11.25M10.0001 13.3334C10.5836 13.3334 11.6738 11.6714 12.0834 11.25" stroke="white" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+  //     </svg>),
+  //     title: 'Download Now',
+  //     url: '',
+  //   },
+  //   {
+  //     icon: (<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  //       <path d="M16.25 4.58331L15.7336 12.9376C15.6016 15.072 15.5357 16.1392 15.0007 16.9066C14.7361 17.2859 14.3956 17.6061 14.0006 17.8466C13.2017 18.3333 12.1325 18.3333 9.99392 18.3333C7.8526 18.3333 6.78192 18.3333 5.98254 17.8457C5.58733 17.6047 5.24667 17.284 4.98223 16.904C4.4474 16.1355 4.38287 15.0667 4.25384 12.9293L3.75 4.58331" stroke="white" strokeLinecap="round" />
+  //       <path d="M2.5 4.58335H17.5M13.3797 4.58335L12.8109 3.4098C12.433 2.63024 12.244 2.24045 11.9181 1.99736C11.8458 1.94344 11.7693 1.89547 11.6892 1.85394C11.3283 1.66669 10.8951 1.66669 10.0287 1.66669C9.14067 1.66669 8.69667 1.66669 8.32973 1.86179C8.24842 1.90503 8.17082 1.95494 8.09774 2.011C7.76803 2.26394 7.58386 2.66798 7.21551 3.47607L6.71077 4.58335" stroke="white" strokeLinecap="round" />
+  //       <path d="M7.91675 13.75V8.75" stroke="white" strokeLinecap="round" />
+  //       <path d="M12.0833 13.75V8.75" stroke="white" strokeLinecap="round" />
+  //     </svg>),
+  //     title: 'Delete image',
+  //     url: '',
+  //   },
+  //   {
+  //     icon: (<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  //       <path d="M10.0001 18.3334C14.6025 18.3334 18.3334 14.6024 18.3334 10C18.3334 5.39765 14.6025 1.66669 10.0001 1.66669C5.39771 1.66669 1.66675 5.39765 1.66675 10C1.66675 14.6024 5.39771 18.3334 10.0001 18.3334Z" stroke="white" strokeWidth="1.25" />
+  //       <path d="M10.0001 13.3334V6.66669M10.0001 13.3334C9.41658 13.3334 8.32636 11.6714 7.91675 11.25M10.0001 13.3334C10.5836 13.3334 11.6738 11.6714 12.0834 11.25" stroke="white" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+  //     </svg>),
+  //     title: 'Share link',
+  //     url: '',
+  //   },
+  // ]
+
   return (
     <div className='preview'>
       <Container fluid>
@@ -142,14 +171,24 @@ export default function Preview() {
               <div className="preview-right">
                 <p className="fs-6 mb-3 mb-lg-4 text-uppercase fw-medium">Image Tools</p>
                 <div className="d-flex flex-column gap-2 gap-md-3">
-                  {tools.map((item, index) => (
-                    <a href={item.url} key={index} target="_blank" className="d-flex w-100 align-items-center gap-2 fs-6 lh-base">
+                  {/* {tools.map((item, index) => (
+                    <a onClick={item.url} href='#' key={index} className="d-flex w-100 align-items-center gap-2 fs-6 lh-base">
                       {item.icon}
                       <span className="d-block ps-1">{item.title}</span>
                     </a>
-                  ))}
-                  <button onClick={handleSubmit} className='btn bg-white bottom-0 end-0 m-2 m-md-3 m-lg-4'>Save</button>
-                  {/* <button onClick={() => { console.log(inputTitles) }} className='btn bg-white bottom-0 end-0 m-2 m-md-3 m-lg-4'>check</button> */}
+                  ))} */}
+                  <a href='#' className="d-flex w-100 align-items-center gap-2 fs-6 lh-base"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M10.0001 18.3334C14.6025 18.3334 18.3334 14.6024 18.3334 10C18.3334 5.39765 14.6025 1.66669 10.0001 1.66669C5.39771 1.66669 1.66675 5.39765 1.66675 10C1.66675 14.6024 5.39771 18.3334 10.0001 18.3334Z" stroke="white" strokeWidth="1.25" />
+                    <path d="M10.0001 13.3334V6.66669M10.0001 13.3334C9.41658 13.3334 8.32636 11.6714 7.91675 11.25M10.0001 13.3334C10.5836 13.3334 11.6738 11.6714 12.0834 11.25" stroke="white" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg><span className="d-block ps-1">Download Now</span></a>
+                  <a href='#' className="d-flex w-100 align-items-center gap-2 fs-6 lh-base"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M10.0001 18.3334C14.6025 18.3334 18.3334 14.6024 18.3334 10C18.3334 5.39765 14.6025 1.66669 10.0001 1.66669C5.39771 1.66669 1.66675 5.39765 1.66675 10C1.66675 14.6024 5.39771 18.3334 10.0001 18.3334Z" stroke="white" strokeWidth="1.25" />
+                    <path d="M10.0001 13.3334V6.66669M10.0001 13.3334C9.41658 13.3334 8.32636 11.6714 7.91675 11.25M10.0001 13.3334C10.5836 13.3334 11.6738 11.6714 12.0834 11.25" stroke="white" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg><span className="d-block ps-1">Delete Files</span></a>
+                  <a onClick={(e) => {copyToClipboard();handleSubmit(e)}} href='#' className="d-flex w-100 align-items-center gap-2 fs-6 lh-base"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M10.0001 18.3334C14.6025 18.3334 18.3334 14.6024 18.3334 10C18.3334 5.39765 14.6025 1.66669 10.0001 1.66669C5.39771 1.66669 1.66675 5.39765 1.66675 10C1.66675 14.6024 5.39771 18.3334 10.0001 18.3334Z" stroke="white" strokeWidth="1.25" />
+                    <path d="M10.0001 13.3334V6.66669M10.0001 13.3334C9.41658 13.3334 8.32636 11.6714 7.91675 11.25M10.0001 13.3334C10.5836 13.3334 11.6738 11.6714 12.0834 11.25" stroke="white" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg><span className="d-block ps-1">Share link</span></a>
                 </div>
               </div>
               <div className="preview-left d-grid mt-4 mt-md-0">
@@ -161,6 +200,7 @@ export default function Preview() {
 
         </Row>
       </Container>
+      <ToastContainer />
     </div>
   )
 }

@@ -10,8 +10,8 @@ export default function DropDownExpiry({ className="", list=[], expiryDateIncrem
     return (
         <div className={`page-dropdown position-relative z-1 ${className}`}>
             <button onClick={() => setModal(!modal)} className="w-100 d-flex align-items-center justify-content-between gap-2">
-                <span my-data={expiryDateIncrement}>
-                {`Expires: ${expiryDateIncrement} day${expiryDateIncrement == 1 ? '' : 's'}`}
+                <span my-data={expiryDateIncrement[1]}>
+                {`Expires: ${expiryDateIncrement[0]}`}
                 </span>
                 <span className={`arrow ${modal ? '-scale-y-100' : ''}`}>
                     <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -22,7 +22,7 @@ export default function DropDownExpiry({ className="", list=[], expiryDateIncrem
             {modal &&
                 <div className="list mt-1 p-2 position-absolute z-3 top-100 left-0 w-100 overflow-auto">
                     {list.map((item, index) => (
-                        <button onClick={() => handleClick(item)} key={index}>{`Expires: ${item} day${item == 1 ? '' : 's'}`}</button>
+                        <button onClick={() => handleClick(item)} key={index}>{`Expires: ${item[0]}`}</button>
                     ))}
                 </div>
             }

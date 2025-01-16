@@ -4,7 +4,7 @@ import { Col, Container, Row } from 'react-bootstrap'
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import Editor from '../components/Editor'
 import song_icon from '../assets/img/song-icon.png'
-import {IconFile} from '../components/IconFile'
+import { IconFile } from '../components/IconFile'
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import axios from 'axios';
 
@@ -202,17 +202,20 @@ export default function CreatePad() {
     setIsSubmitting(true);
     setResponseMessage('');
 
-    //Get actual expirydate after increment in yyyy-mm-dd, converted into unix in backend
-    function formatDate(date) {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based in JavaScript
-      const day = String(date.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
+    //Get actual expirydate after increment in ISOstring, converted into unix in backend
+    function formatDate(min) {
+      // const year = date.getFullYear();
+      // const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based in JavaScript
+      // const day = String(date.getDate()).padStart(2, '0');
+      // return `${year}-${month}-${day}`;
+      const futureDate = new Date();
+      futureDate.setMinutes(futureDate.getMinutes() + min);
+      return futureDate.toISOString();
     }
-    const currentDate = new Date();
-    const daysToAdd = expiryDateIncrement; //State
-    currentDate.setDate(currentDate.getDate() + daysToAdd);
-    const newDateFormatted = formatDate(currentDate);
+    // const currentDate = new Date();
+    // const daysToAdd = expiryDateIncrement; //State
+    // currentDate.setDate(currentDate.getDate() + daysToAdd);
+    //const newDateFormatted = formatDate(currentDate);
     //----------
 
 
@@ -235,12 +238,12 @@ export default function CreatePad() {
       // First axios statement to create settings in backend
       var currentuid = generateRandomString();
       const response = await axios.post("http://localhost:8000/api/upload/settings", {
-        expiry_date: newDateFormatted,
+        expiry_date: formatDate(expiryDateIncrement[1]),//newDateFormatted,
         burn_after_read: burnAfterRead,
         uid: currentuid,
         ip: mirror[1],
-            //mirror[0]: Contains Text to display in frontend
-            //mirror[1]: Contains IP Address to be sent
+        //mirror[0]: Contains Text to display in frontend
+        //mirror[1]: Contains IP Address to be sent
       });
 
       console.log("Initial axios call successful:", response.data); //log
@@ -419,7 +422,7 @@ export default function CreatePad() {
                   <div className="left d-flex align-items-center gap-2" >
                     <div className="icon" >
                       {/* <img src={song_icon}  alt="" /> */}
-                      <img  src={IconFile(file)} alt="" />
+                      <img src={IconFile(file)} alt="" />
                     </div>
                     <div className="ps-1">
                       <h6 className='mb-0 lh-base text-uppercase'
@@ -466,7 +469,7 @@ export default function CreatePad() {
                     <div className="d-flex align-items-center gap-2 justify-content-end">
                       {/* <button className='btn' disabled={isSubmitting} onClick={handleSubmit}>{isSubmitting ? 'Uploading...' : 'Upload'}</button>
                     <button className='btn' onClick={() => setUploadModal(false)}>Cancel</button> */}
-                    {/* These buttons arent needed */}
+                      {/* These buttons arent needed */}
                     </div>
                   </div>
                 </div>

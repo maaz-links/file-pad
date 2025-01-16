@@ -1,9 +1,20 @@
 import React from 'react'
+import {ToastContainer, toast } from 'react-toastify';
 
 export default function Paste({paste='', icon="", btnText="Delete Data", className="" }) {
     const copyToClipboard = async () => {
         try {
             await navigator.clipboard.writeText(paste);
+            toast.success('Link copied to Clipboard', {
+                position: "top-right",
+                autoClose: 1000,
+                hideProgressBar: true,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                });
             console.log('Content copied to clipboard');
           } catch (err) {
             console.error('Failed to copy: ', err);
@@ -28,6 +39,7 @@ export default function Paste({paste='', icon="", btnText="Delete Data", classNa
                 {icon}
                 {btnText}
             </button> */}
+            <ToastContainer />
         </div>
     )
 }

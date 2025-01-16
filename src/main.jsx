@@ -33,6 +33,10 @@ const router = createBrowserRouter([
         path:'/preview',
         element:<Preview />
       },
+      {
+        path: "/:dynamicValue", // Dynamic route to handle paths like `/asdf`
+        element: <Home />,
+      },
     ]
   }
 ])
