@@ -6,5 +6,12 @@ export default defineConfig({
     plugins: [react()],
     css: {
         devSourcemap: true,
-    }
+    },
+    build: {
+        sourcemap: true, // Ensure source maps are enabled for debugging
+      },
+      server: {
+        open: true, // Optional: Automatically open the app in the browser
+      },
+    
 })

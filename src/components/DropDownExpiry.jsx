@@ -1,6 +1,18 @@
 import { useState } from "react";
+import { GlobalContext } from "../layouts/Context";
+import { useContext } from 'react';
 
-export default function DropDownExpiry({ className="", list=[], expiryDateIncrement, setExpiryDateIncrement }) {
+export default function DropDownExpiry({ className=""}) {
+    const {  
+        mirrorslist, setMirrorslist,
+        expireslist,setExpireslist,
+        currentUID, setCurrentUID,
+        burnAfterRead, setBurnAfterRead,
+        expiryDateIncrement, setExpiryDateIncrement,
+        mirror,setMirror,
+        paste,setPaste,
+    } = useContext(GlobalContext);
+
     const [modal, setModal] = useState(false);
     const handleClick = (e) => {
         setExpiryDateIncrement(e);
@@ -21,7 +33,7 @@ export default function DropDownExpiry({ className="", list=[], expiryDateIncrem
             </button>
             {modal &&
                 <div className="list mt-1 p-2 position-absolute z-3 top-100 left-0 w-100 overflow-auto">
-                    {list.map((item, index) => (
+                    {expireslist.map((item, index) => (
                         <button onClick={() => handleClick(item)} key={index}>{`Expires: ${item[0]}`}</button>
                     ))}
                 </div>

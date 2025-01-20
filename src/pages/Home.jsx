@@ -4,163 +4,23 @@ import Expiry from '../components/Expiry'
 import React, { useEffect, useState } from "react";
 import { useParams, Navigate } from "react-router-dom";
 import axios from "axios";
+import { IconFile } from '../components/IconFile';
+import { handleDownload, formatDateReadable, checkIfThumbnailhasFile } from '../functions/Common';
 
-export default function Home() {
-  const { dynamicValue } = useParams();
-  const [data, setData] = useState([]);
-  const [currentUnix, setCurrentUnix] = useState(0);
-  useEffect(() => {
-    if (dynamicValue) {
-      //setData(dynamicValue);
-      const bringFiles = async () => {
-        try {
-          const response = await axios.post(`http://localhost:8000/api/upload/attachments/${dynamicValue}`);
-          setData(response.data.data);
-          console.log(response);
-          console.log(response.data.data);
-        } catch (err) {
-          console.error("Error fetching data:", err);
-        }
-      }
-      bringFiles();
-    }
-  }, [dynamicValue]);
+export default function Home({ data }) {
 
-  function formatDateReadable(dateString) {
-    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    const date = new Date(dateString); // Convert to Date object
-  
-    const day = date.getDate(); // Get day
-    const month = months[date.getMonth()]; // Get month abbreviation
-    const year = date.getFullYear(); // Get year
-  
-    return `${day} ${month} ${year}`;
+  const [open, isOpen] = useState(false);
+  const [open2, isOpen2] = useState(false);
+  const [previewSrc, setPreviewSrc] = useState('none');
+
+  function isVideoFile(filePath) {
+    // Define a regular expression for common video file extensions
+    const videoExtensions = /\.(mp4|mkv|avi|mov|wmv|flv|webm|mpeg)$/i;
+
+    // Test if the file path matches the video file extensions
+    return videoExtensions.test(filePath);
   }
-  const table = [
-    {
-      name: 'anononymos.pdf',
-      date: '02 Dec 2024',
-      size: '1 MB',
 
-    },
-    {
-      name: 'anononymos.pdf',
-      date: '02 Dec 2024',
-      size: '1 MB',
-
-    },
-    {
-      name: 'anononymos.pdf',
-      date: '02 Dec 2024',
-      size: '1 MB',
-
-    },
-    {
-      name: 'anononymos.pdf',
-      date: '02 Dec 2024',
-      size: '1 MB',
-
-    },
-    {
-      name: 'anononymos.pdf',
-      date: '02 Dec 2024',
-      size: '1 MB',
-
-    },
-    {
-      name: 'anononymos.pdf',
-      date: '02 Dec 2024',
-      size: '1 MB',
-
-    },
-    {
-      name: 'anononymos.pdf',
-      date: '02 Dec 2024',
-      size: '1 MB',
-
-    },
-    {
-      name: 'anononymos.pdf',
-      date: '02 Dec 2024',
-      size: '1 MB',
-
-    },
-    {
-      name: 'anononymos.pdf',
-      date: '02 Dec 2024',
-      size: '1 MB',
-
-    },
-    {
-      name: 'anononymos.pdf',
-      date: '02 Dec 2024',
-      size: '1 MB',
-
-    },
-    {
-      name: 'anononymos.pdf',
-      date: '02 Dec 2024',
-      size: '1 MB',
-
-    },
-  ]
-  const handleDownload = async (downloadid,file_detail,event) => {
-    event.preventDefault();
-    axios.post('http://localhost:8000/api/download', {
-            fileid: downloadid,
-          }, // Request payload
-          {
-            responseType: 'blob', // Important: Ensures the response is treated as a binary Blob
-          }
-        ).then((response) => {
-       const url = window.URL.createObjectURL(new Blob([response.data]));
-       const link = document.createElement('a');
-       link.href = url;
-       link.setAttribute('download', file_detail); //or any other extension
-       document.body.appendChild(link);
-       link.click();
-    });
-  };
-  //   try {
-  //     const response = await axios.post('http://localhost:8000/api/download', {
-  //       fileid: downloadid,
-  //     }, // Request payload
-  //     {
-  //       responseType: 'blob', // Important: Ensures the response is treated as a binary Blob
-  //     }
-  //   );
-
-  //   // Create a Blob URL for the file
-  //   const blob = new Blob([response.data]);
-  //   const url = window.URL.createObjectURL(blob);
-
-  //   // Create a temporary anchor element and trigger the download
-  //   const link = document.createElement('a');
-  //   link.href = url;
-
-  //   // Extract filename from response headers if available, or use a default name
-  //   const contentDisposition = response.headers['content-disposition'];
-  //   console.log(response.headers)
-  //   const filename = contentDisposition
-  //     ? contentDisposition.split('filename=')[1].replace(/"/g, '')
-  //     : 'downloaded-file';
-
-  //   link.download = filename; // Specify the filename for the downloaded file
-  //   document.body.appendChild(link);
-  //   link.click();
-
-  //   // Clean up
-  //   document.body.removeChild(link);
-  //   window.URL.revokeObjectURL(url);
-  // } catch (error) {
-  //   console.error('Error downloading file:', error);
-  //   alert('Failed to download file. Please try again.');
-  // }
-  //};
-  // if(!data){
-  //   return
-  // }
-  
   return (
     <div className='create py-3 py-md-4'>
       <Container fluid>
@@ -182,18 +42,24 @@ export default function Home() {
                 <tbody>
                   {data.map((item, index) => (
                     <tr key={index}>
-                      <td ><p>{(index + 1).toString().padStart(2, '0')} {item.id}</p></td>
+
+                      <td ><p>
+                        {checkIfThumbnailhasFile(item.thumbnail) ?
+                          (<img src={item.thumbnail} onClick={() => { isOpen2(!open2); setPreviewSrc(item.file_location) }} width="55px" className='object-fit-cover' alt="" />) :
+                          (<img src={IconFile(item.file_detail)} alt="" />)
+                        }
+                        /{(index + 1).toString().padStart(2, '0')}/{item.id}</p></td>
                       <td ><p>{item.file_detail}</p></td>
                       <td ><p>{formatDateReadable(item.created_at)}</p></td>
                       <td >
                         <div className="d-flex justify-content-between align-items-center">
                           {/* <p>{item.size}</p> */}<p></p>
-                          <button onClick={(e) => handleDownload(item.id,item.file_detail, e)} className='ms-4'>Download</button>
+                          <button onClick={(e) => handleDownload(item.id, item.file_detail, e)} className='ms-4'>Download</button>
                         </div>
                       </td>
                     </tr>
                   ))}
-                   {/* {table.map((item, index) => (
+                  {/* {table.map((item, index) => (
                     <tr key={index}>
                       <td ><p>{(index + 1).toString().padStart(2, '0')}</p></td>
                       <td ><p>{item.name}</p></td>
@@ -212,6 +78,59 @@ export default function Home() {
           </Col>
         </Row>
       </Container>
+      {open2 && (
+        <div className="bg-shape">
+          <div className="Modal">
+            <div className="header d-flex align-items-center justify-content-between">
+              <div className="d-flex gap-12">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M4.43484 8.06909C6.44624 4.50997 7.45193 2.7304 8.832 2.27232C9.59117 2.02031 10.409 2.02031 11.1682 2.27232C12.5483 2.7304 13.5539 4.50997 15.5653 8.06909C17.5768 11.6282 18.5824 13.4078 18.2808 14.8578C18.1148 15.6555 17.7058 16.379 17.1126 16.9248C16.0343 17.9167 14.0229 17.9167 10.0001 17.9167C5.97729 17.9167 3.96589 17.9167 2.88755 16.9248C2.29432 16.379 1.88541 15.6555 1.71943 14.8578C1.41774 13.4078 2.42344 11.6282 4.43484 8.06909Z" stroke="#DDDFE7" strokeWidth="1.25" />
+                  <path d="M10.2017 14.1667V10.8333C10.2017 10.4405 10.2017 10.2441 10.0797 10.122C9.95766 10 9.76124 10 9.36841 10" stroke="#DDDFE7" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M9.99341 7.5H10.0009" stroke="#DDDFE7" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                <p className='mb-0'>Preview</p>
+              </div>
+              <button className='bg-transparent border-0 p-0 close' onClick={() => isOpen2(!open2)}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M15.8342 4.16669L4.16748 15.8334M4.16748 4.16669L15.8342 15.8334" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            </div>
+            <div className="d-flex justify-content-center align-items-center" style={{ height: '100%' }} >
+              {!isVideoFile(previewSrc) ? (
+                <div >
+                  <img src={previewSrc} className='top-0 start-0 w-100 h-100 object-fit-cover' alt="" />
+                </div>
+              ) : (
+                <iframe src={previewSrc}
+                  style={{
+                    width: '500px',
+                    height: '500px',
+                    // minWidth: '640',
+                    // minHeight: '480',
+                    // maxWidth: '100%',
+                    // maxHeight: '100%',
+                    //aspectRatio: '16/9'  // Optional: to maintain a video aspect ratio
+                  }}
+                  title="Iframe Example"></iframe>
+              )
+
+              }
+
+
+              {/* <h3 className='text-uppercase mb-md-2 pb-md-1 mt-2 mt-md-4 pt-md-2'>expirES</h3>
+              <Expiry />
+              <p className='mb-0 text-center fs-6'>This secret message can only be displayed once. Would you like to see it now?</p>
+              <div className="form-box">
+                <input type="password" placeholder='Password' className="form-control" />
+              </div>
+              <div className="d-flex justify-content-center">
+                <button className='bg-green'>Yes, see it</button>
+              </div> */}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
 
   )

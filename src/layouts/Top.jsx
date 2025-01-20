@@ -1,41 +1,29 @@
 import { Col, Container, Row } from 'react-bootstrap'
 import { Link, useLocation } from 'react-router-dom'
+import { GlobalContext } from "./Context"
 import DropDownExpiry from '../components/DropDownExpiry'
 import DropDownMirror from '../components/DropDownMirror'
 import Paste from '../components/Paste'
 import logo from '../assets/img/logo.png'
+import { useContext } from 'react';
 
-export default function Top(
-  { burnAfterRead, 
-    setBurnAfterRead, 
-    expiryDateIncrement, 
-    setExpiryDateIncrement,
-    expireslist,
-    mirror,
-    setMirror,
-    mirrorslist,
-    paste})
-  {
-  // const expires = [1,2,3,4,5];
-  // const xxexpires = [
-  //   `Expires: 1 day`,
-  //   `Expires: 2 day`,
-  //   `Expires: 3 day`,
-  //   `Expires: 4 day`,
-  //   `Expires: 5 day`,
-  // ];
-  // const mirrors = [
-  //   ['Mirror 1','192.168.1.2'],
-  //   ['Mirror 2','71.168.1.2'],
-  //   ['Mirror 3','223.168.1.2'],
-  // ];
-  
-  // const xxmirrors = [
-  //   `Mirrors`,
-  //   `Mirrors 1`,
-  //   `Mirrors 2`,
-  //   `Mirrors 3`,
-  // ]
+export default function Top() {
+  const {
+    mirrorslist, setMirrorslist,
+    expireslist, setExpireslist,
+    currentUID, setCurrentUID,
+    burnAfterRead, setBurnAfterRead,
+    expiryDateIncrement, setExpiryDateIncrement,
+    mirror, setMirror,
+    paste, setPaste,
+    password, setPassword,
+  } = useContext(GlobalContext);
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+    console.log('passw',password.length);
+  }
+
   const location = useLocation();
   console.log(location);
 
@@ -72,27 +60,23 @@ export default function Top(
                     </svg> QR Code
                   </Link>
                   {location.pathname === "/preview" && paste !== '' &&
-                <Paste paste={paste} className='mx-auto d-none d-xl-flex' />
-              }
+                    <Paste className='mx-auto d-none d-xl-flex' />
+                  }
                 </div>
                 :
                 <div className="d-flex align-items-center gap-12">
-                  
+
                   {/* This component is used to select expiry date increment */}
-                  <DropDownExpiry 
-                    list={expireslist} 
-                    expiryDateIncrement={expiryDateIncrement} 
-                    setExpiryDateIncrement={setExpiryDateIncrement} 
-                    className="d-none d-md-block" />
-                  
+                  <DropDownExpiry className="d-none d-md-block" />
+
                   <label htmlFor="burn" className='form-checkbox d-none d-lg-flex align-items-center flex-wrap gap-2'>
-                    <input type="checkbox" my-data={burnAfterRead} id="burn" className='d-none' 
-                    checked={burnAfterRead === '1'} onChange={() => setBurnAfterRead(burnAfterRead === '1' ? '0' : '1')} />
+                    <input type="checkbox" my-data={burnAfterRead} id="burn" className='d-none'
+                      checked={burnAfterRead === '1'} onChange={() => setBurnAfterRead(burnAfterRead === '1' ? '0' : '1')} />
                     <span className='icon'></span>
                     <span className="text pl-1">Burn after reading</span>
                   </label>
                   <div className="form-box d-none d-md-block">
-                    <input type="password" placeholder='Password (Recommended)' className="form-control" />
+                    <input onChange={handlePasswordChange} type="password" placeholder='Password (Recommended)' className="form-control" />
                   </div>
                 </div>
               }
@@ -102,11 +86,7 @@ export default function Top(
               }
 
               {/* This component is used to select mirror */}
-              <DropDownMirror 
-                list={mirrorslist} 
-                mirror={mirror} 
-                setMirror={setMirror} 
-                className="ms-auto mirrors" />
+              <DropDownMirror className="ms-auto mirrors" />
             </div>
           </Col>
         </Row>

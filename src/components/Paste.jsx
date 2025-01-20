@@ -1,7 +1,20 @@
 import React from 'react'
 import {ToastContainer, toast } from 'react-toastify';
+import { GlobalContext } from '../layouts/Context';
+import { useContext } from 'react';
 
-export default function Paste({paste='', icon="", btnText="Delete Data", className="" }) {
+export default function Paste({icon="", btnText="Delete Data", className="" }) {
+
+    const {  
+        mirrorslist, setMirrorslist,
+        expireslist,setExpireslist,
+        currentUID, setCurrentUID,
+        burnAfterRead, setBurnAfterRead,
+        expiryDateIncrement, setExpiryDateIncrement,
+        mirror,setMirror,
+        paste,setPaste,
+    } = useContext(GlobalContext);
+
     const copyToClipboard = async () => {
         try {
             await navigator.clipboard.writeText(paste);
