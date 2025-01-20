@@ -15,15 +15,15 @@ export default function Main() {
     // const [expiryDateIncrement, setExpiryDateIncrement] = useState(['',1]);
     // const [mirror,setMirror] = useState(['','']);
     // const [paste,setPaste] =useState('');
-    const {  
-        mirrorslist, setMirrorslist,
-        expireslist,setExpireslist,
-        currentUID, setCurrentUID,
-        burnAfterRead, setBurnAfterRead,
-        expiryDateIncrement, setExpiryDateIncrement,
-        mirror,setMirror,
-        paste,setPaste,
-    } = useContext(GlobalContext);
+    // const {  
+    //     mirrorslist, setMirrorslist,
+    //     expireslist,setExpireslist,
+    //     currentUID, setCurrentUID,
+    //     burnAfterRead, setBurnAfterRead,
+    //     expiryDateIncrement, setExpiryDateIncrement,
+    //     mirror,setMirror,
+    //     paste,setPaste,
+    // } = useContext(GlobalContext);
 
     // These states are manipulated by <Top> component and are needed in <CreatePad> component via Outlet context
     // useEffect(() => {

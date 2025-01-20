@@ -5,24 +5,47 @@ import axios from "axios";
 
 export default function MultipleEntity(){
 
-    const { dynamicValue } = useParams();
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    if (dynamicValue) {
-      //setData(dynamicValue);
-      const bringFiles = async () => {
-        try {
-          const response = await axios.post(`http://localhost:8000/api/upload/attachments/${dynamicValue}`);
-          setData(response.data.data);
-          console.log(response);
-          console.log(response.data.data);
-        } catch (err) {
-          console.error("Error fetching data:", err);
-        }
-      }
-      bringFiles();
-    }
-  }, [dynamicValue]);
+  //   const { dynamicValue } = useParams();
+  // const [data, setData] = useState([]);
+  // useEffect(() => {
+  //   if (dynamicValue) {
+  //     //setData(dynamicValue);
+  //     const bringFiles = async () => {
+  //       try {
+  //         const response = await axios.post(`http://localhost:8000/api/upload/attachments/${dynamicValue}`);
+  //         setData(response.data.data);
+  //         console.log(response);
+  //         console.log(response.data.data);
+  //       } catch (err) {
+  //         console.error("Error fetching data:", err);
+  //       }
+  //     }
+  //     bringFiles();
+  //   }
+  // }, [dynamicValue]);
 
-  return <Home data={data}/>
+  // return <Home data={data}/>
+
+  const { dynamicValue } = useParams();
+
+
+
+  // useEffect(() => {
+  //   if (dynamicValue) {
+  //     //setData(dynamicValue);
+  //     const bringFiles = async () => {
+  //       try {
+  //         const response = await axios.post(`http://localhost:8000/api/upload/attachsingle/${dynamicValue}`);
+  //         setData(response.data.data);
+  //         console.log(response);
+  //         console.log(response.data.data);
+  //       } catch (err) {
+  //         console.error("Error fetching data:", err);
+  //       }
+  //     }
+  //     bringFiles();
+  //   }
+  // }, [dynamicValue]);
+
+  return <Home dynamicValue={dynamicValue} singleFile={0}/>
 }
