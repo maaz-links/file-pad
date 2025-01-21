@@ -234,7 +234,7 @@ files.forEach((file, index) => {
       formData.append('ip',mirror[1]);
       
       const uploadPromise = axios
-        .post("http://localhost:8000/api/upload/single", formData, {
+        .post(`${import.meta.env.VITE_API_BASE_URL}/api/upload/single`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
           onUploadProgress: (progressEvent) => {
             const { loaded, total } = progressEvent;

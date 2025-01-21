@@ -12,7 +12,7 @@ export default function MultipleEntity(){
   //     //setData(dynamicValue);
   //     const bringFiles = async () => {
   //       try {
-  //         const response = await axios.post(`http://localhost:8000/api/upload/attachments/${dynamicValue}`);
+  //         const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/upload/attachments/${dynamicValue}`);
   //         setData(response.data.data);
   //         console.log(response);
   //         console.log(response.data.data);
@@ -35,7 +35,7 @@ export default function MultipleEntity(){
   //     //setData(dynamicValue);
   //     const bringFiles = async () => {
   //       try {
-  //         const response = await axios.post(`http://localhost:8000/api/upload/attachsingle/${dynamicValue}`);
+  //         const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/upload/attachsingle/${dynamicValue}`);
   //         setData(response.data.data);
   //         console.log(response);
   //         console.log(response.data.data);

@@ -149,7 +149,7 @@ export default function CreatePad() {
     //formData.append('uid', uid);
     try {
       // Make the POST request with the FormData
-      const response = await axios.post('http://localhost:8000/api/upload/multiple', formData, {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/upload/multiple`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

@@ -22,6 +22,115 @@ export default function Preview() {
     paste, setPaste,
   } = useContext(GlobalContext);
 
+
+  const [mirrorForPaste] = useState(mirror);
+  const [items, setItems] = useState([]);
+  //const [images, setImages] = useState([]);
+  //const [loading, setLoading] = useState(true);
+  const [inputTitles, setInputTitles] = useState([]);
+
+
+  //used to handle File uploading in "Add more"
+  const [files, setFiles] = useState([]);
+  const [checkSubmitted, setCheckSubmitted] = useState(0);
+
+  useEffect(() => {
+    if (files.length > 0) {
+      handleSubmit();
+    }
+  }, [files])
+  const handleFileChange = async (e) => {
+    const files = e.target.files;  // Get the selected files
+    setFiles(files);
+  };
+  const handleSubmit = async () => {
+    try {
+      var currentuid = currentUID;
+      const uploadFiles = async () => {
+        const promises = [];  //to track for redirect
+        for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+          const formData = new FormData();
+          formData.append("filesupload", file);
+          // formData.append('expiry_date', newDateFormatted);
+          formData.append('file_burn_after_read', burnAfterRead);
+          formData.append('uid', currentuid);
+          // formData.append('ip', mirror[1]);
+
+          const uploadPromise = axios
+            .post(`${import.meta.env.VITE_API_BASE_URL}/api/upload/single`, formData, {
+              headers: { "Content-Type": "multipart/form-data" },
+            })
+            .then(() => {
+              //setResponseMessage('Files uploaded successfully!');
+              console.log(`${file.name} uploaded successfully.`);
+            })
+            .catch((err) => {
+              // Handle error response
+              //setResponseMessage('Error uploading files. Please try again.');
+              console.error(err);
+              console.error(`Error uploading ${file.name}:`, err);
+            })
+            .finally(() => {
+              //setIsSubmitting(false);
+              //setUploadModal(false)
+            });
+          promises.push(uploadPromise);
+          console.log(uploadPromise);
+        };
+        console.log('loop ended', promises)
+        Promise.all(promises)
+          .then(() => {
+            console.log('goto preview')
+            setCheckSubmitted(checkSubmitted + 1);
+            setFiles([]);
+
+            // If All files uploaded successfully
+            Navigate('/preview', { replace: true }); // Redirect to /preview
+          })
+          .catch(() => {
+            console.log('wat happened?')
+            // Handle any errors, for example file upload failed
+            //setResponseMessage('Error uploading some files. Please try again.');
+          });
+      };
+
+      await uploadFiles();
+    } catch (error) {
+      console.error("Initial axios call failed:", error);
+      //setResponseMessage("Error in initial setup. File upload canceled.");
+    }
+  };
+
+  //Brings Files thumbnail into preview. and when new files are submitted using 'Add more'
+  useEffect(() => {
+    if (currentUID) {
+      console.log(items);
+      axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/upload/attachments/preview/${currentUID}`)
+        .then(async (response) => {
+          console.log(response.data);
+
+          const myData = response.data.data || [];
+
+          const transformedData = myData.map((data) => {
+            return itemTemp(data.id, 'title', data.thumbnail, `${mirrorForPaste[1]}/file/${data.file_uid}`, data.file_detail);
+          });
+          const transformedTitles = myData.map((data) => {
+            return { id: data.id, title: data.title };
+          });
+          setItems(transformedData);
+          setInputTitles(transformedTitles);
+          setPaste(`${mirror[1]}/files/${currentUID}`); //Sets paste value that will display on <Top>
+          //setCurrentUID(''); //Reset current UID to default
+          //setLoading(false);
+        })
+        .catch(error => {
+          console.error('Error fetching images:', error);
+          //setLoading(false);
+        });
+    }
+  }, [checkSubmitted]);
+
   const itemTemp = (pitemid, ptitle, imgsrc, pastelink, downloadsrc) => {
     return {
       itemid: pitemid,
@@ -62,42 +171,7 @@ export default function Preview() {
     }
   }
 
-  const [mirrorForPaste] = useState(mirror);
-  const [items, setItems] = useState([]);
-  //const [images, setImages] = useState([]);
-  //const [loading, setLoading] = useState(true);
-  const [inputTitles, setInputTitles] = useState([]);
-
-
-
-  useEffect(() => {
-    if (currentUID) {
-      console.log(items);
-      axios.post(`http://localhost:8000/api/upload/attachments/preview/${currentUID}`)
-        .then(async (response) => {
-          console.log(response.data);
-
-          const myData = response.data.data || [];
-
-          const transformedData = myData.map((data) => {
-            return itemTemp(data.id, 'title', data.thumbnail, `${mirrorForPaste[1]}/file/${data.file_uid}`, data.file_detail);
-          });
-          const transformedTitles = myData.map((data) => {
-            return { id: data.id, title: data.title };
-          });
-          setItems(transformedData);
-          setInputTitles(transformedTitles);
-          setPaste(`${mirror[1]}/files/${currentUID}`); //Sets paste value that will display on <Top>
-          //setCurrentUID(''); //Reset current UID to default
-          //setLoading(false);
-        })
-        .catch(error => {
-          console.error('Error fetching images:', error);
-          //setLoading(false);
-        });
-    }
-  }, []);
-
+  //Toast message
   const copyToClipboard = async (giventext) => {
 
     try {
@@ -135,13 +209,13 @@ export default function Preview() {
   // };
 
   // Handle form submission
-  const handleSubmit = async (event) => {
+  const handleTitleSubmit = async (event) => {
     console.log(inputTitles);
     //return;
     event.preventDefault();
     //const testdata = [{ id: '60', title: 'amogus' },{ id: '61', title: 'sus' }];
     try {
-      const response = await axios.put('http://localhost:8000/api/upload/titles', {
+      const response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/upload/titles`, {
         items: inputTitles,
       });
       console.log('Updated items:', response.data.updatedItems);
@@ -150,49 +224,14 @@ export default function Preview() {
     }
   };
 
+  //This is used to open hidden <input> 
   const fileInputRef = useRef(null);  // Create a ref to the hidden file input
-
   const handleLinkClick = (e) => {
     e.preventDefault();  // Prevent default link behavior
     fileInputRef.current.click();  // Trigger click on the hidden file input
   };
 
-  const handleFileChange = async (e) => {
-    const files = e.target.files;  // Get the selected files
-    // files.forEach((file, index) => {
-    //   console.log(file);
-    // });
-    console.log(files[0]);  // Log the selected files (or handle them as needed)
-    const promises = [];
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
 
-      // Create a FormData instance to append the file
-      const formData = new FormData();
-      formData.append("filesupload", file);
-      formData.append('file_burn_after_read', burnAfterRead);
-      formData.append('uid', currentUID);
-      try {
-        // Make an individual Axios request for each file
-        const response = axios.post("http://localhost:8000/api/upload/single", formData, {
-          headers: { "Content-Type": "multipart/form-data" }
-        });
-        console.log('File uploaded successfully:', response.data);
-      } catch (error) {
-        console.error('Error uploading file:', error);
-      }
-      promises.push(response);
-    }
-    Promise.all(promises)
-          .then(() => {
-            // If All files uploaded successfully
-            Navigate('/preview'); // Redirect to /preview
-          })
-          .catch(() => {
-            // Handle any errors, for example file upload failed
-            setResponseMessage('Error uploading some files. Please try again.');
-          });
-  };
 
   // const tools = [
   //   {
@@ -241,7 +280,7 @@ export default function Preview() {
                   <a href='#' onClick={handleLinkClick} className="d-flex w-100 align-items-center gap-2 fs-6 lh-base"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                     <path d="M10.0001 18.3334C14.6025 18.3334 18.3334 14.6024 18.3334 10C18.3334 5.39765 14.6025 1.66669 10.0001 1.66669C5.39771 1.66669 1.66675 5.39765 1.66675 10C1.66675 14.6024 5.39771 18.3334 10.0001 18.3334Z" stroke="white" strokeWidth="1.25" />
                     <path d="M10.0001 13.3334V6.66669M10.0001 13.3334C9.41658 13.3334 8.32636 11.6714 7.91675 11.25M10.0001 13.3334C10.5836 13.3334 11.6738 11.6714 12.0834 11.25" stroke="white" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg><span className="d-block ps-1">Unused</span></a>
+                  </svg><span className="d-block ps-1">Add more</span></a>
                   <input
                     type="file"
                     ref={fileInputRef}  // Attach the ref to the file input
@@ -255,10 +294,12 @@ export default function Preview() {
                     <path d="M7.91675 13.75V8.75" stroke="white" strokeLinecap="round" />
                     <path d="M12.0833 13.75V8.75" stroke="white" strokeLinecap="round" />
                   </svg><span className="d-block ps-1">Unused</span></a>
-                  <a onClick={(e) => { copyToClipboard(paste); handleSubmit(e) }} href='#' className="d-flex w-100 align-items-center gap-2 fs-6 lh-base"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <path d="M10.0001 18.3334C14.6025 18.3334 18.3334 14.6024 18.3334 10C18.3334 5.39765 14.6025 1.66669 10.0001 1.66669C5.39771 1.66669 1.66675 5.39765 1.66675 10C1.66675 14.6024 5.39771 18.3334 10.0001 18.3334Z" stroke="white" strokeWidth="1.25" />
-                    <path d="M10.0001 13.3334V6.66669M10.0001 13.3334C9.41658 13.3334 8.32636 11.6714 7.91675 11.25M10.0001 13.3334C10.5836 13.3334 11.6738 11.6714 12.0834 11.25" stroke="white" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg><span className="d-block ps-1">Share link</span></a>
+                  <a onClick={(e) => { copyToClipboard(paste); handleTitleSubmit(e) }} href='#' className="d-flex w-100 align-items-center gap-2 fs-6 lh-base">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M10 13.229C10.1416 13.4609 10.3097 13.6804 10.5042 13.8828C11.7117 15.1395 13.5522 15.336 14.9576 14.4722C15.218 14.3121 15.4634 14.1157 15.6872 13.8828L18.9266 10.5114C20.3578 9.02184 20.3578 6.60676 18.9266 5.11718C17.4953 3.6276 15.1748 3.62761 13.7435 5.11718L13.03 5.85978" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                      <path d="M10.9703 18.14L10.2565 18.8828C8.82526 20.3724 6.50471 20.3724 5.07345 18.8828C3.64218 17.3932 3.64218 14.9782 5.07345 13.4886L8.31287 10.1172C9.74413 8.62761 12.0647 8.6276 13.4959 10.1172C13.6904 10.3195 13.8584 10.539 14 10.7708" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                    </svg>
+                    <span className="d-block ps-1">Share link</span></a>
                 </div>
               </div>
               <div className="preview-left d-grid mt-4 mt-md-0">

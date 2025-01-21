@@ -231,7 +231,7 @@ files.forEach((file, index) => {
       formData.append('uid', 'abcdef');   // Example value
       
       const uploadPromise = axios
-        .post("http://localhost:8000/api/upload/single", formData, {
+        .post(`${import.meta.env.VITE_API_BASE_URL}/api/upload/single`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
           onUploadProgress: (progressEvent) => {
             const { loaded, total } = progressEvent;
@@ -318,7 +318,7 @@ files.forEach((file, index) => {
     // //formData.append('uid', uid);
     // try {
     //   // Make the POST request with the FormData
-    //   const response = await axios.post('http://localhost:8000/api/upload/multiple', formData, {
+    //   const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/upload/multiple`, formData, {
     //     headers: {
     //       'Content-Type': 'multipart/form-data',
     //     },

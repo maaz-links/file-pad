@@ -29,7 +29,7 @@ export default function Home({ dynamicValue, singleFile}) {
       //setData(dynamicValue);
       const bringFiles = async () => {
         try {
-          const response = await axios.post(`http://localhost:8000/api/upload/${fetchurl}/${dynamicValue}`,{
+          const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/upload/${fetchurl}/${dynamicValue}`,{
             requiredPassword: requiredPassword,
           });
           setData(response.data.data);
@@ -77,8 +77,8 @@ export default function Home({ dynamicValue, singleFile}) {
                         {checkIfThumbnailhasFile(item.thumbnail) ?
                           (<img src={item.thumbnail} onClick={() => { isOpen2(!open2); setPreviewSrc(item.file_location) }} width="55px" className='object-fit-cover' alt="" />) :
                           (<img src={IconFile(item.file_detail)} alt="" />)
-                        }
-                        /{(index + 1).toString().padStart(2, '0')}/{item.id}</p></td>
+                        }</p></td>
+                        {/* /{(index + 1).toString().padStart(2, '0')}/{item.id}</p></td> */}
                       <td ><p>{item.file_detail}</p></td>
                       <td ><p>{formatDateReadable(item.created_at)}</p></td>
                       <td >

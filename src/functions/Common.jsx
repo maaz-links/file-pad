@@ -2,9 +2,9 @@ import axios from "axios";
 
 const handleDownload = async (downloadid,file_detail,event) => {
     event.preventDefault();
-    axios.post('http://localhost:8000/api/download', {
+    axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/download`, {
             fileid: downloadid,
-          }, // Request payload
+          }, // Request payloads
           {
             responseType: 'blob', // Important: Ensures the response is treated as a binary Blob
           }

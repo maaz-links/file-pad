@@ -248,7 +248,7 @@ export default function CreatePad() {
     try {
       // First axios statement to create settings in backend
       //var currentuid = generateRandomString();
-      const response = await axios.post("http://localhost:8000/api/upload/settings", {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/upload/settings`, {
         expiry_date: formatDate(expiryDateIncrement[1]),//newDateFormatted,
         burn_after_read: burnAfterRead,
         password: password,
@@ -272,7 +272,7 @@ export default function CreatePad() {
           // formData.append('ip', mirror[1]);
 
           const uploadPromise = axios
-            .post("http://localhost:8000/api/upload/single", formData, {
+            .post(`${import.meta.env.VITE_API_BASE_URL}/api/upload/single`, formData, {
               headers: { "Content-Type": "multipart/form-data" },
               onUploadProgress: (progressEvent) => {
                 const { loaded, total } = progressEvent;

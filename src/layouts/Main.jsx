@@ -29,7 +29,7 @@ export default function Main() {
     // useEffect(() => {
     //     const fetchMirrorsData = async () => {
     //         try {
-    //             const response = await axios.get('http://localhost:8000/api/upload/mirrorsexpiry');
+    //             const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/upload/mirrorsexpiry`);
     //             console.log(response.data);
     //             const mirrorsData = response.data.mirror || []; // Assuming API returns a 'mirror' field
     //             // Transform the data to match the desired format (assuming the API provides 'title' and 'domain')
