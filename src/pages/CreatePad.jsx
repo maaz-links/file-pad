@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { ToastContainer, toast } from 'react-toastify';
 import { Col, Container, Row } from 'react-bootstrap'
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import Editor from '../components/Editor'
@@ -215,20 +216,10 @@ export default function CreatePad() {
 
     //Get actual expirydate after increment in ISOstring, converted into unix in backend
     function formatDate(min) {
-      // const year = date.getFullYear();
-      // const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based in JavaScript
-      // const day = String(date.getDate()).padStart(2, '0');
-      // return `${year}-${month}-${day}`;
       const futureDate = new Date();
       futureDate.setMinutes(futureDate.getMinutes() + min);
       return futureDate.toISOString();
     }
-    // const currentDate = new Date();
-    // const daysToAdd = expiryDateIncrement; //State
-    // currentDate.setDate(currentDate.getDate() + daysToAdd);
-    //const newDateFormatted = formatDate(currentDate);
-    //----------
-
 
     const totalSize = files.reduce((acc, file) => acc + file.size, 0);
     let loadedSize = 0;
@@ -372,7 +363,63 @@ export default function CreatePad() {
   //   }
   // }, [uploadModal, Navigate])
 
+  function formatDate(min) {
+    const futureDate = new Date();
+    futureDate.setMinutes(futureDate.getMinutes() + min);
+    return futureDate.toISOString();
+  }
 
+  const [textValue, setTextValue] = useState('');
+
+  const handleTextSubmit = () => {
+    const formData = new FormData();
+    formData.append('textupload', textValue);
+    formData.append('expiry_date', formatDate(expiryDateIncrement[1]));
+    formData.append('burn_after_read', burnAfterRead);
+    formData.append('password', password);
+    formData.append('ip', mirror[1]);
+
+    // Send the POST request using Axios
+    axios
+      .post('http://localhost:8000/api/upload/textupload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then((response) => {
+        console.log('Response:', response.data);
+        setPaste(`${mirror[1]}/text/${response.data.uid}`)
+        //alert('Data uploaded successfully!');
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        alert('There was an error uploading the data.');
+      });
+  }
+
+  useEffect(() => {
+    if(paste !== ''){
+      try {
+        navigator.clipboard.writeText(paste);
+        toast.success(`Link copied to Clipboard: ${paste}`, {
+          position: "top-right",
+          autoClose: false,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        console.log('Content copied to clipboard');
+      } catch (err) {
+        console.error('Failed to copy: ', err);
+      }
+    }
+
+  },[paste])
+
+  
   return (
     <>
       <div className='home px-2 my-4'>
@@ -395,8 +442,8 @@ export default function CreatePad() {
             </Col>
             <Col xs={12} lg={6} className='mt-4 mt-lg-0'>
               <div className={`doc-create overflow-hidden ${fullScreenEdit ? 'full-screen position-fixed bottom-0 end-0' : ''}`}>
-                <Editor onClick={() => toggleFullScreen()} />
-                <Link to="/preview" className='btn bg-white position-absolute bottom-0 end-0 m-2 m-md-3 m-lg-4'>Create</Link>
+                <Editor onClick={() => toggleFullScreen()} textValue={textValue} setTextValue={setTextValue} />
+                <button onClick={handleTextSubmit} className='btn bg-white position-absolute bottom-0 end-0 m-2 m-md-3 m-lg-4'>Create</button>
               </div>
             </Col>
           </Row>
@@ -420,6 +467,7 @@ export default function CreatePad() {
             </Col>
           </Row>
         </Container>
+        <ToastContainer />
       </div>
       {uploadModal &&
         <div className="doc-modal position-fixed top-0 left-0 w-100 vh-100 d-flex align-items-center justify-content-center z-3">

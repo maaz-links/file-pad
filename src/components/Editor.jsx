@@ -2,17 +2,23 @@ import React, { useState, useRef } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-export default function Editor({onClick}) {
-  const [value, setValue] = useState('');
+export default function Editor({onClick, textValue, setTextValue}) {
+  //const [value, setValue] = useState('');
   const quillRef = useRef(null);
   const editorRef = useRef(null);
   const [isFull, setIsFull] = useState(false)
+
+  const handleTextChange = (value) => { //This is value attrib from quill, not state
+    //console.log(e.target.value)
+    setTextValue(value);
+    console.log("VALUE FROM TEXT EDITOR",value);
+  }
 
   const modules = {
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],
       ['code-block', "blockquote"],
-      ['image', 'link'],
+      //['image', 'link'],
       [{ 'color': [] }],
       [{ 'list': 'bullet' }],
       [{ 'align': [] }],
@@ -42,9 +48,9 @@ export default function Editor({onClick}) {
         ref={quillRef}
         theme="snow"
         modules={modules}
-        value={value}
+        value={textValue}
         placeholder="Write your anonymous & encrypted note here..."
-        onChange={setValue}
+        onChange={handleTextChange}
       />
       <div className="ql-custom ql-formats position-absolute">
         <button className="p-0 border-0 ql-custom-btn" onClick={handleUndo} title="Undo">

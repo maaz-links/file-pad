@@ -13,6 +13,7 @@ import AllPad from './pages/AllPad'
 import Preview from './pages/Preview'
 import MultipleEntity from './pages/MultipleEntity'
 import SingleEntity from './pages/SingleEntity'
+import TextEntity from './pages/TextEntity'
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
       {
         path: "/file/:dynamicValue",
         element: <SingleEntity />,
+      },
+      {
+        path: "/text/:dynamicValue",
+        element: <TextEntity />,
       },
     ]
   }
