@@ -5,8 +5,6 @@ import React, { useEffect, useState } from "react";
 import { useParams, Navigate } from "react-router-dom";
 import axios from "axios";
 import DOMPurify from 'dompurify';
-import { IconFile } from '../components/IconFile';
-import { handleDownload, formatDateReadable, checkIfThumbnailhasFile } from '../functions/Common';
 
 export default function TextEntity() {
 

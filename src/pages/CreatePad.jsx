@@ -9,6 +9,10 @@ import { IconFile } from '../components/IconFile'
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import axios from 'axios';
 import { GlobalContext } from '../layouts/Context';
+import 
+{formatBytes, formatDate, calculateAverageSpeed, 
+  calculateSpeedAndTime, calculateTotalRemainingTime,
+  calculateLoadedFiles, hhmmss } from '../functions/FileUploading';
 
 export default function CreatePad() {
 
@@ -26,6 +30,7 @@ export default function CreatePad() {
 } = useContext(GlobalContext);
 
   const [isSubmitting, setIsSubmitting] = useState(false); //For upload button, unused
+  const [textSubmitting, setTextSubmitting] = useState(false);
   const [responseMessage, setResponseMessage] = useState(''); //For message, only for testing
   const [files, setFiles] = useState([]); //files to upload
 
@@ -146,80 +151,13 @@ export default function CreatePad() {
     onDragLeave,
   });
 
-  //Some functions are created and are mostly used during axios onUploadProgress event to calculate data to display
-  //Or they are used to convert data into particular format
-
-  const calculateSpeedAndTime = (loaded, total, startTime) => {
-    const elapsed = (Date.now() - startTime) / 1000; // seconds
-    const speed = (loaded / elapsed / 1024).toFixed(2); // KB/s
-    const remaining = ((total - loaded) / (loaded / elapsed)).toFixed(2); // seconds
-    return { speed, remaining };
-  };
-
-  const calculateAverageSpeed = (data) => {
-    if (!data.length) return 0;
-    const totalSpeed = data.reduce((sum, item) => sum + parseFloat(item.speed), 0);
-    console.log('speeder', totalSpeed / data.length); //log
-    return totalSpeed / data.length;
-  };
-  const calculateTotalRemainingTime = (data) => {
-    if (!data.length) return 0;
-    const maxTime = data.reduce((max, item) => {
-      const time = parseFloat(item.remaining);
-      return time > max ? time : max;
-    }, 0);
-    return maxTime;
-  };
-
-  const hhmmss = (seconds) => {
-    seconds = parseInt(seconds);
-    const hours = Math.floor(seconds / 3600); // Get total hours
-    const minutes = Math.floor((seconds % 3600) / 60); // Get total minutes
-    const remainingSeconds = seconds % 60; // Get remaining seconds
-
-    // Format the output as hh:mm:ss,
-    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
-  };
-
-  //For UID
-  function generateRandomString() {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    for (let i = 0; i < 8; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      result += characters[randomIndex];
-    }
-    return result;
-  }
-
-  const calculateLoadedFiles = (data) => {
-    const values = Object.values(data);
-    if (!values.length) return 0;
-    const totalLoaded = values.reduce((sum, item) => sum + item.loaded, 0);
-    return totalLoaded;
-  };
-
-  const formatBytes = (bytes, decimals = 2) => {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const dm = decimals < 0 ? 0 : decimals;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-  };
-
-
+ 
   const handleSubmit = async () => {
     //event.preventDefault();
     setIsSubmitting(true);
     setResponseMessage('');
 
-    //Get actual expirydate after increment in ISOstring, converted into unix in backend
-    function formatDate(min) {
-      const futureDate = new Date();
-      futureDate.setMinutes(futureDate.getMinutes() + min);
-      return futureDate.toISOString();
-    }
+    
 
     const totalSize = files.reduce((acc, file) => acc + file.size, 0);
     let loadedSize = 0;
@@ -363,15 +301,12 @@ export default function CreatePad() {
   //   }
   // }, [uploadModal, Navigate])
 
-  function formatDate(min) {
-    const futureDate = new Date();
-    futureDate.setMinutes(futureDate.getMinutes() + min);
-    return futureDate.toISOString();
-  }
+
 
   const [textValue, setTextValue] = useState('');
 
   const handleTextSubmit = () => {
+    setTextSubmitting(true);
     const formData = new FormData();
     formData.append('textupload', textValue);
     formData.append('expiry_date', formatDate(expiryDateIncrement[1]));
@@ -381,43 +316,47 @@ export default function CreatePad() {
 
     // Send the POST request using Axios
     axios
-      .post('http://localhost:8000/api/upload/textupload', formData, {
+      .post(`${import.meta.env.VITE_API_BASE_URL}/api/upload/textupload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       })
       .then((response) => {
         console.log('Response:', response.data);
-        setPaste(`${mirror[1]}/text/${response.data.uid}`)
-        //alert('Data uploaded successfully!');
+        const textpaste = `${mirror[1]}/text/${response.data.uid}`;
+        setPaste(textpaste)
+        try {
+          navigator.clipboard.writeText(textpaste);
+          toast.success(`Link copied to Clipboard: ${textpaste}`, {
+            position: "top-right",
+            autoClose: false,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+          console.log('Content copied to clipboard');
+        } catch (err) {
+          console.error('Failed to copy: ', err);
+        }
       })
       .catch((error) => {
         console.error('Error:', error);
         alert('There was an error uploading the data.');
+      })
+      .finally(() => {
+        setTextSubmitting(false);
       });
   }
 
-  useEffect(() => {
-    if(paste !== ''){
-      try {
-        navigator.clipboard.writeText(paste);
-        toast.success(`Link copied to Clipboard: ${paste}`, {
-          position: "top-right",
-          autoClose: false,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
-        console.log('Content copied to clipboard');
-      } catch (err) {
-        console.error('Failed to copy: ', err);
-      }
-    }
+  // useEffect(() => {
+  //   if(paste !== ''){
+      
+  //   }
 
-  },[paste])
+  // },[paste])
 
   
   return (
@@ -443,7 +382,7 @@ export default function CreatePad() {
             <Col xs={12} lg={6} className='mt-4 mt-lg-0'>
               <div className={`doc-create overflow-hidden ${fullScreenEdit ? 'full-screen position-fixed bottom-0 end-0' : ''}`}>
                 <Editor onClick={() => toggleFullScreen()} textValue={textValue} setTextValue={setTextValue} />
-                <button onClick={handleTextSubmit} className='btn bg-white position-absolute bottom-0 end-0 m-2 m-md-3 m-lg-4'>Create</button>
+                <button onClick={handleTextSubmit} disabled={textSubmitting} className='btn bg-white position-absolute bottom-0 end-0 m-2 m-md-3 m-lg-4'>Create</button>
               </div>
             </Col>
           </Row>
