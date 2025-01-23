@@ -125,7 +125,7 @@ export default function Preview() {
   };
 
 
-  //Brings Files thumbnail into preview. and when new files are submitted using 'Add more'
+  //Brings Files thumbnail into preview. and when new files are submitted or existing ones are deleted using 'Add more'
   useEffect(() => {
     if (currentUID) {
       console.log(items);
@@ -193,7 +193,7 @@ export default function Preview() {
     }
   }
 
-  //Toast message
+  //Toast message when clicked on sharelink, either for individual file or all files
   const copyToClipboard = async (giventext) => {
 
     try {
@@ -224,7 +224,7 @@ export default function Preview() {
     }
   };
 
-  // Handle form submission
+  // Handle form submission for title
   const handleTitleSubmit = async (event) => {
     console.log(inputTitles);
     event.preventDefault();

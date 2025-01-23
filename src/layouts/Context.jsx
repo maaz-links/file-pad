@@ -5,16 +5,18 @@ const GlobalContext = createContext();
 
 // Create a provider component
 const GlobalProvider = ({ children }) => {
-  //const expireslist = [1,2,3,4,5];    //Select # of days after which data should expires
   const [mirrorslist, setMirrorslist] = useState([]); //Select Mirror, filled by API
-  //const [expirydurationlist, setExpiryDurationlist] = useState([]); //Select Mirror, filled by API
-  const [expireslist,setExpireslist] = useState([]);
-  const [currentUID, setCurrentUID] = useState('');
+  const [expireslist,setExpireslist] = useState([]); //Select Duration, filled by API
+  const [currentUID, setCurrentUID] = useState(''); //Used to handle preview page
+
   const [burnAfterRead, setBurnAfterRead] = useState('0'); //Laravel API needs '0' or '1', nor true or false
   const [password, setPassword] = useState('');
-  const [expiryDateIncrement, setExpiryDateIncrement] = useState(['',1]);
-  const [mirror,setMirror] = useState(['','']);
-  const [paste,setPaste] =useState('');
+
+  const [expiryDateIncrement, setExpiryDateIncrement] = useState(['',1]); // Selected Duration for upload
+  const [mirror,setMirror] = useState(['','']); // Selected Mirror for upload
+
+  const [paste,setPaste] =useState(''); //Used in preview page to handle sharelink
+
   useEffect(() => {
     const fetchMirrorsData = async () => {
         try {
@@ -28,14 +30,14 @@ const GlobalProvider = ({ children }) => {
             setMirrorslist(transformedMirrors);  // Update the mirrorslist state
             setMirror(transformedMirrors[0] || []);  // Set default mirror (first item)
 
-            const expiryData = response.data.expire || []; // Assuming API returns a 'mirror' field
-            // Transform the data to match the desired format (assuming the API provides 'title' and 'domain')
+            const expiryData = response.data.expire || []; // Assuming API returns a 'expiry' field
+            // Transform the data to match the desired format (assuming the API provides 'title' and 'duration')
             const transformedExpiry = expiryData.map((expiry) => {
                 return [expiry.title, expiry.duration];
             });
             console.log(transformedExpiry);
-            setExpireslist(transformedExpiry);  // Update the mirrorslist state
-            setExpiryDateIncrement(transformedExpiry[0] || []);  // Set default mirror (first item)
+            setExpireslist(transformedExpiry);  
+            setExpiryDateIncrement(transformedExpiry[0] || []); 
 
         } catch (error) {
             console.error('Error fetching mirrors data:', error);
