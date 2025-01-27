@@ -7,7 +7,7 @@ import axios from "axios";
 import { IconFile } from '../components/IconFile';
 import { handleDownload, formatDateReadable, checkIfThumbnailhasFile } from '../functions/Common';
 
-export default function Home({ dynamicValue, singleFile}) {
+export default function Home({ dynamicValue, singleFile }) {
 
   const [open, isOpen] = useState(false);
   const [open2, isOpen2] = useState(false);
@@ -15,27 +15,29 @@ export default function Home({ dynamicValue, singleFile}) {
   const [previewSrc, setPreviewSrc] = useState('none');
 
   const [data, setData] = useState([]);
+  const [errorMsg, setErrorMsg] = useState("");
   const [requiredPassword, setRequiredPassword] = useState('');
 
-  
+
   const handleRequiredPasswordChange = (event) => {
     setRequiredPassword(event.target.value);
-    console.log('passw',requiredPassword.length);
+    console.log('passw', requiredPassword.length);
   }
   const checkPassword = () => {
-    console.log('verify',requiredPassword );
+    console.log('verify', requiredPassword);
     if (dynamicValue) {
-      const fetchurl = (singleFile ? 'attachsingle' : 'attachments') 
+      const fetchurl = (singleFile ? 'attachsingle' : 'attachments')
       //setData(dynamicValue);
       const bringFiles = async () => {
         try {
-          const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/upload/${fetchurl}/${dynamicValue}`,{
+          const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/upload/${fetchurl}/${dynamicValue}`, {
             requiredPassword: requiredPassword,
           });
           setData(response.data.data);
           console.log(response);
           console.log(response.data.data);
         } catch (err) {
+          setErrorMsg("Incorrect Link or Password")
           console.error("Error fetching data:", err);
         }
       }
@@ -51,13 +53,13 @@ export default function Home({ dynamicValue, singleFile}) {
     // Test if the file path matches the video file extensions
     return videoExtensions.test(filePath);
   }
-
   return (
     <div className='create py-3 py-md-4'>
-      <Container fluid>
+      <Container style={{ minHeight: "600px", }} fluid>
         <Row>
           <Col xs={12}>
             <div className="create-top d-flex justify-content-between align-items-center mb-4 mb-lg-5">
+              {(errorMsg !== "") && <><h3 className='mb-0'>Incorrect Link or Password</h3></>}
               {(data.length !== 0) && <><h3 className='mb-0'>expiry will be</h3><Expiry unix={data[0].expiry_date} /></>}
             </div>
             <div className="overflow-auto">
@@ -78,7 +80,7 @@ export default function Home({ dynamicValue, singleFile}) {
                           (<img src={item.thumbnail} onClick={() => { isOpen2(!open2); setPreviewSrc(item.file_location) }} width="55px" className='object-fit-cover' alt="" />) :
                           (<img src={IconFile(item.file_detail)} alt="" />)
                         }</p></td>
-                        {/* /{(index + 1).toString().padStart(2, '0')}/{item.id}</p></td> */}
+                      {/* /{(index + 1).toString().padStart(2, '0')}/{item.id}</p></td> */}
                       <td ><p>{item.file_detail}</p></td>
                       <td ><p>{formatDateReadable(item.created_at)}</p></td>
                       <td >
@@ -89,19 +91,7 @@ export default function Home({ dynamicValue, singleFile}) {
                       </td>
                     </tr>
                   ))}
-                  {/* {table.map((item, index) => (
-                    <tr key={index}>
-                      <td ><p>{(index + 1).toString().padStart(2, '0')}</p></td>
-                      <td ><p>{item.name}</p></td>
-                      <td ><p>{item.date}</p></td>
-                      <td >
-                        <div className="d-flex justify-content-between align-items-center">
-                          <p>{item.size}</p>
-                          <button className='ms-4'>Download</button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))} */}
+                  
                 </tbody>
               </table>
             </div>
@@ -135,7 +125,7 @@ export default function Home({ dynamicValue, singleFile}) {
                 <iframe src={previewSrc}
                   style={{
                     width: '500px',
-                    height: '500px',  
+                    height: '500px',
                     // minWidth: '640',
                     // minHeight: '480',
                     // maxWidth: '100%',
@@ -147,16 +137,6 @@ export default function Home({ dynamicValue, singleFile}) {
 
               }
 
-
-              {/* <h3 className='text-uppercase mb-md-2 pb-md-1 mt-2 mt-md-4 pt-md-2'>expirES</h3>
-              <Expiry />
-              <p className='mb-0 text-center fs-6'>This secret message can only be displayed once. Would you like to see it now?</p>
-              <div className="form-box">
-                <input type="password" placeholder='Password' className="form-control" />
-              </div>
-              <div className="d-flex justify-content-center">
-                <button className='bg-green'>Yes, see it</button>
-              </div> */}
             </div>
           </div>
         </div>
@@ -187,7 +167,7 @@ export default function Home({ dynamicValue, singleFile}) {
                 <input type="password" onChange={handleRequiredPasswordChange} placeholder='Password' className="form-control" />
               </div>
               <div className="d-flex justify-content-center">
-                <button onClick={() => {checkPassword();setPassopen(false)}} className='bg-green'>Yes, see it</button>
+                <button onClick={() => { checkPassword(); setPassopen(false) }} className='bg-green'>Yes, see it</button>
               </div>
             </div>
           </div>

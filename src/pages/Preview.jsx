@@ -1,8 +1,20 @@
 import { Container, Row, Col } from "react-bootstrap"
 import { ToastContainer, toast } from 'react-toastify';
 import PreviewItem from "../components/PreviewItem"
-import img_1 from '../assets/img/preview/img-1.png'
-import img_2 from '../assets/img/preview/img-2.png'
+//import img_1 from '../assets/img/preview/img-1.png'
+//import img_2 from '../assets/img/preview/img-2.png'
+import pngIcon from '/src/assets/img/png-icon-small.png';
+import zipIcon from '/src/assets/img/zip-icon.png';
+import songIcon from '/src/assets/img/song-icon.png';
+import videoIcon from '/src/assets/img/icon-video.png';
+import docIcon from '/src/assets/img/icon-doc.png';
+import pptIcon from '/src/assets/img/icon-ppt.png';
+import txtIcon from '/src/assets/img/icon-txt.png';
+import xlsIcon from '/src/assets/img/icon-xls.png';
+import csvIcon from '/src/assets/img/icon-csv.png';
+import pdfIcon from '/src/assets/img/icon-pdf.png';
+import genericIcon from '/src/assets/img/icon-generic.png';
+
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import { useContext, useEffect, useState, useRef } from 'react';
 import { GlobalContext } from '../layouts/Context';
@@ -89,7 +101,7 @@ export default function Preview() {
             //Navigate('/preview', { replace: true }); // Redirect to /preview
           })
           .catch((error) => {
-            console.log('wat happened?',error)
+            console.log('wat happened?', error)
             // Handle any errors, for example file upload failed
             //setResponseMessage('Error uploading some files. Please try again.');
           });
@@ -102,7 +114,7 @@ export default function Preview() {
     }
   };
 
-  const handleFileDeletebyUID = async (event,uid) => {
+  const handleFileDeletebyUID = async (event, uid) => {
     //console.log(inputTitles);
     event.preventDefault();
     try {
@@ -187,7 +199,7 @@ export default function Preview() {
           </svg>),
           name: 'Delete File',
           url: '',
-          event: (e) => handleFileDeletebyUID(e,puid)
+          event: (e) => handleFileDeletebyUID(e, puid)
         },
       ]
     }
@@ -257,12 +269,12 @@ export default function Preview() {
 
   return (
     <div className='preview'>
-      <Container fluid>
+      <Container style={{minHeight: "600px",}} fluid>
         <Row>
           <Col xs={12}>
             <div className="preview-inner w-full mx-auto d-flex flex-wrap flex-row-reverse">
               <div className="preview-right">
-                <p className="fs-6 mb-3 mb-lg-4 text-uppercase fw-medium">Image Tools</p>
+                <p className="fs-6 mb-3 mb-lg-4 text-uppercase fw-medium">Tools</p>
                 <div className="d-flex flex-column gap-2 gap-md-3">
                   {/* {tools.map((item, index) => (
                     <a onClick={item.url} href='#' key={index} className="d-flex w-100 align-items-center gap-2 fs-6 lh-base">
@@ -270,10 +282,11 @@ export default function Preview() {
                       <span className="d-block ps-1">{item.title}</span>
                     </a>
                   ))} */}
-                  <a href='#' onClick={handleLinkClick} className="d-flex w-100 align-items-center gap-2 fs-6 lh-base"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <path d="M10.0001 18.3334C14.6025 18.3334 18.3334 14.6024 18.3334 10C18.3334 5.39765 14.6025 1.66669 10.0001 1.66669C5.39771 1.66669 1.66675 5.39765 1.66675 10C1.66675 14.6024 5.39771 18.3334 10.0001 18.3334Z" stroke="white" strokeWidth="1.25" />
-                    <path d="M10.0001 13.3334V6.66669M10.0001 13.3334C9.41658 13.3334 8.32636 11.6714 7.91675 11.25M10.0001 13.3334C10.5836 13.3334 11.6738 11.6714 12.0834 11.25" stroke="white" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg><span className="d-block ps-1">Add more</span></a>
+                  <a href='#' onClick={handleLinkClick} className="d-flex w-100 align-items-center gap-2 fs-6 lh-base">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path d="M10 2V18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                      <path d="M2 10H18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg><span className="d-block ps-1">Add more</span></a>
                   <input
                     type="file"
                     ref={fileInputRef}  // Attach the ref to the file input
@@ -281,10 +294,10 @@ export default function Preview() {
                     multiple
                     onChange={handleFileChange}  // Handle file selection
                   />
-                  <a  onClick={(e) => { handleTitleSubmit(e) }} href='#' className="d-flex w-100 align-items-center gap-2 fs-6 lh-base"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <path d="M10.0001 18.3334C14.6025 18.3334 18.3334 14.6024 18.3334 10C18.3334 5.39765 14.6025 1.66669 10.0001 1.66669C5.39771 1.66669 1.66675 5.39765 1.66675 10C1.66675 14.6024 5.39771 18.3334 10.0001 18.3334Z" stroke="white" strokeWidth="1.25" />
-                    <path d="M10.0001 13.3334V6.66669M10.0001 13.3334C9.41658 13.3334 8.32636 11.6714 7.91675 11.25M10.0001 13.3334C10.5836 13.3334 11.6738 11.6714 12.0834 11.25" stroke="white" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg><span className="d-block ps-1">Update Title(s)</span></a>
+                  <a onClick={(e) => { handleTitleSubmit(e) }} href='#' className="d-flex w-100 align-items-center gap-2 fs-6 lh-base"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <line class="ql-stroke" x1="5" x2="15" y1="4" y2="4" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+                  <line class="ql-stroke" x1="8" x2="10" y1="17" y2="4" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line> 
+                                    </svg><span className="d-block ps-1">Update Title(s)</span></a>
 
                   <a onClick={(e) => { copyToClipboard(paste) }} href='#' className="d-flex w-100 align-items-center gap-2 fs-6 lh-base">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -295,6 +308,7 @@ export default function Preview() {
                 </div>
               </div>
               <div className="preview-left d-grid mt-4 mt-md-0">
+              {(items.length == 0) && <><h3 className='mb-0'>No File Stored</h3></>}
                 <PreviewItem items={items} handleTitleChange={handleTitleChange} copyToClipboard={copyToClipboard} />
 
               </div>

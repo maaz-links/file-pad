@@ -34,15 +34,15 @@ export default function Top() {
           <Col xs={12}>
             <div className="d-flex align-items-center gap-12">
               <Link to="/" className='me-2 me-md-3 me-xl-4 logo'><img src={logo} alt="" /></Link>
-              <Link to="/create-pad" className='btn bg-white'>New</Link>
+              <Link to="/" className='btn bg-white'>New</Link>
               {location.pathname === '/preview' ?
                 <div className="w-100 d-none d-md-flex align-items-center gap-12">
-                  <Link to="/" className='btn d-inline-flex gap-2 align-items-center px-20'>
+                  {/* <Link to="/" className='btn d-inline-flex gap-2 align-items-center px-20'>
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M6 10C6 8.1144 6 7.1716 6.58579 6.58579C7.1716 6 8.1144 6 10 6H10.6667C12.5523 6 13.4951 6 14.0809 6.58579C14.6667 7.1716 14.6667 8.1144 14.6667 10V10.6667C14.6667 12.5523 14.6667 13.4951 14.0809 14.0809C13.4951 14.6667 12.5523 14.6667 10.6667 14.6667H10C8.1144 14.6667 7.1716 14.6667 6.58579 14.0809C6 13.4951 6 12.5523 6 10.6667V10Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                       <path d="M11.3329 6.00065C11.3313 4.02926 11.3015 3.00812 10.7277 2.30894C10.6169 2.17391 10.4931 2.0501 10.3581 1.93929C9.62047 1.33398 8.52467 1.33398 6.33301 1.33398C4.14135 1.33398 3.04553 1.33398 2.30796 1.93929C2.17293 2.0501 2.04913 2.17391 1.93831 2.30894C1.33301 3.0465 1.33301 4.14233 1.33301 6.33398C1.33301 8.52565 1.33301 9.62145 1.93831 10.3591C2.04912 10.4941 2.17293 10.6179 2.30796 10.7287C3.00715 11.3025 4.02828 11.3323 5.99967 11.3339" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg> Clone
-                  </Link>
+                  </Link> */}
                   <Link to="/" className='btn d-inline-flex gap-2 align-items-center px-20'>
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M1.33301 4L5.94169 6.61131C7.64074 7.574 8.35861 7.574 10.0577 6.61131L14.6663 4" stroke="currentColor" strokeLinejoin="round" />

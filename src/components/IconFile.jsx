@@ -1,12 +1,43 @@
+import pngIcon from '/src/assets/img/png-icon-small.png';
+import zipIcon from '/src/assets/img/zip-icon.png';
+import songIcon from '/src/assets/img/song-icon.png';
+import videoIcon from '/src/assets/img/icon-video.png';
+import docIcon from '/src/assets/img/icon-doc.png';
+import pptIcon from '/src/assets/img/icon-ppt.png';
+import txtIcon from '/src/assets/img/icon-txt.png';
+import xlsIcon from '/src/assets/img/icon-xls.png';
+import csvIcon from '/src/assets/img/icon-csv.png';
+import pdfIcon from '/src/assets/img/icon-pdf.png';
+import genericIcon from '/src/assets/img/icon-generic.png';
+
 export const IconFile = (file) => {
-    const fileIcons = {
-        //by ext
-        png: "/src/assets/img/png-icon-small.png",
-        zip: "/src/assets/img/zip-icon.png",
-        mp4: "/src/assets/img/song-icon.png",
-        pdf: "/src/assets/img/icon-pdf.png",  
-        default: "/src/assets/img/icon-generic.png" // Placeholder for other files
-      };
+  const fileIcons = {
+    png: pngIcon,
+    jpg: pngIcon,
+    jpeg: pngIcon,
+    gif: pngIcon,
+
+    zip: zipIcon,
+    mp3: songIcon,
+
+    mp4: videoIcon,
+    mkv: videoIcon,
+    avi: videoIcon,
+    mov: videoIcon,
+    webm: videoIcon,
+
+    doc: docIcon,
+    docx: docIcon,
+    ppt: pptIcon,
+    pptx: pptIcon,
+    txt: txtIcon,
+    xls: xlsIcon,
+    xlsx: xlsIcon,
+    csv: csvIcon,
+    pdf: pdfIcon,
+
+    default: genericIcon // Placeholder for other files
+};
       // Icon size must be small like 42x42, otherwise it will mess with flex containers
     
       const getFileExtension = (file) => {
