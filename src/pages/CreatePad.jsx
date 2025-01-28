@@ -422,7 +422,7 @@ export default function CreatePad() {
                   <div className="left d-flex align-items-center gap-2" >
                     <div className="icon" >
                       {/* <img src={song_icon}  alt="" /> */}
-                      <img src={IconFile(file)} alt="" />
+                      <img src={IconFile(file.name)} alt="" />
                     </div>
                     <div className="ps-1">
                       <h6 className='mb-0 lh-base text-uppercase'
