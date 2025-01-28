@@ -6,12 +6,13 @@ import { useParams, Navigate } from "react-router-dom";
 import axios from "axios";
 import { IconFile } from '../components/IconFile';
 import { handleDownload, formatDateReadable, checkIfThumbnailhasFile } from '../functions/Common';
+import { checkPasswordRequirement } from '../functions/DataDisplay';
 
 export default function Home({ dynamicValue, singleFile }) {
 
-  const [open, isOpen] = useState(false);
+  //const [open, isOpen] = useState(false);
   const [open2, isOpen2] = useState(false);
-  const [passopen, setPassopen] = useState(true);
+  const [passopen, setPassopen] = useState(false);
   const [previewSrc, setPreviewSrc] = useState('none');
 
   const [data, setData] = useState([]);
@@ -44,6 +45,12 @@ export default function Home({ dynamicValue, singleFile }) {
       bringFiles();
     }
   }
+
+  useEffect(() => {
+    if (dynamicValue) {
+      checkPasswordRequirement(dynamicValue,singleFile,setPassopen,checkPassword,setErrorMsg)
+    }
+  }, [])
 
 
   function isVideoFile(filePath) {
@@ -91,7 +98,7 @@ export default function Home({ dynamicValue, singleFile }) {
                       </td>
                     </tr>
                   ))}
-                  
+
                 </tbody>
               </table>
             </div>

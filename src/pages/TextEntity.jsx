@@ -4,35 +4,38 @@ import React, { useEffect, useState } from "react";
 import { useParams, Navigate } from "react-router-dom";
 import axios from "axios";
 import DOMPurify from 'dompurify';
+import { checkPasswordRequirement } from '../functions/DataDisplay';
 
 export default function TextEntity() {
 
   const { dynamicValue } = useParams();
   //const [open, isOpen] = useState(false);
   //const [open2, isOpen2] = useState(false);
-  const [passopen, setPassopen] = useState(true);
+  const [passopen, setPassopen] = useState(false);
   //const [previewSrc, setPreviewSrc] = useState('none');
 
   const [data, setData] = useState([]);
+  const [errorMsg, setErrorMsg] = useState("");
   const [requiredPassword, setRequiredPassword] = useState('');
 
-  
+
   const handleRequiredPasswordChange = (event) => {
     setRequiredPassword(event.target.value);
-    console.log('passw',requiredPassword.length);
+    console.log('passw', requiredPassword.length);
   }
   const checkPassword = () => {
-    console.log('verify',requiredPassword );
+    console.log('verify', requiredPassword);
     if (dynamicValue) {
       const bringFiles = async () => {
         try {
-          const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/upload/showtexts/${dynamicValue}`,{
+          const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/upload/showtexts/${dynamicValue}`, {
             requiredPassword: requiredPassword,
           });
           setData(response.data.data);
           console.log(response);
           console.log(response.data.data);
         } catch (err) {
+          setErrorMsg("Incorrect Link or Password")
           console.error("Error fetching data:", err);
         }
       }
@@ -40,6 +43,11 @@ export default function TextEntity() {
     }
   }
 
+  useEffect(() => {
+    if (dynamicValue) {
+      checkPasswordRequirement(dynamicValue, 0, setPassopen, checkPassword, setErrorMsg)
+    }
+  }, [])
 
   return (
     <div className='create py-3 py-md-4'>
@@ -47,9 +55,10 @@ export default function TextEntity() {
         <Row>
           <Col xs={12}>
             <div className="create-top d-flex justify-content-between align-items-center mb-4 mb-lg-5">
+              {(errorMsg !== "") && <><h3 className='mb-0'>Incorrect Link or Password</h3></>}
               {(data.length !== 0) && <><h3 className='mb-0'>expiry will be</h3><Expiry unix={data[0].expiry_date} /></>}
             </div>
-            {(data.length !== 0) && <div className="overflow-auto" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data[0].content) }}/>}
+            {(data.length !== 0) && <div className="overflow-auto" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data[0].content) }} />}
           </Col>
         </Row>
       </Container>
@@ -79,7 +88,7 @@ export default function TextEntity() {
                 <input type="password" onChange={handleRequiredPasswordChange} placeholder='Password' className="form-control" />
               </div>
               <div className="d-flex justify-content-center">
-                <button onClick={() => {checkPassword();setPassopen(false)}} className='bg-green'>Yes, see it</button>
+                <button onClick={() => { checkPassword(); setPassopen(false) }} className='bg-green'>Yes, see it</button>
               </div>
             </div>
           </div>

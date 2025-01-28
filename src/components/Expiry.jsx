@@ -11,14 +11,16 @@ export default function Expiry({unix=0}) {
         let timeLeft = {};
         if (difference > 0) {
             timeLeft = {
-                days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-                hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+                //days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+                //hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+                hours: Math.floor((difference / (1000 * 60 * 60))),
                 minutes: Math.floor((difference / 1000 / 60) % 60),
-                // seconds: Math.floor((difference / 1000) % 60),
+                seconds: Math.floor((difference / 1000) % 60),
             };
-            timeLeft.days = timeLeft.days < 9 ? `0${timeLeft.days}` : timeLeft.days;
-            timeLeft.hours = timeLeft.hours < 9 ? `0${timeLeft.hours}` : timeLeft.hours;
-            timeLeft.minutes = timeLeft.minutes < 9 ? `0${timeLeft.minutes}` : timeLeft.minutes;
+            //timeLeft.days = timeLeft.days < 9 ? `0${timeLeft.days}` : timeLeft.days;
+            timeLeft.hours = timeLeft.hours < 10 ? `0${timeLeft.hours}` : timeLeft.hours;
+            timeLeft.minutes = timeLeft.minutes < 10 ? `0${timeLeft.minutes}` : timeLeft.minutes;
+            timeLeft.seconds = timeLeft.seconds < 10 ? `0${timeLeft.seconds}` : timeLeft.seconds;
         }
 
         return timeLeft;
