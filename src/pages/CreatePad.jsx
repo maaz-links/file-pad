@@ -409,7 +409,11 @@ export default function CreatePad() {
         <ToastContainer />
       </div>
       {uploadModal &&
-        <div className="doc-modal position-fixed top-0 left-0 w-100 vh-100 d-flex align-items-center justify-content-center z-3">
+        <div className="doc-modal position-fixed top-0 left-0 w-100 vh-100 d-flex flex-column z-3"
+        style={{
+          overflowY: "auto", // Enable vertical scrolling
+          padding: "2rem 0"
+        }}>
           <div className="mx-auto doc-modal-inner">
 
             {/* This component is declared below 

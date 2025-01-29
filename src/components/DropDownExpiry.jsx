@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { GlobalContext } from "../layouts/Context";
-import { useContext } from 'react';
+import { useContext, useRef, useEffect } from 'react';
 
 export default function DropDownExpiry({ className=""}) {
     const {  
@@ -13,6 +13,20 @@ export default function DropDownExpiry({ className=""}) {
         paste,setPaste,
     } = useContext(GlobalContext);
 
+    //Close dropdown when unfocused. ref={dropdownRef} is used in root element of dropdown 
+    const dropdownRef = useRef(null);
+    const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setModal(false);
+        }
+    };
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
     const [modal, setModal] = useState(false);
     const handleClick = (e) => {
         setExpiryDateIncrement(e);
@@ -20,7 +34,7 @@ export default function DropDownExpiry({ className=""}) {
     }
 
     return (
-        <div className={`page-dropdown position-relative z-1 ${className}`}>
+        <div ref={dropdownRef} className={`page-dropdown position-relative z-1 ${className}`}>
             <button onClick={() => setModal(!modal)} className="w-100 d-flex align-items-center justify-content-between gap-2">
                 <span my-data={expiryDateIncrement[1]}>
                 {`Expires: ${expiryDateIncrement[0]}`}
