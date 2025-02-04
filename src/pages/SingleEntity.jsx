@@ -7,7 +7,7 @@ import FilesCall from "./FilesCall";
 
 // export default function SingleEntity() {
 //   const { dynamicValue } = useParams();
-//   //return <Home dynamicValue={dynamicValue} singleFile={1} />
+//   //return <Home dynamicValue={dynamicValue} singleFile={1}zzzzzzz />
 //   return <Authentication dynamicValue={dynamicValue} singleFile={1} />
 // }
 export default function SingleEntity(){
