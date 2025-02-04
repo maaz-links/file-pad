@@ -48,10 +48,10 @@ export default function Paste({icon="", btnText="Delete Data", className="" }) {
                     </svg>
                 </button>
             </div>
-            <button onClick={outletFunction} className='p-0 border-0 bg-transparent text-ABB1AE d-flex align-items-center gap'>
+            {/* <button className='p-0 border-0 bg-transparent text-ABB1AE d-flex align-items-center gap'>
                 {icon}
                 {btnText}
-            </button>
+            </button> */}
             <ToastContainer />
         </div>
     )

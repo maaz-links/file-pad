@@ -46,8 +46,7 @@ export default function FilesCall(props) {
             }
             bringFiles();
           }
-    }, 
-    //[checkSubmitted]
+    }, []
     );
 
     if (data.length === 0) {
