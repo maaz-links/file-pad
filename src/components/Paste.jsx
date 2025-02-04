@@ -1,7 +1,7 @@
 import React from 'react'
 import {ToastContainer, toast } from 'react-toastify';
 import { GlobalContext } from '../layouts/Context';
-import { useContext } from 'react';
+import { useState,useEffect,useContext } from 'react';
 
 export default function Paste({icon="", btnText="Delete Data", className="" }) {
 
@@ -48,10 +48,10 @@ export default function Paste({icon="", btnText="Delete Data", className="" }) {
                     </svg>
                 </button>
             </div>
-            {/* <button className='p-0 border-0 bg-transparent text-ABB1AE d-flex align-items-center gap'>
+            <button onClick={outletFunction} className='p-0 border-0 bg-transparent text-ABB1AE d-flex align-items-center gap'>
                 {icon}
                 {btnText}
-            </button> */}
+            </button>
             <ToastContainer />
         </div>
     )

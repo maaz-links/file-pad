@@ -14,6 +14,7 @@ import Preview from './pages/Preview'
 import MultipleEntity from './pages/MultipleEntity'
 import SingleEntity from './pages/SingleEntity'
 import TextEntity from './pages/TextEntity'
+import PreviewCall from './pages/PreviewCall'
 
 const router = createBrowserRouter([
   {
@@ -39,7 +40,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/preview',
-        element: <Preview />
+        element: <PreviewCall />
       },
       {
         path: "/files/:dynamicValue", // Dynamic route to handle paths like `/files/asdf`

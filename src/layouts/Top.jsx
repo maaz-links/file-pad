@@ -35,7 +35,9 @@ export default function Top() {
             <div className="d-flex align-items-center gap-12">
               <Link to="/" className='me-2 me-md-3 me-xl-4 logo'><img src={logo} alt="" /></Link>
               <Link to="/" className='btn bg-white'>New</Link>
-              {location.pathname === '/preview' ?
+              {((location.pathname === '/preview')||
+                (location.pathname.startsWith('/file'))||
+                (location.pathname.startsWith('/text'))) ?
                 <div className="w-100 d-none d-md-flex align-items-center gap-12">
                   {/* <Link to="/" className='btn d-inline-flex gap-2 align-items-center px-20'>
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -59,7 +61,10 @@ export default function Top() {
                       <path d="M14 8H10C9.0572 8 8.5858 8 8.29287 8.29287C8 8.5858 8 9.0572 8 10M8 11.8461V13.6923M10 10V11C10 11.9643 10.5225 12 11.3333 12C11.7015 12 12 12.2985 12 12.6667M10.6667 14H10M12 10C12.9428 10 13.4142 10 13.7071 10.2933C14 10.5866 14 11.0587 14 12.0029C14 12.9471 14 13.4191 13.7071 13.7125C13.4933 13.9265 13.1845 13.9844 12.6667 14" stroke="currentColor" strokeLinecap="round" />
                     </svg> QR Code
                   </Link>
-                  {location.pathname === "/preview" && paste !== '' &&
+                  {/* {location.pathname === "/preview" && paste !== '' &&
+                    <Paste className='mx-auto d-none d-xl-flex' />
+                  } */}
+                  {paste !== '' &&
                     <Paste className='mx-auto d-none d-xl-flex' />
                   }
                 </div>
