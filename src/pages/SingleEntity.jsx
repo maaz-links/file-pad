@@ -5,11 +5,6 @@ import Authentication from "./Authentication";
 import Preview from "./Preview";
 import FilesCall from "./FilesCall";
 
-// export default function SingleEntity() {
-//   const { dynamicValue } = useParams();
-//   //return <Home dynamicValue={dynamicValue} singleFile={1} />
-//   return <Authentication dynamicValue={dynamicValue} singleFile={1} />
-// }
 export default function SingleEntity(){
   const { dynamicValue } = useParams();
   //return <Home dynamicValue={dynamicValue} singleFile={0}/>
