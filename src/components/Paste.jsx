@@ -2,6 +2,7 @@ import React from 'react'
 import {ToastContainer, toast } from 'react-toastify';
 import { GlobalContext } from '../layouts/Context';
 import { useState,useEffect,useContext } from 'react';
+import { useLocation } from 'react-router-dom';
 
 export default function Paste({icon="", btnText="Delete Data", className="" }) {
 
@@ -13,7 +14,10 @@ export default function Paste({icon="", btnText="Delete Data", className="" }) {
         expiryDateIncrement, setExpiryDateIncrement,
         mirror,setMirror,
         paste,setPaste,
+        pasteDel,setPasteDel,
     } = useContext(GlobalContext);
+
+    const location = useLocation();
 
     const copyToClipboard = async () => {
         try {
@@ -48,10 +52,10 @@ export default function Paste({icon="", btnText="Delete Data", className="" }) {
                     </svg>
                 </button>
             </div>
-            {/* <button className='p-0 border-0 bg-transparent text-ABB1AE d-flex align-items-center gap'>
+            {(location.pathname === '/preview')&&<button onClick={pasteDel} className='p-0 border-0 bg-transparent text-ABB1AE d-flex align-items-center gap'>
                 {icon}
                 {btnText}
-            </button> */}
+            </button>}
             <ToastContainer />
         </div>
     )

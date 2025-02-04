@@ -95,18 +95,21 @@ export default function Authentication({ dynamicValue, singleFile, setDataCall, 
         bringFiles();
     }
 
+    const backdrop = <>
+        <Container style={{ minHeight: "600px", }} fluid>
+            <Row>
+                <Col xs={12}>
+                    <div className="create-top d-flex justify-content-between align-items-center mb-4 mb-lg-5">
+                        {(errorMsg !== "") && <><h3 className='mb-0'>{errorMsg}</h3></>}
+                    </div>
+                </Col>
+            </Row>
+        </Container>
+    </>
     if (verified) {
         return (
             <div className='create py-3 py-md-4'>
-                <Container style={{ minHeight: "600px", }} fluid>
-                    <Row>
-                        <Col xs={12}>
-                            <div className="create-top d-flex justify-content-between align-items-center mb-4 mb-lg-5">
-                                {(errorMsg !== "") && <><h3 className='mb-0'>{errorMsg}</h3></>}
-                            </div>
-                        </Col>
-                    </Row>
-                </Container>
+                {backdrop}
                 {burnopen && (
                     <div className="bg-shape">
                         <div className="Modal">
@@ -142,15 +145,7 @@ export default function Authentication({ dynamicValue, singleFile, setDataCall, 
 
     return (
         <div className='create py-3 py-md-4'>
-            <Container style={{ minHeight: "600px", }} fluid>
-                <Row>
-                    <Col xs={12}>
-                        <div className="create-top d-flex justify-content-between align-items-center mb-4 mb-lg-5">
-                            {(errorMsg !== "") && <><h3 className='mb-0'>{errorMsg}</h3></>}
-                        </div>
-                    </Col>
-                </Row>
-            </Container>
+            {backdrop}
             {passopen && (
                 <div className="bg-shape">
                     <div className="Modal">

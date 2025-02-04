@@ -17,6 +17,8 @@ const GlobalProvider = ({ children }) => {
 
   const [paste,setPaste] =useState(''); //Used in preview page to handle sharelink
 
+  const [pasteDel, setPasteDel] = useState(()=>()=>{console.log('del')});
+
   useEffect(() => {
     const fetchMirrorsData = async () => {
         try {
@@ -57,6 +59,7 @@ const GlobalProvider = ({ children }) => {
         mirror,setMirror,
         paste,setPaste,
         password,setPassword,
+        pasteDel, setPasteDel
 
     }}>
       {children}

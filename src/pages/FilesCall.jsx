@@ -37,7 +37,8 @@ export default function FilesCall(props) {
                   requiredPassword: requiredPassword,
                 });
                 setData(response.data.data);
-                setPaste('');
+                if(paste === ''){
+                setPaste(`${window.location.host + window.location.pathname}`);}
                 console.log(response);
                 console.log(response.data.data);
               } catch (err) {

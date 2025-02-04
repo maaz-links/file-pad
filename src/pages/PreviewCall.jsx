@@ -25,6 +25,8 @@ export default function PreviewCall() {
     const [mirrorForPaste] = useState(mirror);
     const [currentUIDpreview] = useState(currentUID);
 
+    const [errorMsg, setErrorMsg] = useState('')
+
     //Brings Files thumbnail into preview. and when new files are submitted or existing ones are deleted using 'Add more'
     useEffect(() => {
         if (currentUID) {
@@ -32,13 +34,24 @@ export default function PreviewCall() {
                 .then(async (response) => {
                     console.log(response.data);
                     setData(response.data.data);
-
-                    setPaste('');
+                    if (response.data.data.length === 0) {
+                        if(checkSubmitted){
+                            setErrorMsg('All files deleted, Start over')
+                        }else{
+                            setErrorMsg('Oops! No file was uploaded, Start over')
+                        }
+                    }
+                    else {
+                        if (paste === '') {
+                            setPaste(`${mirrorForPaste[1]}/files/${currentUID}`);
+                        }
+                    }
                     //setCurrentUID(''); //Reset current UID to default
                     //setLoading(false);
                 })
                 .catch(error => {
                     console.error('Error fetching images:', error);
+                    setErrorMsg('Oops! No file was fetched, Start over...')
                     //setLoading(false);
                 });
         }
@@ -51,7 +64,7 @@ export default function PreviewCall() {
                     <Row>
                         <Col xs={12}>
                             <div className="create-top d-flex justify-content-between align-items-center mb-4 mb-lg-5">
-                                <h3 className='mb-0'>No data found</h3>
+                                <h3 className='mb-0'>{errorMsg}</h3>
                             </div>
                         </Col>
                     </Row>

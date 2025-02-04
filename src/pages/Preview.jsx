@@ -19,6 +19,7 @@ export default function Preview({data, mirrorForPaste, currentUIDpreview, rerend
     expiryDateIncrement, setExpiryDateIncrement,
     mirror, setMirror,
     paste, setPaste,
+    pasteDel,setPasteDel,
 } = useContext(GlobalContext);
   
 const location = useLocation();
@@ -51,6 +52,21 @@ const location = useLocation();
       console.error('Failed to copy: ', err);
     }
   }
+
+  const delFunc = () => {
+    var allFileUID = [];
+    data.forEach(obj => {
+      allFileUID.push(obj.file_uid)
+    });
+    confirmDeletion(allFileUID);
+  }
+  useEffect(() => {
+    if (location.pathname === '/preview') {
+      setPasteDel(() => delFunc);
+    }
+  },
+    [data]) //Updates function stored in context API
+  
 
 
 
