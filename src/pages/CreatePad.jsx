@@ -286,6 +286,11 @@ export default function CreatePad() {
 
   }, [uploadModal, fullScreenEdit])
 
+  useEffect(() => {
+    setPaste('');
+  }, [])
+  
+
   const toggleFullScreen = () => {
     setFullScreenEdit(!fullScreenEdit)
   };

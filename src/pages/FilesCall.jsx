@@ -3,6 +3,7 @@ import { useContext, useEffect, useState, useRef } from 'react';
 import { GlobalContext } from '../layouts/Context';
 import axios from 'axios';
 import Preview from "./Preview";
+import ItemsList from "./ItemsList";
 
 export default function FilesCall(props) {
     const {givenUID, singleFile, requiredPassword} = props;
@@ -50,6 +51,10 @@ export default function FilesCall(props) {
     }, []
     );
 
+    function isAllImagesOrVideos(data) {
+        return data.every(item => item.mime.startsWith("image/") || item.mime.startsWith("video/"));
+    }
+
     if (data.length === 0) {
         return (
             <div className='create py-3 py-md-4'>
@@ -66,11 +71,22 @@ export default function FilesCall(props) {
         )
     }
     else {
-        return (
-            <Preview data={data}
-                mirrorForPaste={mirrorForPaste}
-                currentUIDpreview={currentUIDpreview}
-                rerenderItems={rerenderItems} />
-        )
+        if(isAllImagesOrVideos(data))
+        {
+            return (
+                <Preview data={data}
+                    mirrorForPaste={mirrorForPaste}
+                    currentUIDpreview={currentUIDpreview}
+                    rerenderItems={rerenderItems} />
+            )
+        }
+        else{
+            return (
+                <ItemsList data={data}
+                    mirrorForPaste={mirrorForPaste}
+                    currentUIDpreview={currentUIDpreview}
+                    rerenderItems={rerenderItems} />
+            )
+        }
     }
 }

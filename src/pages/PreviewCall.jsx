@@ -3,6 +3,7 @@ import { useContext, useEffect, useState, useRef } from 'react';
 import { GlobalContext } from '../layouts/Context';
 import axios from 'axios';
 import Preview from "./Preview";
+import ItemsList from "./ItemsList";
 
 export default function PreviewCall() {
 
@@ -57,6 +58,10 @@ export default function PreviewCall() {
         }
     }, [checkSubmitted]);
 
+    function isAllImagesOrVideos(data) {
+        return data.every(item => item.mime.startsWith("image/") || item.mime.startsWith("video/"));
+    }
+
     if (data.length === 0) {
         return (
             <div className='create py-3 py-md-4'>
@@ -73,11 +78,23 @@ export default function PreviewCall() {
         )
     }
     else {
-        return (
-            <Preview data={data}
-                mirrorForPaste={mirrorForPaste}
-                currentUIDpreview={currentUIDpreview}
-                rerenderItems={rerenderItems} />
-        )
+        if(isAllImagesOrVideos(data))
+        {
+            return (
+                <Preview data={data}
+                    mirrorForPaste={mirrorForPaste}
+                    currentUIDpreview={currentUIDpreview}
+                    rerenderItems={rerenderItems} />
+            )
+        }
+        else{
+            return (
+                <ItemsList data={data}
+                    mirrorForPaste={mirrorForPaste}
+                    currentUIDpreview={currentUIDpreview}
+                    rerenderItems={rerenderItems} />
+            )
+        }
+       
     }
 }
