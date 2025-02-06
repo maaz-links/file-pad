@@ -15,6 +15,7 @@ export default function PreviewCall() {
         expiryDateIncrement, setExpiryDateIncrement,
         mirror, setMirror,
         paste, setPaste,
+        totalItemsinPre, setTotalItemsinPre
     } = useContext(GlobalContext);
 
     const [data, setData] = useState([]);
@@ -35,6 +36,7 @@ export default function PreviewCall() {
                 .then(async (response) => {
                     console.log(response.data);
                     setData(response.data.data);
+                    setTotalItemsinPre(response.data.data.length);
                     if (response.data.data.length === 0) {
                         if(checkSubmitted){
                             setErrorMsg('All files deleted, Start over')
@@ -68,8 +70,12 @@ export default function PreviewCall() {
                 <Container style={{ minHeight: "600px", }} fluid>
                     <Row>
                         <Col xs={12}>
-                            <div className="create-top d-flex justify-content-between align-items-center mb-4 mb-lg-5">
-                                <h3 className='mb-0'>{errorMsg}</h3>
+                            <div className="create-top list d-flex align-items-center gap-3">  {/*create-top makes text allcaps */}
+                                <div className="des" style={{ maxWidth: "none" }}>
+                                    <p className='text-858585'>
+                                        <h3 className='mb-0'>{errorMsg}</h3>
+                                    </p>
+                                </div>
                             </div>
                         </Col>
                     </Row>

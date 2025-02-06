@@ -33,16 +33,16 @@ export default function DeleteDialog({toDelete, setToDelete, rerenderItems}){
           const response = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/upload/attachsingle/delete/${uid}`);
           console.log('file deleted:', response);
           rerenderItems();
-          toast.info(`File Deleted: ${uid}`, {
-            position: "top-right",
-            autoClose: 10000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
+          // toast.info(`File Deleted: ${uid}`, {
+          //   position: "top-right",
+          //   autoClose: 10000,
+          //   hideProgressBar: false,
+          //   closeOnClick: false,
+          //   pauseOnHover: true,
+          //   draggable: true,
+          //   progress: undefined,
+          //   theme: "dark",
+          // });
         } catch (error) {
           console.error('Error deleting:', error);
         }

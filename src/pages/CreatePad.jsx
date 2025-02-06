@@ -288,6 +288,8 @@ export default function CreatePad() {
 
   useEffect(() => {
     setPaste('');
+    setPassword('');
+    setBurnAfterRead('0');
   }, [])
   
 
@@ -330,22 +332,22 @@ export default function CreatePad() {
         console.log('Response:', response.data);
         const textpaste = `${mirror[1]}/text/${response.data.uid}`;
         setPaste(textpaste)
-        try {
-          navigator.clipboard.writeText(textpaste);
-          toast.success(`Link copied to Clipboard: ${textpaste}`, {
-            position: "top-right",
-            autoClose: false,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
-          console.log('Content copied to clipboard');
-        } catch (err) {
-          console.error('Failed to copy: ', err);
-        }
+        // try {
+        //   navigator.clipboard.writeText(textpaste);
+        //   toast.success(`Link copied to Clipboard: ${textpaste}`, {
+        //     position: "top-right",
+        //     autoClose: false,
+        //     hideProgressBar: false,
+        //     closeOnClick: false,
+        //     pauseOnHover: true,
+        //     draggable: true,
+        //     progress: undefined,
+        //     theme: "dark",
+        //   });
+        //   console.log('Content copied to clipboard');
+        // } catch (err) {
+        //   console.error('Failed to copy: ', err);
+        // }
       })
       .catch((error) => {
         console.error('Error:', error);

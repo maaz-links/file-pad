@@ -63,38 +63,52 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
   }
   useEffect(() => {
     if (location.pathname === '/preview') {
-      //setPasteDel(() => delFunc);
+      setPasteDel(() => delFunc);
+
+      //Reset checkboxes
+      setSelectedItems([]);
+      setIsDelete(false);
+      setSelectAllItem(false);
     }
   },
     [data]) //Updates function stored in context API
 
-  const table = [
-    {
-      name: 'anononymos.pdf',
-      date: '02 Dec 2024',
-      size: '1 MB',
-    },
-    {
-      name: 'anononymos.pdf',
-      date: '02 Dec 2024',
-      size: '1 MB',
-    },
-    {
-      name: 'anononymos.pdf',
-      date: '02 Dec 2024',
-      size: '1 MB',
-    },
-    {
-      name: 'anononymos.pdf',
-      date: '02 Dec 2024',
-      size: '1 MB',
-    },
-  ]
+  // const table = [
+  //   {
+  //     name: 'anononymos.pdf',
+  //     date: '02 Dec 2024',
+  //     size: '1 MB',
+  //   },
+  //   {
+  //     name: 'anononymos.pdf',
+  //     date: '02 Dec 2024',
+  //     size: '1 MB',
+  //   },
+  //   {
+  //     name: 'anononymos.pdf',
+  //     date: '02 Dec 2024',
+  //     size: '1 MB',
+  //   },
+  //   {
+  //     name: 'anononymos.pdf',
+  //     date: '02 Dec 2024',
+  //     size: '1 MB',
+  //   },
+  // ]
   const [open, isOpen] = useState(false);
   const [open2, isOpen2] = useState(false);
+  const [previewSrc, setPreviewSrc] = useState('none');
+
+  function isVideoFile(filePath) {
+    // Define a regular expression for common video file extensions
+    const videoExtensions = /\.(mp4|mkv|avi|mov|wmv|flv|webm|mpeg)$/i;
+
+    // Test if the file path matches the video file extensions
+    return videoExtensions.test(filePath);
+  }
 
   const [isDelete, setIsDelete] = useState(false) //Delete button
-  const [selectAllItem, setSelectAllItem] = useState(false) //For Download button
+  const [selectAllItem, setSelectAllItem] = useState(false) //For Download All button
 
   const [selectedItems, setSelectedItems] = useState([]); //Stores indexes
   const [selectAll, setSelectAll] = useState(false); //Big checkbox
@@ -139,7 +153,18 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
               {!location.pathname.startsWith('/file/') && <>
               <div className="d-flex align-items-center gap-2">
                 {(location.pathname === '/preview') && (isDelete || selectAllItem) &&
-                  <button className='expires-btn' onClick={() => isOpen(!open)}>
+                  <button className='expires-btn' 
+                  //onClick={() => isOpen(!open)}
+                  onClick={
+                    () => {
+                      var allFileUID = [];
+                      selectedItems.forEach(i => {
+                        allFileUID.push(data[i].file_uid)
+                      });
+                      confirmDeletion(allFileUID);
+                    }
+                  }
+                  >
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M19.5 5.5L18.8803 15.5251C18.7219 18.0864 18.6428 19.3671 18.0008 20.2879C17.6833 20.7431 17.2747 21.1273 16.8007 21.416C15.8421 22 14.559 22 11.9927 22C9.42312 22 8.1383 22 7.17905 21.4149C6.7048 21.1257 6.296 20.7408 5.97868 20.2848C5.33688 19.3626 5.25945 18.0801 5.10461 15.5152L4.5 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                       <path d="M3 5.5H21M16.0557 5.5L15.3731 4.09173C14.9196 3.15626 14.6928 2.68852 14.3017 2.39681C14.215 2.3321 14.1231 2.27454 14.027 2.2247C13.5939 2 13.0741 2 12.0345 2C10.9688 2 10.436 2 9.99568 2.23412C9.8981 2.28601 9.80498 2.3459 9.71729 2.41317C9.32164 2.7167 9.10063 3.20155 8.65861 4.17126L8.05292 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
@@ -149,7 +174,14 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
                   </button>
                 }
                 {//selectAllItem &&
-                  <button className='expires-btn2 d-flex align-items-center gap-2'>
+                  <button onClick={
+                    (e) => {
+                      data.forEach(obj => {
+                        handleDownload(obj.id, obj.file_detail, e);
+                      });
+                    }
+                  }
+                  className='expires-btn2 d-flex align-items-center gap-2'>
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M10.0001 18.3334C14.6025 18.3334 18.3334 14.6024 18.3334 10C18.3334 5.39765 14.6025 1.66669 10.0001 1.66669C5.39771 1.66669 1.66675 5.39765 1.66675 10C1.66675 14.6024 5.39771 18.3334 10.0001 18.3334Z" stroke="currentColor" />
                       <path d="M10.0001 13.3334V6.66669M10.0001 13.3334C9.41658 13.3334 8.32636 11.6714 7.91675 11.25M10.0001 13.3334C10.5836 13.3334 11.6738 11.6714 12.0834 11.25" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
@@ -219,11 +251,11 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
                         </div>
                       </td>
                       <td ><p>{formatDateReadable(item.created_at)}</p></td>
-                      <td ><p>{formatBytes(item.size,0)}</p></td>
+                      <td ><p>{formatBytes(item.size, 0)}</p></td>
                       <td className='' >
                         <div className="d-flex align-items-center gap-1">
-                          <button className='d-flex align-items-center gap-2' 
-                          //onClick={() => isOpen2(!open2)}
+                          {(item.mime.startsWith("image/") || item.mime.startsWith("video/")) ? <button className='d-flex align-items-center gap-2'
+                            onClick={() => { isOpen2(!open2); setPreviewSrc(item.file_location) }}
 
                           >
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -232,7 +264,16 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
                             </svg>
                             <span>Preview</span>
                           </button>
-                          <button className='d-flex align-items-center gap-2'>
+                            :
+                            <button className='d-flex align-items-center gap-2'>
+                              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17.9534 9.20419C18.2067 9.55944 18.3334 9.7371 18.3334 10C18.3334 10.2629 18.2067 10.4406 17.9534 10.7959C16.815 12.3922 13.9077 15.8334 10.0001 15.8334C6.0924 15.8334 3.18516 12.3922 2.04678 10.7959C1.79342 10.4406 1.66675 10.2629 1.66675 10C1.66675 9.7371 1.79342 9.55944 2.04678 9.20419C3.18516 7.60789 6.0924 4.16669 10.0001 4.16669C13.9077 4.16669 16.815 7.60789 17.9534 9.20419Z" stroke="currentColor" strokeWidth="1.25" />
+                                <path d="M12.5 10C12.5 8.61925 11.3807 7.5 10 7.5C8.61925 7.5 7.5 8.61925 7.5 10C7.5 11.3807 8.61925 12.5 10 12.5C11.3807 12.5 12.5 11.3807 12.5 10Z" stroke="currentColor" strokeWidth="1.25" />
+                              </svg>
+                              <span>Preview</span>
+                            </button>
+                          }
+                          <button onClick={(e) => handleDownload(item.id, item.file_detail, e)} className='d-flex align-items-center gap-2'>
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M10.0001 18.3334C14.6025 18.3334 18.3334 14.6024 18.3334 10C18.3334 5.39765 14.6025 1.66669 10.0001 1.66669C5.39771 1.66669 1.66675 5.39765 1.66675 10C1.66675 14.6024 5.39771 18.3334 10.0001 18.3334Z" stroke="currentColor" />
                               <path d="M10.0001 13.3334V6.66669M10.0001 13.3334C9.41658 13.3334 8.32636 11.6714 7.91675 11.25M10.0001 13.3334C10.5836 13.3334 11.6738 11.6714 12.0834 11.25" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
@@ -255,7 +296,7 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
             </div>
           </Col>
           <Col xs={12}>
-            <div className="list d-flex align-items-center gap-3">
+            <div className="list d-flex align-items-center gap-3 my-3">
               <div className="num d-flex d-xl-block flex-column gap-5 gap-md-3">
                 <p className='text-858585'>1</p>
                 <p className='text-858585'>2</p>
@@ -268,7 +309,7 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
           </Col>
         </Row>
       </Container>
-      {open && (
+      {/* {open && (
         <div className="bg-shape">
           <div className="Modal">
             <div className="header d-flex align-items-center justify-content-between">
@@ -325,7 +366,51 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
             </div>
           </div>
         </div>
+      )} */}
+      {open2 && (
+        <div className="bg-shape">
+          <div className="Modal">
+            <div className="header d-flex align-items-center justify-content-between">
+              <div className="d-flex gap-12">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M4.43484 8.06909C6.44624 4.50997 7.45193 2.7304 8.832 2.27232C9.59117 2.02031 10.409 2.02031 11.1682 2.27232C12.5483 2.7304 13.5539 4.50997 15.5653 8.06909C17.5768 11.6282 18.5824 13.4078 18.2808 14.8578C18.1148 15.6555 17.7058 16.379 17.1126 16.9248C16.0343 17.9167 14.0229 17.9167 10.0001 17.9167C5.97729 17.9167 3.96589 17.9167 2.88755 16.9248C2.29432 16.379 1.88541 15.6555 1.71943 14.8578C1.41774 13.4078 2.42344 11.6282 4.43484 8.06909Z" stroke="#DDDFE7" strokeWidth="1.25" />
+                  <path d="M10.2017 14.1667V10.8333C10.2017 10.4405 10.2017 10.2441 10.0797 10.122C9.95766 10 9.76124 10 9.36841 10" stroke="#DDDFE7" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M9.99341 7.5H10.0009" stroke="#DDDFE7" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                <p className='mb-0'>Preview</p>
+              </div>
+              <button className='bg-transparent border-0 p-0 close' onClick={() => isOpen2(!open2)}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M15.8342 4.16669L4.16748 15.8334M4.16748 4.16669L15.8342 15.8334" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            </div>
+            <div className="d-flex justify-content-center align-items-center" style={{ height: '100%' }} >
+              {!isVideoFile(previewSrc) ? (
+                <div >
+                  <img src={previewSrc} className='top-0 start-0 w-100 h-100 object-fit-cover' alt="" />
+                </div>
+              ) : (
+                <iframe src={previewSrc}
+                  style={{
+                    width: '500px',
+                    height: '500px',
+                    // minWidth: '640',
+                    // minHeight: '480',
+                    // maxWidth: '100%',
+                    // maxHeight: '100%',
+                    //aspectRatio: '16/9'  // Optional: to maintain a video aspect ratio
+                  }}
+                  title="Iframe Example"></iframe>
+              )
+
+              }
+
+            </div>
+          </div>
+        </div>
       )}
+      {(location.pathname === '/preview') && <DeleteDialog toDelete={toDelete} setToDelete={setToDelete} rerenderItems={rerenderItems} />}
       <ToastContainer />
     </div>
   )

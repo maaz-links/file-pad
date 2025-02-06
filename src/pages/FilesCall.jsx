@@ -61,8 +61,12 @@ export default function FilesCall(props) {
                 <Container style={{ minHeight: "600px", }} fluid>
                     <Row>
                         <Col xs={12}>
-                            <div className="create-top d-flex justify-content-between align-items-center mb-4 mb-lg-5">
-                                <h3 className='mb-0'>No data found</h3>
+                            <div className="create-top list d-flex align-items-center gap-3">  {/*create-top makes text allcaps */}
+                                <div className="des" style={{ maxWidth: "none" }}>
+                                    <p className='text-858585'>
+                                        <h3 className='mb-0'>No Data Found</h3>
+                                    </p>
+                                </div>
                             </div>
                         </Col>
                     </Row>

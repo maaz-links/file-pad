@@ -83,12 +83,15 @@ export default function Top() {
                   <div className="form-box d-none d-md-block">
                     <input onChange={handlePasswordChange} type="password" placeholder='Password (Recommended)' className="form-control" />
                   </div>
+                  {paste !== '' &&
+                    <Paste className='ms-5 d-none d-xl-flex' /> //margin-left customized
+                  }
                 </div>
               }
 
-              {location.pathname === "/all-pad" &&
+              {/* {location.pathname === "/all-pad" &&
                 <Paste className='mx-auto d-none d-xl-flex' />
-              }
+              } */}
 
               {/* This component is used to select mirror */}
               <DropDownMirror className="ms-auto mirrors" />
