@@ -120,6 +120,7 @@ export default function CreatePad() {
     setOverallProgress(0);
     setTotalRemainingTime(0);
     setAvgSpeed(0);
+    setPaste('');
 
     //Below code created by frontend dev: Doesnt have much purpose for now
     const file = acceptedFiles[0];

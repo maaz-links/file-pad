@@ -37,6 +37,7 @@ const handleDownload = async (downloadid,file_detail,event) => {
 
   function checkIfThumbnailhasFile(path) {
     // Extract the last part of the path
+    if(!path){return false};
     const lastSegment = path.split('/').pop();
   
     // Check if the last segment contains a dot (.)
