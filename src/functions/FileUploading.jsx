@@ -81,8 +81,8 @@ export const sizeValidation = (files) => {
             try {
                 toast.error(`Error uploading ${files[i].name}: The file size cannot exceed more than ${formatBytes(MAX_SIZE,0)}`, {
                     position: "top-right",
-                    autoClose: false,
-                    hideProgressBar: false,
+                    autoClose: 5000,
+                    hideProgressBar: true,
                     closeOnClick: false,
                     pauseOnHover: true,
                     draggable: true,

@@ -6,6 +6,7 @@ import Expiry from '../components/Expiry';
 export default function Authentication({ dynamicValue, singleFile, setDataCall, requiredPassword, setRequiredPassword }) {
 
     const [passopen, setPassopen] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     //const [requiredPassword, setRequiredPassword] = useState('');
     const [verified, setVerified] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
@@ -71,6 +72,7 @@ export default function Authentication({ dynamicValue, singleFile, setDataCall, 
     
 
     const checkPassword = () => {
+        setIsSubmitting(true);
         console.log('verify', requiredPassword);
         const bringFiles = async () => {
             try {
@@ -91,6 +93,8 @@ export default function Authentication({ dynamicValue, singleFile, setDataCall, 
                 setErrorMsg("Incorrect Link or Bad Password")
                 console.error("Error fetching data:", err);
             }
+            setIsSubmitting(false);
+            setPassopen(false) 
         }
         bringFiles();
     }
@@ -172,13 +176,23 @@ export default function Authentication({ dynamicValue, singleFile, setDataCall, 
                         <div className="d-flex flex-column gap-2 gap-md-4 align-items-center wrap mb-md-3" >
                             <h3 className='text-uppercase mb-md-2 pb-md-1 mt-2 mt-md-4 pt-md-2'>Expires</h3>
                             <Expiry unix={expiry} />
+                            {!isSubmitting ? <>
                             <p className='mb-0 text-center fs-6'>This message is password protected.<br /> Enter Password</p>
                             <div className="form-box">
-                                <input type="password" onChange={handleRequiredPasswordChange} placeholder='Password' className="form-control" />
+                            <form onSubmit={() => { checkPassword();}}>
+                                <input type="password" onChange={handleRequiredPasswordChange} 
+                                placeholder='Password' className="form-control" 
+                                />
+                                </form>
                             </div>
                             <div className="d-flex justify-content-center">
-                                <button onClick={() => { checkPassword(); setPassopen(false) }} className='btn bg-green'>Yes, see it</button>
+                                <button onClick={() => { checkPassword();}} className='btn bg-green'>
+                                    Submit Password</button>
                             </div>
+                            </> :
+                            <>
+                            <h3 className='text-uppercase mb-md-2 pb-md-1 mt-2 mt-md-4 pt-md-2'>Please Wait...</h3>
+                            </>}
                         </div>
                     </div>
                 </div>
