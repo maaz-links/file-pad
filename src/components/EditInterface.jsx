@@ -1,5 +1,6 @@
 import React, {useState,useEffect} from "react";
 import axios from "axios";
+import { sizeValidation } from "../functions/FileUploading";
 
 export default function EditInterface(props) {
 
@@ -15,7 +16,7 @@ export default function EditInterface(props) {
       }
     }, [files])
     const handleFileChange = async (e) => {
-      const files = e.target.files;  // Get the selected files
+      const files = sizeValidation(e.target.files);  // Get the selected files
       console.log('myfileuid',fileUID);
       setFiles(files);
     };

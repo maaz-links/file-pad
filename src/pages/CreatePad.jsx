@@ -12,7 +12,8 @@ import { GlobalContext } from '../layouts/Context';
 import 
 {formatBytes, formatDate, calculateAverageSpeed, 
   calculateSpeedAndTime, calculateTotalRemainingTime,
-  calculateLoadedFiles, hhmmss } from '../functions/FileUploading';
+  calculateLoadedFiles, hhmmss, 
+  sizeValidation} from '../functions/FileUploading';
 
 export default function CreatePad() {
 
@@ -110,7 +111,12 @@ export default function CreatePad() {
   const [uploadModal, setUploadModal] = useState(false);
   const [fullScreenEdit, setFullScreenEdit] = useState(false);
 
-  const onDrop = (acceptedFiles) => {
+  const onDrop = (selectedFiles) => {
+    const acceptedFiles = sizeValidation(selectedFiles);
+    if (acceptedFiles.length < 1){
+      return;
+    }
+
     setUploadModal(true)
     setFiles(acceptedFiles); //insreting files in state
     console.log(acceptedFiles); //log
@@ -414,7 +420,7 @@ export default function CreatePad() {
             </Col>
           </Row>
         </Container>
-        <ToastContainer />
+        {/* <ToastContainer /> */}
       </div>
       {uploadModal &&
         <div className="doc-modal position-fixed top-0 left-0 w-100 vh-100 d-flex flex-column z-3"

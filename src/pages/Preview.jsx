@@ -138,7 +138,6 @@ const location = useLocation();
         </Row>
       </Container>
       {(location.pathname === '/preview') && <DeleteDialog toDelete={toDelete} setToDelete={setToDelete} rerenderItems={rerenderItems} />}
-      <ToastContainer />
     </div>
   )
 }

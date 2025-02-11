@@ -372,10 +372,9 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
           <div className="Modal">
             <div className="header d-flex align-items-center justify-content-between">
               <div className="d-flex gap-12">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <path d="M4.43484 8.06909C6.44624 4.50997 7.45193 2.7304 8.832 2.27232C9.59117 2.02031 10.409 2.02031 11.1682 2.27232C12.5483 2.7304 13.5539 4.50997 15.5653 8.06909C17.5768 11.6282 18.5824 13.4078 18.2808 14.8578C18.1148 15.6555 17.7058 16.379 17.1126 16.9248C16.0343 17.9167 14.0229 17.9167 10.0001 17.9167C5.97729 17.9167 3.96589 17.9167 2.88755 16.9248C2.29432 16.379 1.88541 15.6555 1.71943 14.8578C1.41774 13.4078 2.42344 11.6282 4.43484 8.06909Z" stroke="#DDDFE7" strokeWidth="1.25" />
-                  <path d="M10.2017 14.1667V10.8333C10.2017 10.4405 10.2017 10.2441 10.0797 10.122C9.95766 10 9.76124 10 9.36841 10" stroke="#DDDFE7" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M9.99341 7.5H10.0009" stroke="#DDDFE7" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M17.9534 9.20419C18.2067 9.55944 18.3334 9.7371 18.3334 10C18.3334 10.2629 18.2067 10.4406 17.9534 10.7959C16.815 12.3922 13.9077 15.8334 10.0001 15.8334C6.0924 15.8334 3.18516 12.3922 2.04678 10.7959C1.79342 10.4406 1.66675 10.2629 1.66675 10C1.66675 9.7371 1.79342 9.55944 2.04678 9.20419C3.18516 7.60789 6.0924 4.16669 10.0001 4.16669C13.9077 4.16669 16.815 7.60789 17.9534 9.20419Z" stroke="currentColor" strokeWidth="1.25" />
+                  <path d="M12.5 10C12.5 8.61925 11.3807 7.5 10 7.5C8.61925 7.5 7.5 8.61925 7.5 10C7.5 11.3807 8.61925 12.5 10 12.5C11.3807 12.5 12.5 11.3807 12.5 10Z" stroke="currentColor" strokeWidth="1.25" />
                 </svg>
                 <p className='mb-0'>Preview</p>
               </div>
@@ -391,17 +390,21 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
                   <img src={previewSrc} className='top-0 start-0 w-100 h-100 object-fit-cover' alt="" />
                 </div>
               ) : (
-                <iframe src={previewSrc}
-                  style={{
-                    width: '500px',
-                    height: '500px',
-                    // minWidth: '640',
-                    // minHeight: '480',
-                    // maxWidth: '100%',
-                    // maxHeight: '100%',
-                    //aspectRatio: '16/9'  // Optional: to maintain a video aspect ratio
-                  }}
-                  title="Iframe Example"></iframe>
+                  <video className='w-100 h-100 ' controls>
+                    <source src={previewSrc} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                  // <iframe src={previewSrc}
+                  // style={{
+                  //   width: '500px',
+                  //   height: '500px',
+                  //   // minWidth: '640',
+                  //   // minHeight: '480',
+                  //   // maxWidth: '100%',
+                  //   // maxHeight: '100%',
+                  //   //aspectRatio: '16/9'  // Optional: to maintain a video aspect ratio
+                  // }}
+                  // title="Iframe Example"></iframe>                
               )
 
               }
@@ -411,7 +414,6 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
         </div>
       )}
       {(location.pathname === '/preview') && <DeleteDialog toDelete={toDelete} setToDelete={setToDelete} rerenderItems={rerenderItems} />}
-      <ToastContainer />
     </div>
   )
 }

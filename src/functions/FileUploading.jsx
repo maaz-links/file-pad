@@ -1,6 +1,8 @@
 //Some functions are mostly used during axios onUploadProgress event to calculate data to display
 //Or they are used to convert data into particular format
 
+import { toast } from "react-toastify";
+
 //Get actual expirydate after increment in ISOstring, converted into unix in backend
 export function formatDate(min) {
     const futureDate = new Date();
@@ -67,3 +69,31 @@ export const formatBytes = (bytes, decimals = 2) => {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 };
 
+export const sizeValidation = (files) => {
+    const MAX_SIZE = parseInt(import.meta.env.VITE_API_UPLOAD_SIZE);  // 2MB in bytes
+    const validFiles = [];
+
+    for (let i = 0; i < files.length; i++) {
+        if (files[i].size <= MAX_SIZE) {
+            validFiles.push(files[i]);
+        }
+        else {
+            try {
+                toast.error(`Error uploading ${files[i].name}: The file size cannot exceed more than ${formatBytes(MAX_SIZE,0)}`, {
+                    position: "top-right",
+                    autoClose: false,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+                console.log('danger called');
+            } catch (err) {
+                console.error('wat happun', err);
+            }
+        }
+    }
+    return validFiles;
+}

@@ -68,7 +68,6 @@ export default function Paste({icon="", btnText="Delete Data", className="" }) {
                         </button>}
                 </>
             }
-            <ToastContainer />
         </div>
     )
 }
