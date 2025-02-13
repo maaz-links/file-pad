@@ -35,7 +35,14 @@ export default function DropDownExpiry({ className=""}) {
 
     return (
         <div ref={dropdownRef} className={`page-dropdown position-relative z-1 ${className}`}>
-            <button onClick={() => setModal(!modal)} className="w-100 d-flex align-items-center justify-content-between gap-2">
+            <button onClick={() => setModal(!modal)} 
+            style={{minWidth:'14em',maxWidth:'14em',
+                textOverflow: 'ellipsis',
+                overflow: 'hidden',
+                whiteSpace:'nowrap',
+            }} 
+            
+            className="w-100 d-flex align-items-center justify-content-between gap-2">
                 <span my-data={expiryDateIncrement[1]}>
                 {`Expires: ${expiryDateIncrement[0]}`}
                 </span>

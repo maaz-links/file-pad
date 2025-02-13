@@ -18,7 +18,7 @@ export default function Editor({onClick, textValue, setTextValue}) {
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],
       ['code-block', "blockquote"],
-      //['image', 'link'],
+      ['link'], //'image'
       [{ 'color': [] }],
       [{ 'list': 'bullet' }],
       [{ 'align': [] }],

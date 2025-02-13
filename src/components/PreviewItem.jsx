@@ -4,6 +4,7 @@ import { checkIfThumbnailhasFile } from '../functions/Common';
 import { IconFile } from './IconFile';
 import axios from 'axios';
 import EditInterface from './EditInterface';
+import { toast } from 'react-toastify';
 
 export default function PreviewItem(
     { data, copyToClipboard, setPaste, handleDownload, confirmDeletion, currentUID, rerenderItems, ...props }
@@ -165,8 +166,38 @@ function TitleForm({ item }) {
                 items: [{ id: item.id, title: currentInput }],
             });
             console.log('Updated items:', response.data.updatedItems);
+            try {
+                toast.info(`Title updated`, {
+                    position: "top-right",
+                    autoClose: 2500,
+                    hideProgressBar: true,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+                console.log('danger called');
+            } catch (err) {
+                console.error('wat happun', err);
+            }
         } catch (error) {
             console.error('Error updating titles:', error);
+            try {
+                toast.error(`Error updating title`, {
+                    position: "top-right",
+                    autoClose: 2500,
+                    hideProgressBar: true,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+                console.log('danger called');
+            } catch (err) {
+                console.error('wat happun', err);
+            }
         }
     }
 
