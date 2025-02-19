@@ -114,9 +114,10 @@ export default function EmailHandling() {
                                 <p className='text-ABB1AE' style={{ marginBottom: '0' }}>{`${paste}`}</p>
                             </div>
                         </div>
-                        <p className='mb-0 text-center fs-6'>Enter Recipient Name</p>
+                        <p className='mb-0 text-center fs-6'>Enter Recipient Email Address. <br/>
+                        You can enter multiple Recipient's Email Addresses seperated by comma.</p>
                         <div className="form-box">
-                            <input type="email" onChange={handleEmailChange} placeholder='e.g. abc@email.com' className="form-control" />
+                            <input type="email" onChange={handleEmailChange} placeholder='e.g. john@doe.com, file@pad.com ' className="form-control" />
                         </div>
                         <div className="d-flex justify-content-center">
                             <button onClick={callEmailAPI} className='btn bg-green'>Send Email</button>

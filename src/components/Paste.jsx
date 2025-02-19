@@ -1,20 +1,20 @@
 import React from 'react'
-import {ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import { GlobalContext } from '../layouts/Context';
-import { useState,useEffect,useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-export default function Paste({icon="", btnText="Delete Data", className="" }) {
+export default function Paste({ icon = "", btnText = "Delete Data", className = "" }) {
 
-    const {  
+    const {
         mirrorslist, setMirrorslist,
-        expireslist,setExpireslist,
+        expireslist, setExpireslist,
         currentUID, setCurrentUID,
         burnAfterRead, setBurnAfterRead,
         expiryDateIncrement, setExpiryDateIncrement,
-        mirror,setMirror,
-        paste,setPaste,
-        pasteDel,setPasteDel,
+        mirror, setMirror,
+        paste, setPaste,
+        pasteDel, setPasteDel,
         totalItemsinPre, setTotalItemsinPre
     } = useContext(GlobalContext);
 
@@ -32,11 +32,11 @@ export default function Paste({icon="", btnText="Delete Data", className="" }) {
                 draggable: true,
                 progress: undefined,
                 theme: "dark",
-                });
+            });
             console.log('Content copied to clipboard');
-          } catch (err) {
+        } catch (err) {
             console.error('Failed to copy: ', err);
-          }
+        }
     }
     return (
         <div className={`copy d-flex justify-content-between ${className}`}>
@@ -62,6 +62,9 @@ export default function Paste({icon="", btnText="Delete Data", className="" }) {
                         :
                         <button className='p-0 border-0 bg-transparent text-ABB1AE d-flex align-items-center gap'>
                             <Link to="/">
+                            <svg width="35px" height="26px" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg"><path d="M25 38c-7.2 0-13-5.8-13-13 0-3.2 1.2-6.2 3.3-8.6l1.5 1.3C15 19.7 14 22.3 14 25c0 6.1 4.9 11 11 11 1.6 0 3.1-.3 4.6-1l.8 1.8c-1.7.8-3.5 1.2-5.4 1.2z" fill="white" stroke="none"/>
+                            <path d="M34.7 33.7l-1.5-1.3c1.8-2 2.8-4.6 2.8-7.3 0-6.1-4.9-11-11-11-1.6 0-3.1.3-4.6 1l-.8-1.8c1.7-.8 3.5-1.2 5.4-1.2 7.2 0 13 5.8 13 13 0 3.1-1.2 6.2-3.3 8.6z" fill="white" stroke="none"/><path d="M18 24h-2v-6h-6v-2h8z" fill="white" stroke="none"/>
+                            <path d="M40 34h-8v-8h2v6h6z" fill="white" stroke="none"/></svg>
                                 {icon}
                                 Start Over
                             </Link>

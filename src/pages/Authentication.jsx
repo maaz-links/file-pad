@@ -43,20 +43,20 @@ export default function Authentication({ dynamicValue, singleFile, setDataCall, 
                 }
                 else if (askPassword == 'false') {
                     setVerified(true);
-                    setErrorMsg("Good");
+                    //setErrorMsg("Good");
                 }
                 else {
-                    setErrorMsg("This Link Either doesn't exist, expired or burned");
+                    setErrorMsg("This Link Either doesn't exist, expired, burned or deleted.");
                 }
                 const burnWarning = response.data.burn_after_read;
                 if (burnWarning){
                     setBurnopen(true);
                 }
                 else{
-                    setErrorMsg('Data time');
+                    //setErrorMsg('Data time');
                 }
             } catch (err) {
-                setErrorMsg("Incorrect Link or Password")
+                setErrorMsg("This Link Either doesn't exist, expired, burned or deleted.")
                 console.error("Error fetching data:", err);
             }
         }
@@ -66,7 +66,7 @@ export default function Authentication({ dynamicValue, singleFile, setDataCall, 
     useEffect(() => {
         if(verified && !toBurn){
             setDataCall(true);
-            setErrorMsg('Data time')
+            //setErrorMsg('Data time')
         }
     }, [verified])
     
@@ -83,14 +83,14 @@ export default function Authentication({ dynamicValue, singleFile, setDataCall, 
                 console.log(response.data.message);
                 if (response.data.message == "OK") {
                     setVerified(true);
-                    setErrorMsg("Good");
+                    //setErrorMsg("Good");
                 }
                 else {
                     setErrorMsg("Bad Password");
                 }
 
             } catch (err) {
-                setErrorMsg("Incorrect Link or Bad Password")
+                setErrorMsg("Bad Password")
                 console.error("Error fetching data:", err);
             }
             setIsSubmitting(false);
@@ -142,7 +142,9 @@ export default function Authentication({ dynamicValue, singleFile, setDataCall, 
                                 <Expiry unix={expiry} />
                                 <p className='mb-0 text-center fs-6'>This secret message can only be displayed once. Would you like to see it now?</p>
                                 <div className="d-flex justify-content-center">
-                                    <button onClick={() => {setDataCall(true);setErrorMsg('Data time'); setBurnopen(false) }} className='btn bg-green'>Yes, see it</button>
+                                    <button onClick={() => {setDataCall(true);
+                                            //setErrorMsg('Data time'); 
+                                            setBurnopen(false) }} className='btn bg-green'>Yes, see it</button>
                                 </div>
                             </div>
                         </div>
