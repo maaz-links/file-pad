@@ -12,8 +12,9 @@ import { GlobalContext } from '../layouts/Context';
 import 
 {formatBytes, formatDate, calculateAverageSpeed, 
   calculateSpeedAndTime, calculateTotalRemainingTime,
-  calculateLoadedFiles, hhmmss, 
-  sizeValidation} from '../functions/FileUploading';
+  calculateLoadedFiles, hhmmss,} from '../functions/FileUploading';
+
+import { sizeValidation } from '../functions/GlobalCheck';
 
 export default function CreatePad() {
 
@@ -28,12 +29,15 @@ export default function CreatePad() {
     mirror,setMirror,
     paste,setPaste,
     password,setPassword,
+    onefilemax,multifilemax,setPopupMsg
+    
 } = useContext(GlobalContext);
 
   const [isSubmitting, setIsSubmitting] = useState(false); //For upload button, unused
   const [textSubmitting, setTextSubmitting] = useState(false);
   const [responseMessage, setResponseMessage] = useState(''); //For message, only for testing
   const [files, setFiles] = useState([]); //files to upload
+  const [badFiles,setBadFiles] = useState([]);
 
   const [progress, setProgress] = useState({}); //progress of each file
   const [overallProgress, setOverallProgress] = useState(0); //average progress of all files
@@ -112,14 +116,24 @@ export default function CreatePad() {
   const [fullScreenEdit, setFullScreenEdit] = useState(false);
 
   const onDrop = (selectedFiles) => {
-    const acceptedFiles = sizeValidation(selectedFiles);
+
+    const [acceptedFiles,unacceptedFiles] = sizeValidation(selectedFiles,onefilemax);
+    console.log([acceptedFiles,unacceptedFiles])
     if (acceptedFiles.length < 1){
+      setPopupMsg(`Selected file(s) exceed the maximum allowed size of ${formatBytes(onefilemax)} each.`);
       return;
     }
-
+    const totalSize = acceptedFiles.reduce((sum, file) => sum + file.size, 0);
+    if (totalSize > multifilemax){
+      setPopupMsg(`The total upload size exceeds the maximum limit of ${formatBytes(multifilemax)}.`);
+      return;
+    }
+    //console.log(acceptedFiles);
     setUploadModal(true)
     setFiles(acceptedFiles); //insreting files in state
-    console.log(acceptedFiles); //log
+    setBadFiles(unacceptedFiles);
+
+    //console.log(acceptedFiles); //log
     setIsDragOver(false)
     //setFiles([...e.target.files]);
     console.log(acceptedFiles.length); //log
@@ -493,6 +507,41 @@ export default function CreatePad() {
                 </div>
                 {/* Bytes loaded/Total Bytes * 100 */}
                 <ProgressBar now={(progress[file.name]?.loaded / progress[file.name]?.total) * 100 || 0} />
+              </div>
+            ))}
+
+            {badFiles.map((file, index) => (
+              <div key={file.name} className="doc-modal-body">
+                <div className="doc-modal-uploading d-flex gap-3 flex-wrap align-items-center justify-content-between">
+                  <div className="left d-flex align-items-center gap-2" >
+                    <div className="icon" >
+                      {/* <img src={song_icon}  alt="" /> */}
+                      <img src={IconFile(file.name)} alt="" />
+                    </div>
+                    <div className="ps-1">
+                      <h6 className='mb-0 lh-base text-uppercase'
+                        style={{                   // Ensure file name is contained if its large
+                          maxWidth: '400px',
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis' // (...)
+                        }}>{file.name}</h6>
+                      <p className='text-uppercase lh-base'>{formatBytes(file.size,0)}</p>
+                    </div>
+                  </div>
+                  <div className="right align-items-center gap-2">
+                    <div className="d-flex align-items-center gap-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M4.43484 8.06909C6.44624 4.50997 7.45193 2.7304 8.832 2.27232C9.59117 2.02031 10.409 2.02031 11.1682 2.27232C12.5483 2.7304 13.5539 4.50997 15.5653 8.06909C17.5768 11.6282 18.5824 13.4078 18.2808 14.8578C18.1148 15.6555 17.7058 16.379 17.1126 16.9248C16.0343 17.9167 14.0229 17.9167 10.0001 17.9167C5.97729 17.9167 3.96589 17.9167 2.88755 16.9248C2.29432 16.379 1.88541 15.6555 1.71943 14.8578C1.41774 13.4078 2.42344 11.6282 4.43484 8.06909Z" stroke="#DDDFE7" strokeWidth="1.25" />
+                        <path d="M10.2017 14.1667V10.8333C10.2017 10.4405 10.2017 10.2441 10.0797 10.122C9.95766 10 9.76124 10 9.36841 10" stroke="#DDDFE7" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M9.99341 7.5H10.0009" stroke="#DDDFE7" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      <h6 className="mb-0 pl-1">Error uploading file. File size cannot exceed {formatBytes(onefilemax)}</h6>
+                    </div>
+                  </div>
+                </div>
+                {/* Bytes loaded/Total Bytes * 100 */}
+                <ProgressBar variant="danger" now={100} />
               </div>
             ))}
           </div>

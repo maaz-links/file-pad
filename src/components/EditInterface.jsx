@@ -1,12 +1,15 @@
-import React, {useState,useEffect} from "react";
+import React, {useState,useEffect, useContext} from "react";
 import axios from "axios";
 import { sizeValidation } from "../functions/FileUploading";
+import { GlobalContext } from "../layouts/Context";
 
 export default function EditInterface(props) {
 
     const { currentUID, editRef, fileUID, rerenderItems
     //  , children 
     } = props;
+
+    const {onefilemax} = useContext(GlobalContext);
   
     const [files, setFiles] = useState([]);
   
@@ -16,7 +19,8 @@ export default function EditInterface(props) {
       }
     }, [files])
     const handleFileChange = async (e) => {
-      const files = sizeValidation(e.target.files);  // Get the selected files
+      console.log(onefilemax);
+      const files = sizeValidation([e.target.files[0]],onefilemax);  // Get the selected files
       console.log('myfileuid',fileUID);
       setFiles(files);
     };

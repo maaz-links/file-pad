@@ -20,10 +20,15 @@ const GlobalProvider = ({ children }) => {
   const [pasteDel, setPasteDel] = useState(()=>()=>{console.log('del')});
   const [totalItemsinPre, setTotalItemsinPre] = useState(0)
 
+  const [onefilemax, setOnefilemax] = useState('1048576');
+  const [multifilemax, setMultifilemax] = useState('2097152');
+
+  const [popupMsg, setPopupMsg] = useState('');
+
   useEffect(() => {
     const fetchMirrorsData = async () => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/upload/mirrorsexpiry`);
+            const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/miscdata`);
             console.log(response.data);
             const mirrorsData = response.data.mirror || []; // Assuming API returns a 'mirror' field
             // Transform the data to match the desired format (assuming the API provides 'title' and 'domain')
@@ -41,6 +46,9 @@ const GlobalProvider = ({ children }) => {
             console.log(transformedExpiry);
             setExpireslist(transformedExpiry);  
             setExpiryDateIncrement(transformedExpiry[0] || []); 
+
+            setOnefilemax(response.data.upload_onefilemax);
+            setMultifilemax(response.data.upload_multifilemax);
 
         } catch (error) {
             console.error('Error fetching mirrors data:', error);
@@ -61,7 +69,10 @@ const GlobalProvider = ({ children }) => {
         paste,setPaste,
         password,setPassword,
         pasteDel, setPasteDel,
-        totalItemsinPre, setTotalItemsinPre
+        totalItemsinPre, setTotalItemsinPre,
+        onefilemax, setOnefilemax,
+        multifilemax, setMultifilemax,
+        popupMsg, setPopupMsg,
     }}>
       {children}
     </GlobalContext.Provider>

@@ -69,8 +69,8 @@ export const formatBytes = (bytes, decimals = 2) => {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 };
 
-export const sizeValidation = (files) => {
-    const MAX_SIZE = parseInt(import.meta.env.VITE_API_UPLOAD_SIZE);  // 2MB in bytes
+export const sizeValidation = (files,size) => {
+    const MAX_SIZE = size
     const validFiles = [];
 
     for (let i = 0; i < files.length; i++) {
@@ -81,7 +81,7 @@ export const sizeValidation = (files) => {
             try {
                 toast.error(`Error uploading ${files[i].name}: The file size cannot exceed more than ${formatBytes(MAX_SIZE,0)}`, {
                     position: "top-right",
-                    autoClose: 5000,
+                    autoClose: 8000,
                     hideProgressBar: true,
                     closeOnClick: false,
                     pauseOnHover: true,
