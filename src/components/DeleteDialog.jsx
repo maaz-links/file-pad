@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react"
 import { toast } from "react-toastify";
 
-export default function DeleteDialog({toDelete, setToDelete, rerenderItems}){
+export default function DeleteDialog({currentUID, totalData, toDelete, setToDelete, rerenderItems}){
 
     const [open, setOpen] = useState(false)
     
@@ -22,10 +22,13 @@ export default function DeleteDialog({toDelete, setToDelete, rerenderItems}){
         event.preventDefault();
         const deleteUIDs = toDelete;
         resetToDelete();
-        deleteUIDs.forEach(file_uid => {
+        if(totalData == deleteUIDs.length){
+          handleDeleteAllFiles(currentUID);
+        }
+        else{deleteUIDs.forEach(file_uid => {
             console.log(file_uid);
             handleFileDeletebyUID(file_uid)
-        });
+        });}
     }
 
     const handleFileDeletebyUID = async (uid) => {
@@ -43,6 +46,16 @@ export default function DeleteDialog({toDelete, setToDelete, rerenderItems}){
           //   progress: undefined,
           //   theme: "dark",
           // });
+        } catch (error) {
+          console.error('Error deleting:', error);
+        }
+      };
+      
+      const handleDeleteAllFiles = async (uid) => {
+        try {
+          const response = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/upload/attachments/delete/${uid}`);
+          console.log('file deleted:', response);
+          rerenderItems();
         } catch (error) {
           console.error('Error deleting:', error);
         }

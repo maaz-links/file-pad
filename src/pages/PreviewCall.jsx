@@ -54,7 +54,13 @@ export default function PreviewCall() {
                 })
                 .catch(error => {
                     console.error('Error fetching images:', error);
-                    setErrorMsg('Oops! No file was fetched, Start over...')
+                    setData([]);
+                    setTotalItemsinPre(0);
+                    if(checkSubmitted){
+                        setErrorMsg('All filesss deleted, Start over')
+                    }else{
+                        setErrorMsg('Oops! No file was fetched, Start over')
+                    }
                     //setLoading(false);
                 });
         }

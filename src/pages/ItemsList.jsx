@@ -265,7 +265,7 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
                             <span>Preview</span>
                           </button>
                             :
-                            <button className='d-flex align-items-center gap-2'>
+                            <button className='d-flex align-items-center gap-2' style={{visibility: 'hidden'}}>
                               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M17.9534 9.20419C18.2067 9.55944 18.3334 9.7371 18.3334 10C18.3334 10.2629 18.2067 10.4406 17.9534 10.7959C16.815 12.3922 13.9077 15.8334 10.0001 15.8334C6.0924 15.8334 3.18516 12.3922 2.04678 10.7959C1.79342 10.4406 1.66675 10.2629 1.66675 10C1.66675 9.7371 1.79342 9.55944 2.04678 9.20419C3.18516 7.60789 6.0924 4.16669 10.0001 4.16669C13.9077 4.16669 16.815 7.60789 17.9534 9.20419Z" stroke="currentColor" strokeWidth="1.25" />
                                 <path d="M12.5 10C12.5 8.61925 11.3807 7.5 10 7.5C8.61925 7.5 7.5 8.61925 7.5 10C7.5 11.3807 8.61925 12.5 10 12.5C11.3807 12.5 12.5 11.3807 12.5 10Z" stroke="currentColor" strokeWidth="1.25" />
@@ -302,8 +302,8 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
                 <p className='text-858585'>2</p>
               </div>
               <div className="des">
-                <p className='text-858585'>Your files deserve the best protection, We ne andustry-standard incryption for all transfers and store your data across multiple secure locations.</p>
-                <p className='text-858585'>Rest eary knowing your content is safe and always available when you need</p>
+                <p className='text-858585'>Your files deserve the best protection, We havee industry-standard encryption for all transfers and store your data across multiple secure locations.</p>
+                <p className='text-858585'>Rest easy knowing your content is safe and always available when you need</p>
               </div>
             </div>
           </Col>
@@ -413,7 +413,7 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
           </div>
         </div>
       )}
-      {(location.pathname === '/preview') && <DeleteDialog toDelete={toDelete} setToDelete={setToDelete} rerenderItems={rerenderItems} />}
+      {(location.pathname === '/preview') && <DeleteDialog currentUID={currentUIDpreview} totalData={data.length} toDelete={toDelete} setToDelete={setToDelete} rerenderItems={rerenderItems} />}
     </div>
   )
 }
