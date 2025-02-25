@@ -1,6 +1,7 @@
 import { useState, useContext } from "react"
 import QRCode from "react-qr-code";
 import { GlobalContext } from "../layouts/Context";
+import Paste from "./Paste";
 
 
 export default function QRcode() {
@@ -41,18 +42,7 @@ export default function QRcode() {
                         </button>
                     </div>
                     <div className=" d-flex align-items-center justify-content-center" >
-
-                        <div className={`copy d-flex justify-content-between`}>
-                            <div className="d-flex align-items-center gap-2">
-                                <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="12.5" cy="12.5" r="12.5" fill="#17A34A" />
-                                    <path d="M8.854 13.5422L10.6769 15.3651L16.1457 9.63593" stroke="white" strokeWidth="1.17188" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                                <p className='text-ABB1AE' style={{marginBottom:'0'}}>{`${paste}`}</p>
-                            </div>
-                        </div>
-
-
+                        <Paste enableActions={false}/>
                     </div>
                     <div className="d-flex align-items-center justify-content-center" style={{padding: '16px' }} >
                         <div style={{ background: 'white', padding: '8px' }}>

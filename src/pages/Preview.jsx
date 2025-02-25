@@ -72,7 +72,7 @@ const location = useLocation();
 
   return (
     <div className='preview'>
-      <Container style={{ minHeight: "600px", }} fluid>
+      <Container fluid>
         <Row>
           <Col xs={12}>
             <div className="preview-inner w-full mx-auto d-flex flex-wrap flex-row-reverse">

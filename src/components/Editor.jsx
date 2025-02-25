@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-export default function Editor({onClick, textValue, setTextValue}) {
+export default function Editor({onClick, textValue, setTextValue, setIsTextEmpty}) {
   //const [value, setValue] = useState('');
   const quillRef = useRef(null);
   const editorRef = useRef(null);
@@ -11,7 +11,14 @@ export default function Editor({onClick, textValue, setTextValue}) {
   const handleTextChange = (value) => { //This is value attrib from quill, not state
     //console.log(e.target.value)
     setTextValue(value);
-    console.log("VALUE FROM TEXT EDITOR",value);
+    const textlength = quillRef.current.getEditor().getLength();
+    if(textlength > 1){
+      setIsTextEmpty(false);
+      console.log("VALUE FROM TEXT EDITOR",textlength);
+    }
+    else{
+      setIsTextEmpty(true);
+    }
   }
 
   const modules = {

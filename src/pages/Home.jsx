@@ -62,7 +62,7 @@ export default function Home({ dynamicValue, singleFile }) {
   }
   return (
     <div className='create py-3 py-md-4'>
-      <Container style={{ minHeight: "600px", }} fluid>
+      <Container fluid>
         <Row>
           <Col xs={12}>
             <div className="create-top d-flex justify-content-between align-items-center mb-4 mb-lg-5">

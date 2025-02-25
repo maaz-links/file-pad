@@ -295,18 +295,6 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
               </table>
             </div>
           </Col>
-          <Col xs={12}>
-            <div className="list d-flex align-items-center gap-3 my-3">
-              <div className="num d-flex d-xl-block flex-column gap-5 gap-md-3">
-                <p className='text-858585'>1</p>
-                <p className='text-858585'>2</p>
-              </div>
-              <div className="des">
-                <p className='text-858585'>Your files deserve the best protection, We havee industry-standard encryption for all transfers and store your data across multiple secure locations.</p>
-                <p className='text-858585'>Rest easy knowing your content is safe and always available when you need</p>
-              </div>
-            </div>
-          </Col>
         </Row>
       </Container>
       {/* {open && (

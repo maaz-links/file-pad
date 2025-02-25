@@ -52,8 +52,8 @@ export default function TextCall(props) {
             {/* {(data.length !== 0) && <div className="overflow-auto" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data[0].content) }} />} */}
             {(data.length !== 0) &&
               <>
-                <div className="create-top d-flex justify-content-between align-items-center mb-4 mb-lg-5">
-                  <h3 className='mb-0'>expiry will be</h3><Expiry unix={data[0].expiry_date} />
+                <div className="create-top d-flex gap-2 gap-md-4 align-items-center mb-4 mb-lg-5">
+                  <h3 className='mb-0'>expires</h3><Expiry unix={data[0].expiry_date} />
                 </div>
                 <div className="list d-flex align-items-center gap-3">
                   <div className="des" style={{ maxWidth: "none" }}>

@@ -27,6 +27,7 @@ export default function Expiry({unix=0}) {
     };
 
     const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+    const emptyTime = {hours: '00',minutes:'00',seconds:'00'};
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -38,7 +39,14 @@ export default function Expiry({unix=0}) {
     return (
         <div className="expiry d-flex align-items-center gap-1 gap-md-2">
             {!Object.keys(timeLeft).length ?
-                <p className='fw-bold fs-6 text-uppercase'>Time expired</p>
+                // <p className='fw-bold fs-6 text-uppercase'>Time expired</p>
+                Object.keys(emptyTime).map((interval, index) => (
+                    <div key={index} className="expiry-time d-flex align-items-center justify-content-center">
+                        {emptyTime[interval]?.toString().split("").map((item, i) => (
+                            <span key={i}>{item === "0" ? "0" : item}</span>
+                        ))}
+                    </div>
+                ))
                 :
                 Object.keys(timeLeft).map((interval, index) => (
                     <div key={index} className="expiry-time d-flex align-items-center justify-content-center">

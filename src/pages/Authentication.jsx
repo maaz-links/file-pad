@@ -100,7 +100,7 @@ export default function Authentication({ dynamicValue, singleFile, setDataCall, 
     }
 
     const backdrop = <>
-        <Container style={{ minHeight: "600px", }} fluid>
+        <Container fluid>
             <Row>
                 <Col xs={12}>
                     {(errorMsg !== '') && 

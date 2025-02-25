@@ -58,7 +58,7 @@ export default function FilesCall(props) {
     if (data.length === 0) {
         return (
             <div className='create py-3 py-md-4'>
-                <Container style={{ minHeight: "600px", }} fluid>
+                <Container fluid>
                     <Row>
                         <Col xs={12}>
                             <div className="create-top list d-flex align-items-center gap-3">  {/*create-top makes text allcaps */}

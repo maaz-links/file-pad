@@ -136,9 +136,9 @@
         height: var(--width);
     }
     &>button {
-        margin-left: 140px;
+        margin-left: 40px; //140px
         @include xl {
-            margin-left: 60px;
+            margin-left: 40px; //60px
         }
         @include sm {
             margin-left: 20px;
