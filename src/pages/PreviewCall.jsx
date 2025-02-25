@@ -4,6 +4,8 @@ import { GlobalContext } from '../layouts/Context';
 import axios from 'axios';
 import Preview from "./Preview";
 import ItemsList from "./ItemsList";
+import TextView from "./TextView";
+import { toast } from "react-toastify";
 
 export default function PreviewCall() {
 
@@ -32,39 +34,61 @@ export default function PreviewCall() {
     //Brings Files thumbnail into preview. and when new files are submitted or existing ones are deleted using 'Add more'
     useEffect(() => {
         if (currentUID) {
-            axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/upload/attachments/preview/${currentUID}`)
+            axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/upload/preview/${currentUID}`)
                 .then(async (response) => {
                     console.log(response.data);
                     setData(response.data.data);
                     setTotalItemsinPre(response.data.data.length);
                     if (response.data.data.length === 0) {
                         if(checkSubmitted){
-                            setErrorMsg('All files deleted, Start over')
+                            setErrorMsg('All contents deleted, Start over')
                         }else{
-                            setErrorMsg('Oops! No file was uploaded, Start over')
+                            setErrorMsg('Oops! No content was uploaded, Start over')
                         }
                     }
                     else {
                         if (paste === '') {
-                            setPaste(`${mirrorForPaste[1]}/files/${currentUID}`);
+                            //setPaste(`${mirrorForPaste[1]}/files/${currentUID}`);
+                            setPaste(`${mirrorForPaste[1]}/${currentUID}`)
+                            copyToClipboard(`${mirrorForPaste[1]}/${currentUID}`)
                         }
                     }
                     //setCurrentUID(''); //Reset current UID to default
                     //setLoading(false);
                 })
                 .catch(error => {
-                    console.error('Error fetching images:', error);
+                    console.error('Error fetching content:', error);
                     setData([]);
                     setTotalItemsinPre(0);
                     if(checkSubmitted){
-                        setErrorMsg('All filesss deleted, Start over')
+                        setErrorMsg('All contents deleted, Start over')
                     }else{
-                        setErrorMsg('Oops! No file was fetched, Start over')
+                        setErrorMsg('Oops! No content was fetched, Start over')
                     }
                     //setLoading(false);
                 });
         }
     }, [checkSubmitted]);
+
+    const copyToClipboard = async (giventext) => {
+
+        try {
+          await navigator.clipboard.writeText(giventext);
+          toast.success(`Link copied to Clipboard`, {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: true,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+          console.log('Content copied to clipboard');
+        } catch (err) {
+          console.error('Failed to copy: ', err);
+        }
+      }
 
     function isAllImagesOrVideos(data) {
         return data.every(item => item.mime.startsWith("image/") || item.mime.startsWith("video/"));
@@ -87,6 +111,13 @@ export default function PreviewCall() {
                     </Row>
                 </Container>
             </div>
+        )
+    }
+    else if(data[0].content){
+        return (
+            <TextView data={data}
+                    currentUIDpreview={currentUIDpreview}
+                    rerenderItems={rerenderItems} />
         )
     }
     else {

@@ -15,6 +15,7 @@ import MultipleEntity from './pages/MultipleEntity'
 import SingleEntity from './pages/SingleEntity'
 import TextEntity from './pages/TextEntity'
 import PreviewCall from './pages/PreviewCall'
+import Entity from './pages/Entity'
 
 const router = createBrowserRouter([
   {
@@ -26,34 +27,38 @@ const router = createBrowserRouter([
         path: '/',
         element: <CreatePad />
       },
-      {
-        path: '/create-pad',
-        element: <CreatePad />
-      },
+      // {
+      //   path: '/create-pad',
+      //   element: <CreatePad />
+      // },
       // {
       //   path: '/home',
       //   element: <Home />
       // },
-      {
-        path: '/all-pad',
-        element: <AllPad />
-      },
+      // {
+      //   path: '/all-pad',
+      //   element: <AllPad />
+      // },
       {
         path: '/preview',
         element: <PreviewCall />
       },
       {
-        path: "/files/:dynamicValue", // Dynamic route to handle paths like `/files/asdf`
-        element: <MultipleEntity />,
+        path: "/:dynamicValue",
+        element: <Entity />
       },
-      {
-        path: "/file/:dynamicValue",
-        element: <SingleEntity />,
-      },
-      {
-        path: "/text/:dynamicValue",
-        element: <TextEntity />,
-      },
+      // {
+      //   path: "/files/:dynamicValue", // Dynamic route to handle paths like `/files/asdf`
+      //   element: <MultipleEntity />,
+      // },
+      // {
+      //   path: "/file/:dynamicValue",
+      //   element: <SingleEntity />,
+      // },
+      // {
+      //   path: "/text/:dynamicValue",
+      //   element: <TextEntity />,
+      // },
     ]
   }
 ])

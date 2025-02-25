@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Col, Container, Row } from 'react-bootstrap'
 import Expiry from '../components/Expiry';
 
-export default function Authentication({ dynamicValue, singleFile, setDataCall, requiredPassword, setRequiredPassword }) {
+export default function Authentication({ dynamicValue, singleFile, setDataCall, requiredPassword, setRequiredPassword, setDataType }) {
 
     const [passopen, setPassopen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -35,6 +35,7 @@ export default function Authentication({ dynamicValue, singleFile, setDataCall, 
                 setVerifyUID(response.data.settinguid);
                 setExpiry(response.data.expiry);
                 setToBurn(response.data.burn_after_read);
+                setDataType(response.data.type);
 
                 console.log(response.data.message);
                 const askPassword = response.data.message;

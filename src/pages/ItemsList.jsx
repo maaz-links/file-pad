@@ -189,7 +189,7 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
                     <span>Download  All</span>
                   </button>
                 }
-                {<button className='expires-btn2 d-flex align-items-center gap-2'
+                {/* {<button className='expires-btn2 d-flex align-items-center gap-2'
                 onClick={() => { setPaste(`${data[0].ip}/files/${currentUIDpreview}`) }}
                 >
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -197,7 +197,7 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
                     <path d="M9.14184 15.1167L8.547 15.7357C7.3543 16.977 5.42051 16.977 4.2278 15.7357C3.03507 14.4943 3.03507 12.4818 4.2278 11.2405L6.92731 8.431C8.12003 7.18967 10.0538 7.18966 11.2465 8.431C11.4086 8.59958 11.5486 8.7825 11.6666 8.97566" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" />
                   </svg>
                   <span>Get Sharelink</span>
-                </button>}
+                </button>} */}
               </div>
               </>}
             </div>
@@ -280,13 +280,13 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
                             </svg>
                             <span>Download</span>
                           </button>
-                          <button onClick={() => setPaste(`${item.ip}/file/${item.file_uid}`)} className='d-flex align-items-center gap-2 w-100'>
+                          {/* <button onClick={() => setPaste(`${item.ip}/file/${item.file_uid}`)} className='d-flex align-items-center gap-2 w-100'>
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M8.33325 11.0241C8.45125 11.2174 8.59134 11.4003 8.75342 11.569C9.75967 12.6162 11.2934 12.78 12.4646 12.0601C12.6816 11.9267 12.8861 11.7631 13.0726 11.569L15.7721 8.75948C16.9648 7.51818 16.9648 5.50561 15.7721 4.2643C14.5793 3.02298 12.6456 3.02299 11.4528 4.2643L10.8583 4.88313" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" />
                               <path d="M9.14184 15.1167L8.547 15.7357C7.3543 16.977 5.42051 16.977 4.2278 15.7357C3.03507 14.4943 3.03507 12.4818 4.2278 11.2405L6.92731 8.431C8.12003 7.18967 10.0538 7.18966 11.2465 8.431C11.4086 8.59958 11.5486 8.7825 11.6666 8.97566" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" />
                             </svg>
                             <span >Link</span>
-                          </button>
+                          </button> */}
                         </div>
                       </td>
                     </tr>
@@ -297,64 +297,6 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
           </Col>
         </Row>
       </Container>
-      {/* {open && (
-        <div className="bg-shape">
-          <div className="Modal">
-            <div className="header d-flex align-items-center justify-content-between">
-              <div className="d-flex gap-12">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <path d="M4.43484 8.06909C6.44624 4.50997 7.45193 2.7304 8.832 2.27232C9.59117 2.02031 10.409 2.02031 11.1682 2.27232C12.5483 2.7304 13.5539 4.50997 15.5653 8.06909C17.5768 11.6282 18.5824 13.4078 18.2808 14.8578C18.1148 15.6555 17.7058 16.379 17.1126 16.9248C16.0343 17.9167 14.0229 17.9167 10.0001 17.9167C5.97729 17.9167 3.96589 17.9167 2.88755 16.9248C2.29432 16.379 1.88541 15.6555 1.71943 14.8578C1.41774 13.4078 2.42344 11.6282 4.43484 8.06909Z" stroke="#DDDFE7" strokeWidth="1.25" />
-                  <path d="M10.2017 14.1667V10.8333C10.2017 10.4405 10.2017 10.2441 10.0797 10.122C9.95766 10 9.76124 10 9.36841 10" stroke="#DDDFE7" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M9.99341 7.5H10.0009" stroke="#DDDFE7" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                <p className='mb-0 '>Confirm Deletation</p>
-              </div>
-              <button className='bg-transparent border-0 p-0 close' onClick={() => isOpen(!open)}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <path d="M15.8342 4.16669L4.16748 15.8334M4.16748 4.16669L15.8342 15.8334" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-            </div>
-            <p className='fs-6'>You are about to delete 1 content items. Are you sure you want to proceed?</p>
-            <div className="d-flex justify-content-end align-items-center gap-2">
-              <button onClick={() => isOpen(!open)}>Cancel</button>
-              <button className='bg-red'>Confirm Deletation</button>
-            </div>
-          </div>
-        </div>
-      )}
-      {open2 && (
-        <div className="bg-shape">
-          <div className="Modal">
-            <div className="header d-flex align-items-center justify-content-between">
-              <div className="d-flex gap-12">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <path d="M4.43484 8.06909C6.44624 4.50997 7.45193 2.7304 8.832 2.27232C9.59117 2.02031 10.409 2.02031 11.1682 2.27232C12.5483 2.7304 13.5539 4.50997 15.5653 8.06909C17.5768 11.6282 18.5824 13.4078 18.2808 14.8578C18.1148 15.6555 17.7058 16.379 17.1126 16.9248C16.0343 17.9167 14.0229 17.9167 10.0001 17.9167C5.97729 17.9167 3.96589 17.9167 2.88755 16.9248C2.29432 16.379 1.88541 15.6555 1.71943 14.8578C1.41774 13.4078 2.42344 11.6282 4.43484 8.06909Z" stroke="#DDDFE7" strokeWidth="1.25" />
-                  <path d="M10.2017 14.1667V10.8333C10.2017 10.4405 10.2017 10.2441 10.0797 10.122C9.95766 10 9.76124 10 9.36841 10" stroke="#DDDFE7" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M9.99341 7.5H10.0009" stroke="#DDDFE7" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                <p className='mb-0'>Secret message</p>
-              </div>
-              <button className='bg-transparent border-0 p-0 close' onClick={() => isOpen2(!open2)}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <path d="M15.8342 4.16669L4.16748 15.8334M4.16748 4.16669L15.8342 15.8334" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-            </div>
-            <div className="d-flex flex-column gap-2 gap-md-4 align-items-center wrap mb-md-3" >
-              <h3 className='text-uppercase mb-md-2 pb-md-1 mt-2 mt-md-4 pt-md-2'>expirES</h3>
-              <Expiry />
-              <p className='mb-0 text-center fs-6'>This secret message can only be displayed once. Would you like to see it now?</p>
-              <div className="form-box">
-                <input type="password" placeholder='Password' className="form-control" />
-              </div>
-              <div className="d-flex justify-content-center">
-                <button className='bg-green'>Yes, see it</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )} */}
       {open2 && (
         <div className="bg-shape">
           <div className="Modal">

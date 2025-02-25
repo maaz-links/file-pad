@@ -65,6 +65,10 @@ export default function CreatePad() {
       setPopupMsg(`The total upload size exceeds the maximum limit of ${formatBytes(multifilemax)}.`);
       return;
     }
+    if (!isValidPassword(password)){
+      setPopupMsg(`Password field must not contain blank spaces.`);
+      return;
+    }
     //console.log(acceptedFiles);
     setUploadModal(true)
     setFiles(acceptedFiles); //insreting files in state
@@ -109,6 +113,10 @@ export default function CreatePad() {
     onDragLeave,
   });
 
+  const isValidPassword = (password) => {
+    return !/\s/.test(password); // Returns false if spaces are found
+  };
+  
  
   const handleSubmit = async () => {
     //event.preventDefault();
@@ -277,6 +285,10 @@ export default function CreatePad() {
       return;
     }
   
+    if (!isValidPassword(password)){
+      setPopupMsg(`Password field must not contain blank spaces.`);
+      return;
+    }
     setTextSubmitting(true);
     const formData = new FormData();
     formData.append('textupload', textValue);
@@ -294,8 +306,10 @@ export default function CreatePad() {
       })
       .then((response) => {
         console.log('Response:', response.data);
-        const textpaste = `${mirror[1]}/text/${response.data.uid}`;
-        setPaste(textpaste)
+        //const textpaste = `${mirror[1]}/text/${response.data.uid}`;
+        //setPaste(textpaste)
+        setCurrentUID(response.data.uid);
+        Navigate('/preview');
         // try {
         //   navigator.clipboard.writeText(textpaste);
         //   toast.success(`Link copied to Clipboard: ${textpaste}`, {

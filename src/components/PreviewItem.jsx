@@ -60,12 +60,12 @@ export default function PreviewItem(
                 <div className="position-relative z-1">
                     <div ref={(el) => (dropdownRefs.current[index] = el)} className="preview-item-actions position-absolute top-0 end-0 z-2">
                         <div className='d-flex align-items-center gap-2'>
-                            <a href='#' onClick={() => setPaste(`${item.ip}/file/${item.file_uid}`)} className='border-0 p-0 d-flex align-items-center justify-content-center'>
+                            {/* <a href='#' onClick={() => setPaste(`${item.ip}/file/${item.file_uid}`)} className='border-0 p-0 d-flex align-items-center justify-content-center'>
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M10 13.229C10.1416 13.4609 10.3097 13.6804 10.5042 13.8828C11.7117 15.1395 13.5522 15.336 14.9576 14.4722C15.218 14.3121 15.4634 14.1157 15.6872 13.8828L18.9266 10.5114C20.3578 9.02184 20.3578 6.60676 18.9266 5.11718C17.4953 3.6276 15.1748 3.62761 13.7435 5.11718L13.03 5.85978" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                                     <path d="M10.9703 18.14L10.2565 18.8828C8.82526 20.3724 6.50471 20.3724 5.07345 18.8828C3.64218 17.3932 3.64218 14.9782 5.07345 13.4886L8.31287 10.1172C9.74413 8.62761 12.0647 8.6276 13.4959 10.1172C13.6904 10.3195 13.8584 10.539 14 10.7708" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                                 </svg>
-                            </a>
+                            </a> */}
                             <button onClick={() => toggleDropdown(index)} className='border-0 p-0 d-flex align-items-center justify-content-center'>
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M11.9958 12H12.0048" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -89,14 +89,14 @@ export default function PreviewItem(
                                         </svg>
                                         <span className="d-block ps-1">Edit Image</span>
                                     </a>}
-                                <a href='#' onClick={() => setPaste(`${item.ip}/file/${item.file_uid}`)}
+                                {/* <a href='#' onClick={() => setPaste(`${item.ip}/file/${item.file_uid}`)}
                                     className="d-flex w-100 align-items-center gap-2 fs-6 lh-base">
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M8.33325 11.0241C8.45125 11.2174 8.59134 11.4003 8.75342 11.569C9.75967 12.6162 11.2934 12.78 12.4646 12.0601C12.6816 11.9267 12.8861 11.7631 13.0726 11.569L15.7721 8.75948C16.9648 7.51818 16.9648 5.50561 15.7721 4.2643C14.5793 3.02298 12.6456 3.02299 11.4528 4.2643L10.8583 4.88313" stroke="white" strokeWidth="1.25" strokeLinecap="round" />
                                         <path d="M9.14184 15.1167L8.547 15.7357C7.3543 16.977 5.42051 16.977 4.2278 15.7357C3.03507 14.4943 3.03507 12.4818 4.2278 11.2405L6.92731 8.431C8.12003 7.18967 10.0538 7.18966 11.2465 8.431C11.4086 8.59958 11.5486 8.7825 11.6666 8.97566" stroke="white" strokeWidth="1.25" strokeLinecap="round" />
                                     </svg>
                                     <span className="d-block ps-1">Get Sharelink</span>
-                                </a>
+                                </a> */}
                                 <a href='javascript:void(0)' onClick={(e) => handleDownload(item.id, item.file_detail, e)}
                                     className="d-flex w-100 align-items-center gap-2 fs-6 lh-base">
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

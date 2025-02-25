@@ -1,18 +1,19 @@
 import { Col, Container, Row } from 'react-bootstrap'
-import Expiry from '../components/Expiry'
 import React, { useContext, useEffect, useState } from "react";
-import { useParams, Navigate } from "react-router-dom";
 import axios from "axios";
-import DOMPurify from 'dompurify';
 import { GlobalContext } from '../layouts/Context';
+import TextView from './TextView';
 
 export default function TextCall(props) {
 
-  const {paste,setPaste} = useContext(GlobalContext);
-  const {givenUID, requiredPassword} = props;
-  
+  const { paste, setPaste } = useContext(GlobalContext);
+  const { givenUID, requiredPassword } = props;
+
   const [data, setData] = useState([]);
-  const [errorMsg, setErrorMsg] = useState("");
+  const [currentUIDpreview] = useState(givenUID);
+  const rerenderItems = () => {
+    return;
+  }
 
   useEffect(() => {
     if (givenUID) {
@@ -22,12 +23,12 @@ export default function TextCall(props) {
             requiredPassword: requiredPassword,
           });
           setData(response.data.data);
-          if(paste === ''){
-            setPaste(`${window.location.host + window.location.pathname}`);}
+          if (paste === '') {
+            setPaste(`${window.location.host + window.location.pathname}`);
+          }
           console.log(response);
           console.log(response.data.data);
         } catch (err) {
-          setErrorMsg("No data fetched")
           console.error("Error fetching data:", err);
         }
       }
@@ -35,39 +36,64 @@ export default function TextCall(props) {
     }
   }, [])
 
-  return (
-    <div className='create py-3 py-md-4'>
-      <Container fluid>
-        <Row>
-          <Col xs={12}>
-            {(errorMsg !== '') &&
+  if (data.length === 0) {
+    return (
+      <div className='create py-3 py-md-4'>
+        <Container fluid>
+          <Row>
+            <Col xs={12}>
               <div className="create-top list d-flex align-items-center gap-3">  {/*create-top makes text allcaps */}
                 <div className="des" style={{ maxWidth: "none" }}>
                   <p className='text-858585'>
-                    <h3 className='mb-0'>{errorMsg}</h3>
+                    <h3 className='mb-0'>No Data Found</h3>
                   </p>
                 </div>
-              </div>}
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      </div>
+    )
+  }
+  else {
+    return (<TextView data={data}
+      currentUIDpreview={currentUIDpreview}
+      rerenderItems={rerenderItems} />)
+  }
 
-            {/* {(data.length !== 0) && <div className="overflow-auto" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data[0].content) }} />} */}
-            {(data.length !== 0) &&
-              <>
-                <div className="create-top d-flex gap-2 gap-md-4 align-items-center mb-4 mb-lg-5">
-                  <h3 className='mb-0'>expires</h3><Expiry unix={data[0].expiry_date} />
-                </div>
-                <div className="list d-flex align-items-center gap-3">
-                  <div className="des" style={{ maxWidth: "none" }}>
-                    <p className='text-858585'>
-                      <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data[0].content) }} />
-                    </p>
-                  </div>
-                </div>
-              </>
-            }
-          </Col>
-        </Row>
-      </Container>
-    </div>
+  // return (
+  //   <div className='create py-3 py-md-4'>
+  //     <Container fluid>
+  //       <Row>
+  //         <Col xs={12}>
+  //           {(errorMsg !== '') &&
+  //             <div className="create-top list d-flex align-items-center gap-3">  {/*create-top makes text allcaps */}
+  //               <div className="des" style={{ maxWidth: "none" }}>
+  //                 <p className='text-858585'>
+  //                   <h3 className='mb-0'>{errorMsg}</h3>
+  //                 </p>
+  //               </div>
+  //             </div>}
 
-  )
+  //           {/* {(data.length !== 0) && <div className="overflow-auto" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data[0].content) }} />} */}
+  //           {(data.length !== 0) &&
+  //             <>
+  //               <div className="create-top d-flex gap-2 gap-md-4 align-items-center mb-4 mb-lg-5">
+  //                 <h3 className='mb-0'>expires</h3><Expiry unix={data[0].expiry_date} />
+  //               </div>
+  //               <div className="list d-flex align-items-center gap-3">
+  //                 <div className="des" style={{ maxWidth: "none" }}>
+  //                   <p className='text-858585'>
+  //                     <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data[0].content) }} />
+  //                   </p>
+  //                 </div>
+  //               </div>
+  //             </>
+  //           }
+  //         </Col>
+  //       </Row>
+  //     </Container>
+  //   </div>
+
+  // )
 }

@@ -72,7 +72,7 @@ export default function DeleteDialog({currentUID, totalData, toDelete, setToDele
                   <path d="M10.2017 14.1667V10.8333C10.2017 10.4405 10.2017 10.2441 10.0797 10.122C9.95766 10 9.76124 10 9.36841 10" stroke="#DDDFE7" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
                   <path d="M9.99341 7.5H10.0009" stroke="#DDDFE7" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-                <p className='mb-0 '>Confirm Deletation</p>
+                <p className='mb-0 '>Confirm Deletion</p>
               </div>
               <button className='bg-transparent border-0 p-0 close' onClick={resetToDelete}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
