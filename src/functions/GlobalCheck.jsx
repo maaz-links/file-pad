@@ -21,7 +21,6 @@ export const sizeValidation = (files,size) => {
             //         progress: undefined,
             //         theme: "dark",
             //     });
-            //     console.log('danger called');
             // } catch (err) {
             //     console.error('wat happun', err);
             // }

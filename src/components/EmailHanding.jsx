@@ -13,7 +13,6 @@ export default function EmailHandling() {
 
     const handleEmailChange = (event) => {
         setEmail(event.target.value);
-        console.log('email', email);
     }
 
     const handleModal = () => {
@@ -29,7 +28,6 @@ export default function EmailHandling() {
                     pastelink: paste,
                     subject: subject,
                 });
-                console.log(response);
                 try {
                     if (response.status == 200) {
                         toast.success(`Email successfully sent`, {

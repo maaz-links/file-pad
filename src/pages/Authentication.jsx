@@ -17,7 +17,6 @@ export default function Authentication({ dynamicValue, singleFile, setDataCall, 
     const [burnopen, setBurnopen] = useState(false);
     const handleRequiredPasswordChange = (event) => {
         setRequiredPassword(event.target.value);
-        console.log('passw', requiredPassword.length);
     }
 
     useEffect(() => {
@@ -31,13 +30,10 @@ export default function Authentication({ dynamicValue, singleFile, setDataCall, 
             try {
                 const fetchurl = (singleFile ? 'checkpassrequirementone' : 'checkpassrequirement')
                 const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/upload/${fetchurl}/${dynamicValue}`);
-                console.log(response);
                 setVerifyUID(response.data.settinguid);
                 setExpiry(response.data.expiry);
                 setToBurn(response.data.burn_after_read);
                 setDataType(response.data.type);
-
-                console.log(response.data.message);
                 const askPassword = response.data.message;
                 if (askPassword == 'true') {
                     setPassopen(true);
@@ -74,14 +70,11 @@ export default function Authentication({ dynamicValue, singleFile, setDataCall, 
 
     const checkPassword = () => {
         setIsSubmitting(true);
-        console.log('verify', requiredPassword);
         const bringFiles = async () => {
             try {
                 const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/upload/verifypass/${verifyUID}`, {
                     requiredPassword: requiredPassword,
                 });
-                console.log(response);
-                console.log(response.data.message);
                 if (response.data.message == "OK") {
                     setVerified(true);
                     //setErrorMsg("Good");

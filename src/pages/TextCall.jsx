@@ -26,8 +26,6 @@ export default function TextCall(props) {
           if (paste === '') {
             setPaste(`${window.location.host + window.location.pathname}`);
           }
-          console.log(response);
-          console.log(response.data.data);
         } catch (err) {
           console.error("Error fetching data:", err);
         }

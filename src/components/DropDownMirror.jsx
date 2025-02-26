@@ -36,7 +36,7 @@ export default function DropDownMirror({ className=""}) {
     return (
         <div ref={dropdownRef} className={`page-dropdown position-relative z-1 ${className}`}>
             <button onClick={() => setModal(!modal)} className="w-100 d-flex align-items-center justify-content-between gap-2">
-                <span my-data={mirror[1]}>
+                <span>
                 {mirror[0]}
                 </span>
                 <span className={`arrow ${modal ? '-scale-y-100' : ''}`}>

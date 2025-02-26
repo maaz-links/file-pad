@@ -55,7 +55,6 @@ export default function CreatePad() {
   const onDrop = (selectedFiles) => {
 
     const [acceptedFiles,unacceptedFiles] = sizeValidation(selectedFiles,onefilemax);
-    console.log([acceptedFiles,unacceptedFiles])
     if (acceptedFiles.length < 1){
       setPopupMsg(`Selected file(s) exceed the maximum allowed size of ${formatBytes(onefilemax)} each.`);
       return;
@@ -77,7 +76,6 @@ export default function CreatePad() {
     //console.log(acceptedFiles); //log
     setIsDragOver(false)
     //setFiles([...e.target.files]);
-    console.log(acceptedFiles.length); //log
     setOverallProgress(0);
     setTotalRemainingTime(0);
     setAvgSpeed(0);
@@ -153,7 +151,7 @@ export default function CreatePad() {
         //mirror[1]: Contains IP Address to be sent
       });
 
-      console.log("Initial axios call successful:", response.data); //log
+      //console.log("Initial axios call successful:", response.data); //log
       setCurrentUID(response.data.uid);
       var currentuid = response.data.uid;
       const uploadFiles = async () => {
@@ -182,7 +180,7 @@ export default function CreatePad() {
                     ...prevProgress,
                     [file.name]: { loaded, total },
                   };
-                  console.log('prog', updProg); //log
+                  //console.log('prog', updProg); //log
                   loadedSize = calculateLoadedFiles(updProg);
                   return updProg;
                 });
@@ -190,7 +188,7 @@ export default function CreatePad() {
                 setUploadDetails((prevDetails) => {
                   const updatedDetails = [...prevDetails];
                   updatedDetails[index] = { name: file.name, speed, remaining };
-                  console.log('wat', updatedDetails); //log
+                  //console.log('wat', updatedDetails); //log
                   avgSpeeder = calculateAverageSpeed(updatedDetails);
                   timeLeft = calculateTotalRemainingTime(updatedDetails);
                   return updatedDetails;
@@ -209,7 +207,7 @@ export default function CreatePad() {
             .catch((err) => {
               // Handle error response
               setResponseMessage('Error uploading files. Please try again.');
-              console.error(err);
+              //console.error(err);
               console.error(`Error uploading ${file.name}:`, err);
             })
             .finally(() => {
@@ -305,7 +303,7 @@ export default function CreatePad() {
         },
       })
       .then((response) => {
-        console.log('Response:', response.data);
+        //console.log('Response:', response.data);
         //const textpaste = `${mirror[1]}/text/${response.data.uid}`;
         //setPaste(textpaste)
         setCurrentUID(response.data.uid);

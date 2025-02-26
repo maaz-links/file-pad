@@ -9,12 +9,10 @@ export default function Editor({onClick, textValue, setTextValue, setIsTextEmpty
   const [isFull, setIsFull] = useState(false)
 
   const handleTextChange = (value) => { //This is value attrib from quill, not state
-    //console.log(e.target.value)
     setTextValue(value);
     const textlength = quillRef.current.getEditor().getLength();
     if(textlength > 1){
       setIsTextEmpty(false);
-      console.log("VALUE FROM TEXT EDITOR",textlength);
     }
     else{
       setIsTextEmpty(true);

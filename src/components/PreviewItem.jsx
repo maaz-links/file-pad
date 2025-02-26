@@ -40,7 +40,6 @@ export default function PreviewItem(
     const editRef = useRef(null);
     const handleEditFile = (e, file_uid) => {
         e.preventDefault();  // Prevent default link behavior
-        console.log('asdf',file_uid);
         setFileUIDtoEdit(file_uid);
         editRef.current.click();  // Trigger click on the hidden file input
     }
@@ -167,17 +166,14 @@ function TitleForm({ item }) {
     }, [item]);
 
     function handleMyTitleChange(e) {
-        console.log(currentInput);
         setCurrentInput(e.target.value);
     }
     async function handleUpdateTitle(e) {
         e.preventDefault();
-        console.log(currentInput)
         try {
             const response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/upload/titles`, {
                 items: [{ id: item.id, title: currentInput }],
             });
-            console.log('Updated items:', response.data.updatedItems);
             try {
                 toast.info(`Title updated`, {
                     position: "top-right",
@@ -189,7 +185,6 @@ function TitleForm({ item }) {
                     progress: undefined,
                     theme: "dark",
                 });
-                console.log('danger called');
             } catch (err) {
                 console.error('wat happun', err);
             }
@@ -206,7 +201,6 @@ function TitleForm({ item }) {
                     progress: undefined,
                     theme: "dark",
                 });
-                console.log('danger called');
             } catch (err) {
                 console.error('wat happun', err);
             }
@@ -217,7 +211,6 @@ function TitleForm({ item }) {
         <>
             <form onSubmit={handleUpdateTitle}>
                 <input type="text" placeholder='Title' className="form-control"
-                    my-data={item.id}
                     value={currentInput}
                     onChange={(e) => handleMyTitleChange(e)} />
             </form>

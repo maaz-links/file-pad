@@ -17,7 +17,7 @@ const GlobalProvider = ({ children }) => {
 
   const [paste,setPaste] =useState(''); //Used in preview page to handle sharelink
 
-  const [pasteDel, setPasteDel] = useState(()=>()=>{console.log('del')});
+  const [pasteDel, setPasteDel] = useState(()=>()=>{console.log('')});
   const [totalItemsinPre, setTotalItemsinPre] = useState(0)
 
   const [onefilemax, setOnefilemax] = useState('1048576');
@@ -29,7 +29,6 @@ const GlobalProvider = ({ children }) => {
     const fetchMirrorsData = async () => {
         try {
             const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/miscdata`);
-            console.log(response.data);
             const mirrorsData = response.data.mirror || []; // Assuming API returns a 'mirror' field
             // Transform the data to match the desired format (assuming the API provides 'title' and 'domain')
             const transformedMirrors = mirrorsData.map((mirror) => {
@@ -43,7 +42,6 @@ const GlobalProvider = ({ children }) => {
             const transformedExpiry = expiryData.map((expiry) => {
                 return [expiry.title, expiry.duration];
             });
-            console.log(transformedExpiry);
             setExpireslist(transformedExpiry);  
             setExpiryDateIncrement(transformedExpiry[0] || []); 
 
@@ -51,7 +49,7 @@ const GlobalProvider = ({ children }) => {
             setMultifilemax(response.data.upload_multifilemax);
 
         } catch (error) {
-            console.error('Error fetching mirrors data:', error);
+            console.error('Error fetching data:', error);
             // Optionally, handle the error state
         }
     };

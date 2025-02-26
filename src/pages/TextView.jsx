@@ -55,7 +55,6 @@ export function DeleteText({ currentUID, toDelete, setToDelete, rerenderItems })
     useEffect(() => {
         if (toDelete.length !== 0) {
             setOpen(true)
-            console.log(toDelete);
         }
     }, [toDelete]);
 
@@ -73,7 +72,6 @@ export function DeleteText({ currentUID, toDelete, setToDelete, rerenderItems })
     const handleDeleteText = async (uid) => {
         try {
             const response = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/upload/showtexts/delete/${uid}`);
-            console.log('text deleted:', response);
             rerenderItems();
         } catch (error) {
             console.error('Error deleting:', error);

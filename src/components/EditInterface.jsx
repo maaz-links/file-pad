@@ -19,9 +19,7 @@ export default function EditInterface(props) {
       }
     }, [files])
     const handleFileChange = async (e) => {
-      console.log(onefilemax);
       const files = sizeValidation([e.target.files[0]],onefilemax);  // Get the selected files
-      console.log('myfileuid',fileUID);
       setFiles(files);
     };
     const handleSubmit = async () => {
@@ -63,7 +61,6 @@ export default function EditInterface(props) {
           console.log('loop ended', promises)
           Promise.all(promises)
             .then(() => {
-              console.log('goto preview')
               rerenderItems();
               setFiles([]);
   
@@ -80,7 +77,7 @@ export default function EditInterface(props) {
   
         await uploadFiles();
       } catch (error) {
-        console.error("Initial axios call failed:", error);
+        console.error("Initial call failed:", error);
         //setResponseMessage("Error in initial setup. File upload canceled.");
       }
     };

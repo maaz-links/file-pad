@@ -43,7 +43,7 @@ export default function DropDownExpiry({ className=""}) {
             }} 
             
             className="w-100 d-flex align-items-center justify-content-between gap-2">
-                <span my-data={expiryDateIncrement[1]}>
+                <span>
                 {`Expires: ${expiryDateIncrement[0]}`}
                 </span>
                 <span className={`arrow ${modal ? '-scale-y-100' : ''}`}>

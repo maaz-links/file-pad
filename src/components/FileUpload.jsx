@@ -5,7 +5,6 @@ const FileUpload = () => {
     const [isDragOver, setIsDragOver] = useState(false); 
 
     const onDrop = (acceptedFiles) => {
-        console.log(acceptedFiles); 
         setIsDragOver(false);
     };
 

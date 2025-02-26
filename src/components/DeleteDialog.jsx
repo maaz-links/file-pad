@@ -9,7 +9,6 @@ export default function DeleteDialog({currentUID, totalData, toDelete, setToDele
     useEffect(() => {
         if(toDelete.length !== 0){
             setOpen(true)
-            console.log(toDelete);
         }
     }, [toDelete]);
 
@@ -26,7 +25,6 @@ export default function DeleteDialog({currentUID, totalData, toDelete, setToDele
           handleDeleteAllFiles(currentUID);
         }
         else{deleteUIDs.forEach(file_uid => {
-            console.log(file_uid);
             handleFileDeletebyUID(file_uid)
         });}
     }

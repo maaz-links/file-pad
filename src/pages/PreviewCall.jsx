@@ -36,7 +36,6 @@ export default function PreviewCall() {
         if (currentUID) {
             axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/upload/preview/${currentUID}`)
                 .then(async (response) => {
-                    console.log(response.data);
                     setData(response.data.data);
                     setTotalItemsinPre(response.data.data.length);
                     if (response.data.data.length === 0) {

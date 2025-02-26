@@ -21,9 +21,6 @@ export const calculateAverageSpeed = (data) => {
     if (!data.length) return 0;
     data=data.filter(item => parseFloat(item.remaining) > 0);
     const totalSpeed = data.reduce((sum, item) => sum + parseFloat(item.speed), 0);
-    //const activeUploadNum = data.filter(item => parseFloat(item.remaining) > 0).length;
-    console.log('speeder', totalSpeed / data.length); //log
-    console.log('tester', data); //log
     return totalSpeed / data.length;
 };
 export const calculateTotalRemainingTime = (data) => {
@@ -92,7 +89,6 @@ export const sizeValidation = (files,size) => {
                     progress: undefined,
                     theme: "dark",
                 });
-                console.log('danger called');
             } catch (err) {
                 console.error('wat happun', err);
             }

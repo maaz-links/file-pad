@@ -27,7 +27,6 @@ export default function Top() {
   }
 
   const location = useLocation();
-  console.log(location);
 
   return (
     <div className='header py-3 py-md-3 py-lg-4 position-relative z-3'>
@@ -77,7 +76,7 @@ export default function Top() {
                   <DropDownExpiry className="d-none d-md-block" />
 
                   <label htmlFor="burn" className='form-checkbox d-none d-lg-flex align-items-center flex-wrap gap-2'>
-                    <input type="checkbox" my-data={burnAfterRead} id="burn" className='d-none'
+                    <input type="checkbox" id="burn" className='d-none'
                       checked={burnAfterRead === '1'} onChange={() => setBurnAfterRead(burnAfterRead === '1' ? '0' : '1')} />
                     <span className='icon'></span>
                     <span className="text pl-1">Burn after reading</span>

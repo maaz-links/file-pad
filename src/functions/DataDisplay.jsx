@@ -5,8 +5,6 @@ export function checkPasswordRequirement(dynamicValue,singleFile,setPassopen,che
         try {
             const fetchurl = (singleFile ? 'checkpassrequirementone' : 'checkpassrequirement')
             const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/upload/${fetchurl}/${dynamicValue}`);
-            console.log(response);
-            console.log(response.data.message);
             const askPassword = response.data.message;
             if (askPassword == 'true') {
                 setPassopen(true);
