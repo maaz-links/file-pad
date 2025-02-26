@@ -37,9 +37,7 @@ export default function Top() {
             <div className="d-flex align-items-center gap-12">
               <Link to="/" className='me-2 me-md-3 me-xl-4 logo'><img src={logo} alt="" /></Link>
               <Link to="/" className='btn bg-white'>New</Link>
-              {((location.pathname === '/preview')||
-                (location.pathname.startsWith('/file'))||
-                (location.pathname.startsWith('/text'))) ?
+              {(!(location.pathname === '/'))&&(paste) ?
                 <div className="w-100 d-none d-md-flex align-items-center gap-12">
                   {/* <Link to="/" className='btn d-inline-flex gap-2 align-items-center px-20'>
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">

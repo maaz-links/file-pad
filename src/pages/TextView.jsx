@@ -3,7 +3,6 @@ import Expiry from '../components/Expiry'
 import React, { useContext, useEffect, useState } from "react";
 import { useParams, Navigate } from "react-router-dom";
 import axios from "axios";
-import DOMPurify from 'dompurify';
 import { GlobalContext } from '../layouts/Context';
 
 export default function TextView(props) {
@@ -34,7 +33,7 @@ export default function TextView(props) {
                                 <div className="list d-flex align-items-center gap-3">
                                     <div className="des" style={{ maxWidth: "none" }}>
                                         <p className='text-858585'>
-                                            <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data[0].content) }} />
+                                            <div dangerouslySetInnerHTML={{ __html: data[0].content }} />
                                         </p>
                                     </div>
                                 </div>

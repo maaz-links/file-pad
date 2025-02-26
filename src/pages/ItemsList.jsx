@@ -12,15 +12,7 @@ import DeleteDialog from "../components/DeleteDialog";
 
 export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rerenderItems }) {
 
-  const {
-    mirrorslist, setMirrorslist,
-    expireslist, setExpireslist,
-    currentUID, setCurrentUID,
-    burnAfterRead, setBurnAfterRead,
-    expiryDateIncrement, setExpiryDateIncrement,
-    mirror, setMirror,
-    paste, setPaste,
-    pasteDel, setPasteDel,
+  const {setPasteDel,
   } = useContext(GlobalContext);
 
   const location = useLocation();
@@ -31,27 +23,6 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
     array.forEach(deleteFileUID => {
       setToDelete((prevArr) => [...prevArr, deleteFileUID])
     });
-  }
-
-  //Toast message when clicked on sharelink, either for individual file or all files
-  const copyToClipboard = async (giventext) => {
-
-    try {
-      await navigator.clipboard.writeText(giventext);
-      toast.success(`Link copied to Clipboard: ${giventext}`, {
-        position: "top-right",
-        autoClose: 10000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-      console.log('Content copied to clipboard');
-    } catch (err) {
-      console.error('Failed to copy: ', err);
-    }
   }
 
   const delFunc = () => {
@@ -73,31 +44,7 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
   },
     [data]) //Updates function stored in context API
 
-  // const table = [
-  //   {
-  //     name: 'anononymos.pdf',
-  //     date: '02 Dec 2024',
-  //     size: '1 MB',
-  //   },
-  //   {
-  //     name: 'anononymos.pdf',
-  //     date: '02 Dec 2024',
-  //     size: '1 MB',
-  //   },
-  //   {
-  //     name: 'anononymos.pdf',
-  //     date: '02 Dec 2024',
-  //     size: '1 MB',
-  //   },
-  //   {
-  //     name: 'anononymos.pdf',
-  //     date: '02 Dec 2024',
-  //     size: '1 MB',
-  //   },
-  // ]
-  const [open, isOpen] = useState(false);
-  const [open2, isOpen2] = useState(false);
-  const [previewSrc, setPreviewSrc] = useState('none');
+  const [previewSrc, setPreviewSrc] = useState('');
 
   function isVideoFile(filePath) {
     // Define a regular expression for common video file extensions
@@ -208,7 +155,9 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
                   <tr>
                     <th>
                       <div className="d-flex align-content-center gap-27">
-                        <label htmlFor="b" className='form-checkbox d-none d-lg-flex align-items-center flexWrap gap-2'>
+                        <label htmlFor="b"
+                        style={{visibility: location.pathname === '/preview' ? 'visible' : 'hidden'}} 
+                        className='form-checkbox d-none d-lg-flex align-items-center flexWrap gap-2'>
                           <input
                             type="checkbox"
                             checked={selectAll}
@@ -230,7 +179,9 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
                     <tr key={index}>
                       <td >
                         <div className="d-flex align-content-center gap-27">
-                          <label htmlFor={index} className='form-checkbox d-none d-lg-flex align-items-center flexWrap gap-2'>
+                          <label htmlFor={index} 
+                          style={{visibility: location.pathname === '/preview' ? 'visible' : 'hidden'}} 
+                          className='form-checkbox d-none d-lg-flex align-items-center flexWrap gap-2'>
                             <input
                               type="checkbox"
                               checked={selectedItems.includes(index)}
@@ -255,7 +206,7 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
                       <td className='' >
                         <div className="d-flex align-items-center gap-1">
                           {(item.mime.startsWith("image/") || item.mime.startsWith("video/")) ? <button className='d-flex align-items-center gap-2'
-                            onClick={() => { isOpen2(!open2); setPreviewSrc(item.file_location) }}
+                            onClick={() => {setPreviewSrc(item.file_location) }}
 
                           >
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -297,9 +248,48 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
           </Col>
         </Row>
       </Container>
-      {open2 && (
-        <div className="bg-shape">
-          <div className="Modal">
+      <PreviewPopup previewSrc={previewSrc} setPreviewSrc={setPreviewSrc}/>
+      {(location.pathname === '/preview') && <DeleteDialog currentUID={currentUIDpreview} totalData={data.length} toDelete={toDelete} setToDelete={setToDelete} rerenderItems={rerenderItems} />}
+    </div>
+  )
+}
+
+export function PreviewPopup({previewSrc,setPreviewSrc}){
+
+  const [open2, isOpen2] = useState(false);
+
+  useEffect(() => {
+    if(previewSrc){
+      isOpen2(true);
+    }
+    else{
+      isOpen2(false);
+    }
+  
+  }, [previewSrc])
+  
+
+  function isVideoFile(filePath) {
+    // Define a regular expression for common video file extensions
+    const videoExtensions = /\.(mp4|mkv|avi|mov|wmv|flv|webm|mpeg)$/i;
+
+    // Test if the file path matches the video file extensions
+    return videoExtensions.test(filePath);
+  }
+
+  return(
+    <>
+    {open2 && (
+        <div className="bg-shape" 
+        // style={{position:'fixed',overflow:'auto',}}
+        >
+          <div className="Modal" 
+          style={{
+            maxWidth:"80%",
+            maxHeight: "100vh",  // Ensures the modal doesn't exceed viewport height
+            //overflow: "auto",    // Enables scrolling inside the modal
+
+          }}>
             <div className="header d-flex align-items-center justify-content-between">
               <div className="d-flex gap-12">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -308,19 +298,23 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
                 </svg>
                 <p className='mb-0'>Preview</p>
               </div>
-              <button className='bg-transparent border-0 p-0 close' onClick={() => isOpen2(!open2)}>
+              <button className='bg-transparent border-0 p-0 close' 
+              onClick={
+                //() => isOpen2(!open2)
+                () => setPreviewSrc('')
+                }>
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <path d="M15.8342 4.16669L4.16748 15.8334M4.16748 4.16669L15.8342 15.8334" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M15.8342 4.16669L4.16748 15.8334M4.16748 4.16669L15.8342 15.8334" stroke="white" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
             </div>
-            <div className="d-flex justify-content-center align-items-center" style={{ height: '100%' }} >
+            <div className="d-flex justify-content-center align-items-center" >
               {!isVideoFile(previewSrc) ? (
                 <div >
-                  <img src={previewSrc} className='top-0 start-0 w-100 h-100 object-fit-cover' alt="" />
+                  <img src={previewSrc} style={{maxHeight:'90vh'}} className='top-0 start-0 w-100 h-100 object-fit-cover' alt="" />
                 </div>
               ) : (
-                  <video className='w-100 h-100 ' controls>
+                  <video style={{maxHeight:'90vh'}} controls>
                     <source src={previewSrc} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
@@ -343,7 +337,7 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
           </div>
         </div>
       )}
-      {(location.pathname === '/preview') && <DeleteDialog currentUID={currentUIDpreview} totalData={data.length} toDelete={toDelete} setToDelete={setToDelete} rerenderItems={rerenderItems} />}
-    </div>
+    </>
   )
+
 }

@@ -5,6 +5,7 @@ import { IconFile } from './IconFile';
 import axios from 'axios';
 import EditInterface from './EditInterface';
 import { toast } from 'react-toastify';
+import { PreviewPopup } from '../pages/ItemsList';
 
 export default function PreviewItem(
     { data, copyToClipboard, setPaste, handleDownload, confirmDeletion, currentUID, rerenderItems, ...props }
@@ -45,17 +46,26 @@ export default function PreviewItem(
     }
 
 
+    const [previewSrc, setPreviewSrc] = useState('');
     if (data.length == 0) {
         return null;
     }
     return (
         <>
+        <div style={{padding:'0 15px', height: '700px', overflowY:'scroll'}}>
         {data.map((item, index) => (
-            <div className='preview-item d-grid' {...props} key={index}>
+            <div className='preview-item d-grid mb-3' {...props} key={index}>
                 <div className="form-box d-none d-md-block">
-                   {(location.pathname === '/preview') ? 
-                   <TitleForm id={item.id} title={item.title} item={item} /> : 
-                   <h6 className="fw-medium lh-base mb-0 text-white">{item.title}</h6>}
+                    <div className='row'>
+                        <div className='col-1'>
+                            <h6 className="fw-medium lh-base mb-0 form-control" style={{ width: '4.5em' }}>{`${index+1}/${data.length}`}</h6>
+                        </div>
+                        <div className='col-11'>
+                            {(location.pathname === '/preview') ?
+                                <TitleForm id={item.id} title={item.title} item={item} /> :
+                                <h6 className="fw-medium lh-base mb-0 form-control">{item.title}</h6>}
+                        </div>
+                    </div>
                 </div>
                 <div className="position-relative z-1">
                     <div ref={(el) => (dropdownRefs.current[index] = el)} className="preview-item-actions position-absolute top-0 end-0 z-2">
@@ -120,7 +130,7 @@ export default function PreviewItem(
                             </div>
                         }
                     </div>
-                    {(/^video\//.test(item.mime)) ? 
+                    {(/^video\//.test(item.mime)) && false ? 
                         (<div className="preview-item-img position-relative rounded-3 bg-dark">
                             {/* <img src={IconFile(item.file_detail)} className='position-absolute top-50 start-50 object-fit-cover' alt="" /> */}
                             <video className='position-absolute top-0 start-0 w-100 h-100 ' controls>
@@ -133,7 +143,7 @@ export default function PreviewItem(
                     :
                     checkIfThumbnailhasFile(item.thumbnail) ?
                         (<div className="preview-item-img position-relative">
-                            <img src={item.thumbnail} className='position-absolute top-0 start-0 w-100 h-100 object-fit-cover' alt="" />
+                            <img src={item.thumbnail} onClick={() => setPreviewSrc(item.file_location)} className='position-absolute top-0 start-0 w-100 h-100 object-fit-cover' alt="" />
                         </div>) :
                         (<div className="preview-item-img position-relative rounded-3 bg-dark">
                             <img src={IconFile(item.file_detail)} className='position-absolute top-50 start-50 object-fit-cover' alt="" />
@@ -142,6 +152,8 @@ export default function PreviewItem(
                 </div>
             </div>
         ))}
+        </div>
+        <PreviewPopup previewSrc={previewSrc} setPreviewSrc={setPreviewSrc}/>
         {(location.pathname === '/preview') && <EditInterface currentUID={currentUID} editRef={editRef} fileUID={fileUIDtoEdit} rerenderItems={rerenderItems}/>}
         </>
     )
