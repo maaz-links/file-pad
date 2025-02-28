@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const handleDownload = async (downloadid,file_detail,event) => {
+const handleDownload = async (downloadid,title,ext,event) => {
     event.preventDefault();
     axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/download`, {
             fileid: downloadid,
@@ -12,7 +12,7 @@ const handleDownload = async (downloadid,file_detail,event) => {
        const url = window.URL.createObjectURL(new Blob([response.data]));
        const link = document.createElement('a');
        link.href = url;
-       link.setAttribute('download', `SecureFile.${getFileExtension(file_detail)}`); //or any other extension
+       link.setAttribute('download', `${title}.${ext}`); //or any other extension
        document.body.appendChild(link);
        link.click();
     });

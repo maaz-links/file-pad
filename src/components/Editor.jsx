@@ -26,7 +26,7 @@ export default function Editor({onClick, textValue, setTextValue, setIsTextEmpty
       ['link'], //'image'
       [{ 'color': [] }],
       [{ 'list': 'bullet' }],
-      [{ 'align': [] }],
+      //[{ 'align': [] }],
     ],
     history: {
       delay: 500,

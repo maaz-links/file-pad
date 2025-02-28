@@ -96,7 +96,7 @@ export default function PreviewItem(
                                             <path d="M12.6783 4.9853L13.8464 3.81717C14.4916 3.17203 15.5376 3.17203 16.1828 3.81717C16.8278 4.46231 16.8278 5.50829 16.1828 6.15344L15.0146 7.32157M12.6783 4.9853L5.81678 11.8469C4.94569 12.718 4.51014 13.1535 4.21356 13.6842C3.91698 14.215 3.61859 15.4682 3.33325 16.6666C4.53166 16.3813 5.78491 16.0829 6.31566 15.7863C6.84641 15.4897 7.28195 15.0542 8.15304 14.1831L15.0146 7.32157M12.6783 4.9853L15.0146 7.32157" stroke="#DDDFE7" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
                                             <path d="M9.16675 16.6667H14.1667" stroke="#DDDFE7" strokeWidth="1.25" strokeLinecap="round" />
                                         </svg>
-                                        <span className="d-block ps-1">Edit Image</span>
+                                        <span className="d-block ps-1">Edit File</span>
                                     </a>}
                                 {/* <a href='#' onClick={() => setPaste(`${item.ip}/file/${item.file_uid}`)}
                                     className="d-flex w-100 align-items-center gap-2 fs-6 lh-base">
@@ -106,7 +106,7 @@ export default function PreviewItem(
                                     </svg>
                                     <span className="d-block ps-1">Get Sharelink</span>
                                 </a> */}
-                                <a href='javascript:void(0)' onClick={(e) => handleDownload(item.id, item.file_detail, e)}
+                                <a href='javascript:void(0)' onClick={(e) => handleDownload(item.id, item.title,item.extension, e)}
                                     className="d-flex w-100 align-items-center gap-2 fs-6 lh-base">
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M10.0001 18.3334C14.6025 18.3334 18.3334 14.6024 18.3334 10C18.3334 5.39765 14.6025 1.66669 10.0001 1.66669C5.39771 1.66669 1.66675 5.39765 1.66675 10C1.66675 14.6024 5.39771 18.3334 10.0001 18.3334Z" stroke="white" strokeWidth="1.25" />

@@ -43,7 +43,7 @@ export default function Authentication({ dynamicValue, singleFile, setDataCall, 
                     //setErrorMsg("Good");
                 }
                 else {
-                    setErrorMsg("This Link Either doesn't exist, expired, burned or deleted.");
+                    setErrorMsg("Paste either doesn't exist, has expired, burned or has been deleted.");
                 }
                 const burnWarning = response.data.burn_after_read;
                 if (burnWarning){
@@ -53,7 +53,7 @@ export default function Authentication({ dynamicValue, singleFile, setDataCall, 
                     //setErrorMsg('Data time');
                 }
             } catch (err) {
-                setErrorMsg("This Link Either doesn't exist, expired, burned or deleted.")
+                setErrorMsg("Paste either doesn't exist, has expired, burned or has been deleted.")
                 console.error("Error fetching data:", err);
             }
         }
@@ -80,11 +80,11 @@ export default function Authentication({ dynamicValue, singleFile, setDataCall, 
                     //setErrorMsg("Good");
                 }
                 else {
-                    setErrorMsg("Bad Password");
+                    setErrorMsg("The Password is Incorrect");
                 }
 
             } catch (err) {
-                setErrorMsg("Bad Password")
+                setErrorMsg("The Password is Incorrect")
                 console.error("Error fetching data:", err);
             }
             setIsSubmitting(false);

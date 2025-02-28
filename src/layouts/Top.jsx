@@ -5,7 +5,7 @@ import DropDownExpiry from '../components/DropDownExpiry'
 import DropDownMirror from '../components/DropDownMirror'
 import Paste from '../components/Paste'
 import logo from '../assets/img/logo.png'
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import QRcode from '../components/QRcode'
 import EmailHandling from '../components/EmailHanding'
 
@@ -25,6 +25,8 @@ export default function Top() {
     setPassword(event.target.value);
     console.log('passw',password.length);
   }
+
+  const [showPass, setShowPass] = useState(false);
 
   const location = useLocation();
 
@@ -81,8 +83,23 @@ export default function Top() {
                     <span className='icon'></span>
                     <span className="text pl-1">Burn after reading</span>
                   </label>
+
+                  {/* Password */}
                   <div className="form-box d-none d-md-block">
-                    <input onChange={handlePasswordChange} type="password" placeholder='Password (Recommended)' className="form-control" />
+                    {/* <input onChange={handlePasswordChange} type="password" placeholder='Password (Recommended)' className="form-control" /> */}
+                    <div class="input-group" style={{width:'110%'}}>
+                      <input type={showPass ? "text" : "password"} onChange={handlePasswordChange} class="form-control" placeholder="Password (Recommended)"/>
+                      {/* <div class="input-group-append" style={{width:'5em !important'}}> */}
+                        <button class="btn form-control" onClick={()=>setShowPass(!showPass)}
+                        style={{borderTopLeftRadius: 0, borderBottomLeftRadius: 0, minWidth: '20%', maxWidth: '20%'}} 
+                        type="button">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M17.9534 9.20419C18.2067 9.55944 18.3334 9.7371 18.3334 10C18.3334 10.2629 18.2067 10.4406 17.9534 10.7959C16.815 12.3922 13.9077 15.8334 10.0001 15.8334C6.0924 15.8334 3.18516 12.3922 2.04678 10.7959C1.79342 10.4406 1.66675 10.2629 1.66675 10C1.66675 9.7371 1.79342 9.55944 2.04678 9.20419C3.18516 7.60789 6.0924 4.16669 10.0001 4.16669C13.9077 4.16669 16.815 7.60789 17.9534 9.20419Z" stroke={showPass ? "white" : "currentColor"} strokeWidth="1.25" />
+                          <path d="M12.5 10C12.5 8.61925 11.3807 7.5 10 7.5C8.61925 7.5 7.5 8.61925 7.5 10C7.5 11.3807 8.61925 12.5 10 12.5C11.3807 12.5 12.5 11.3807 12.5 10Z" stroke={showPass ? "white" : "currentColor"} strokeWidth="1.25" />
+                        </svg>
+                          </button>
+                      {/* </div> */}
+                    </div>
                   </div>
                   {paste !== '' &&
                     <Paste className='ms-5 d-none d-xl-flex' /> //margin-left customized

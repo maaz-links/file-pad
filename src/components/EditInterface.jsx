@@ -43,7 +43,7 @@ export default function EditInterface(props) {
               })
               .then(() => {
                 //setResponseMessage('Files uploaded successfully!');
-                console.log(`${file.name} uploaded successfully and updated.`);
+                //console.log(`${file.name} uploaded successfully and updated.`);
               })
               .catch((err) => {
                 // Handle error response
@@ -56,9 +56,9 @@ export default function EditInterface(props) {
                 //setUploadModal(false)
               });
             promises.push(uploadPromise);
-            console.log(uploadPromise);
+            //console.log(uploadPromise);
           };
-          console.log('loop ended', promises)
+          //console.log('loop ended', promises)
           Promise.all(promises)
             .then(() => {
               rerenderItems();
@@ -68,7 +68,7 @@ export default function EditInterface(props) {
               //Navigate('/preview', { replace: true }); // Redirect to /preview
             })
             .catch((error) => {
-              console.log('wat happened?', error)
+              //console.error('wat happened?', error)
               setFiles([]);
               // Handle any errors, for example file upload failed
               //setResponseMessage('Error uploading some files. Please try again.');

@@ -32,7 +32,7 @@ export default function DeleteDialog({currentUID, totalData, toDelete, setToDele
     const handleFileDeletebyUID = async (uid) => {
         try {
           const response = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/upload/attachsingle/delete/${uid}`);
-          console.log('file deleted:', response);
+          //console.log('file deleted:', response);
           rerenderItems();
           // toast.info(`File Deleted: ${uid}`, {
           //   position: "top-right",
@@ -52,7 +52,7 @@ export default function DeleteDialog({currentUID, totalData, toDelete, setToDele
       const handleDeleteAllFiles = async (uid) => {
         try {
           const response = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/upload/attachments/delete/${uid}`);
-          console.log('file deleted:', response);
+          //console.log('file deleted:', response);
           rerenderItems();
         } catch (error) {
           console.error('Error deleting:', error);

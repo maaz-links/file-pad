@@ -83,7 +83,7 @@ const location = useLocation();
                   <a onClick={
                     (e) => {
                       data.forEach(obj => {
-                        handleDownload(obj.id, obj.file_detail, e);
+                        handleDownload(obj.id, obj.title,obj.extension, e);
                       });
                     }
                   }

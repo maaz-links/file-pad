@@ -124,7 +124,7 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
                   <button onClick={
                     (e) => {
                       data.forEach(obj => {
-                        handleDownload(obj.id, obj.file_detail, e);
+                        handleDownload(obj.id, obj.title,obj.extension, e);
                       });
                     }
                   }
@@ -224,7 +224,7 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
                               <span>Preview</span>
                             </button>
                           }
-                          <button onClick={(e) => handleDownload(item.id, item.file_detail, e)} className='d-flex align-items-center gap-2'>
+                          <button onClick={(e) => handleDownload(item.id, item.title,item.extension, e)} className='d-flex align-items-center gap-2'>
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M10.0001 18.3334C14.6025 18.3334 18.3334 14.6024 18.3334 10C18.3334 5.39765 14.6025 1.66669 10.0001 1.66669C5.39771 1.66669 1.66675 5.39765 1.66675 10C1.66675 14.6024 5.39771 18.3334 10.0001 18.3334Z" stroke="currentColor" />
                               <path d="M10.0001 13.3334V6.66669M10.0001 13.3334C9.41658 13.3334 8.32636 11.6714 7.91675 11.25M10.0001 13.3334C10.5836 13.3334 11.6738 11.6714 12.0834 11.25" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />

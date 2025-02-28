@@ -1,7 +1,7 @@
 import React from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import { GlobalContext } from '../layouts/Context';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 export default function Paste({ icon = "", btnText = "Delete Data", className = "", enableActions = true }) {
@@ -38,6 +38,37 @@ export default function Paste({ icon = "", btnText = "Delete Data", className = 
             console.error('Failed to copy: ', err);
         }
     }
+
+    const textRef = useRef(null);
+    const selectPartOfText = () => {
+        if (textRef.current) {
+          const range = document.createRange();
+          const selection = window.getSelection();
+    
+          // Find the text node inside the paragraph
+          const textNode = textRef.current.childNodes[0]; // First text node
+          const fullText = textNode.textContent;
+    
+          // Define the start and end positions for "Click the button"
+          const startIndex = fullText.indexOf(paste);
+          const endIndex = startIndex + paste.length;
+    
+          // Set the range to only select "Click the button"
+          range.setStart(textNode, startIndex);
+          range.setEnd(textNode, endIndex);
+    
+          selection.removeAllRanges(); // Clear any previous selection
+          selection.addRange(range); // Apply new selection
+        }
+      };
+    useEffect(() => {
+      if(totalItemsinPre){
+        selectPartOfText();
+      }
+    
+    }, [paste])
+    
+
     return (
         <div className={`copy d-flex justify-content-between ${className}`}>
             <div className="d-flex align-items-center gap-2">
@@ -46,9 +77,9 @@ export default function Paste({ icon = "", btnText = "Delete Data", className = 
                     <path d="M8.854 13.5422L10.6769 15.3651L16.1457 9.63593" stroke="white" strokeWidth="1.17188" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
                 {enableActions ?
-                    <p className='text-ABB1AE'>{`Your paste is ${paste}`}</p>
+                    <p ref={textRef} className='text-ABB1AE'>{`Your paste is ${paste}`}</p>
                     :
-                    <p className='text-ABB1AE' style={{marginBottom: '0'}}>{`${paste}`}</p>
+                    <p ref={textRef} className='text-ABB1AE' style={{marginBottom: '0'}}>{`${paste}`}</p>
                 }
                 <button onClick={copyToClipboard} className='p-0 rounded-1 d-flex align-items-center justify-content-center text-ABB1AE'>
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
