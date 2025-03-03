@@ -25,6 +25,30 @@ const GlobalProvider = ({ children }) => {
 
   const [popupMsg, setPopupMsg] = useState('');
 
+  const convertMinutes = (minutes) => {
+    if(minutes > 259200000){
+      return "Unlimited";
+    }
+    const MINUTES_IN_HOUR = 60;
+    const MINUTES_IN_DAY = 1440; // 60 * 24
+    const MINUTES_IN_MONTH = 43200; // 60 * 24 * 30
+
+    const months = Math.floor(minutes / MINUTES_IN_MONTH);
+    minutes %= MINUTES_IN_MONTH;
+    const days = Math.floor(minutes / MINUTES_IN_DAY);
+    minutes %= MINUTES_IN_DAY;
+    const hours = Math.floor(minutes / MINUTES_IN_HOUR);
+    minutes %= MINUTES_IN_HOUR;
+
+    let result = [];
+    if (months) result.push(`${months} month${months > 1 ? 's' : ''}`);
+    if (days) result.push(`${days} day${days > 1 ? 's' : ''}`);
+    if (hours) result.push(`${hours} hour${hours > 1 ? 's' : ''}`);
+    if (minutes) result.push(`${minutes} minute${minutes > 1 ? 's' : ''}`);
+
+    return result.length ? result.join(', ') : '0 minutes';
+};
+
   useEffect(() => {
     const fetchMirrorsData = async () => {
         try {
@@ -38,9 +62,10 @@ const GlobalProvider = ({ children }) => {
             setMirror(transformedMirrors[0] || []);  // Set default mirror (first item)
 
             const expiryData = response.data.expire || []; // Assuming API returns a 'expiry' field
-            // Transform the data to match the desired format (assuming the API provides 'title' and 'duration')
+            // Transform the data to match the desired format (assuming the API provides 'duration')
             const transformedExpiry = expiryData.map((expiry) => {
-                return [expiry.title, expiry.duration];
+                //return [expiry.title, expiry.duration];
+                return [convertMinutes(expiry.duration), expiry.duration];
             });
             setExpireslist(transformedExpiry);  
             setExpiryDateIncrement(transformedExpiry[0] || []); 

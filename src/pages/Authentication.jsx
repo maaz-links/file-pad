@@ -132,8 +132,8 @@ export default function Authentication({ dynamicValue, singleFile, setDataCall, 
                                 </button>
                             </div>
                             <div className="d-flex flex-column gap-2 gap-md-4 align-items-center wrap mb-md-3" >
-                                <h3 className='text-uppercase mb-md-2 pb-md-1 mt-2 mt-md-4 pt-md-2'>Expires</h3>
-                                <Expiry unix={expiry} />
+                                {(expiry < (Date.now()/1000 + 259200000*60)) && <><h3 className='text-uppercase mb-md-2 pb-md-1 mt-2 mt-md-4 pt-md-2'>Expires</h3>
+                                <Expiry unix={expiry} /></>}
                                 <p className='mb-0 text-center fs-6'>This secret message can only be displayed once. Would you like to see it now?</p>
                                 <div className="d-flex justify-content-center">
                                     <button onClick={() => {setDataCall(true);
@@ -170,8 +170,8 @@ export default function Authentication({ dynamicValue, singleFile, setDataCall, 
               </button> */}
                         </div>
                         <div className="d-flex flex-column gap-2 gap-md-4 align-items-center wrap mb-md-3" >
-                            <h3 className='text-uppercase mb-md-2 pb-md-1 mt-2 mt-md-4 pt-md-2'>Expires</h3>
-                            <Expiry unix={expiry} />
+                        {(expiry < (Date.now()/1000 + 259200000*60)) && <><h3 className='text-uppercase mb-md-2 pb-md-1 mt-2 mt-md-4 pt-md-2'>Expires</h3>
+                            <Expiry unix={expiry} /></>}
                             {!isSubmitting ? <>
                             <p className='mb-0 text-center fs-6'>This message is password protected.<br /> Enter Password</p>
                             <div className="form-box">

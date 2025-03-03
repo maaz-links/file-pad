@@ -94,8 +94,7 @@ export default function ItemsList({ data, mirrorForPaste, currentUIDpreview, rer
           <Col xs={12}>
             <div className="create-top d-flex flex-column flex-md-row text-center text-md-start gap-2 justify-content-center justify-content-md-between align-items-center mb-4 mb-lg-5">
               <div className="d-flex flex-column flex-md-row gap-2 gap-md-4 align-items-md-center">
-                <h3 className='mb-0'>expires</h3>
-                <Expiry unix={data[0].expiry_date} />
+                {(data.length !== 0) && (data[0].expiry_date < (Date.now()/1000 + 259200000*60)) && <><h3 className='mb-0'>Expires</h3><Expiry unix={data[0].expiry_date} /></>}
               </div>
               {!location.pathname.startsWith('/file/') && <>
               <div className="d-flex align-items-center gap-2">
@@ -314,7 +313,7 @@ export function PreviewPopup({previewSrc,setPreviewSrc}){
                   <img src={previewSrc} style={{maxHeight:'90vh'}} className='top-0 start-0 w-100 h-100 object-fit-cover' alt="" />
                 </div>
               ) : (
-                  <video style={{maxHeight:'90vh'}} controls>
+                  <video style={{maxHeight:'90vh', maxWidth:'100%'}} controls>
                     <source src={previewSrc} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>

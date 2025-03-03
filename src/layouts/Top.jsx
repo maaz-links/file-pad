@@ -31,7 +31,8 @@ export default function Top() {
   const location = useLocation();
 
   return (
-    <div className='header py-3 py-md-3 py-lg-4 position-relative z-3'>
+    <>
+    <div className='header py-3 py-md-3 py-lg-4 z-3' style={{position:"fixed",top:'0',backgroundColor:'#1E1E20',width:'100%'}}>
       <Container fluid  >
         <Row>
           <Col xs={12}>
@@ -87,10 +88,10 @@ export default function Top() {
                   {/* Password */}
                   <div className="form-box d-none d-md-block">
                     {/* <input onChange={handlePasswordChange} type="password" placeholder='Password (Recommended)' className="form-control" /> */}
-                    <div class="input-group" style={{width:'110%'}}>
-                      <input type={showPass ? "text" : "password"} onChange={handlePasswordChange} class="form-control" placeholder="Password (Recommended)"/>
-                      {/* <div class="input-group-append" style={{width:'5em !important'}}> */}
-                        <button class="btn form-control" onClick={()=>setShowPass(!showPass)}
+                    <div className="input-group" style={{width:'110%'}}>
+                      <input type={showPass ? "text" : "password"} onChange={handlePasswordChange} className="form-control" placeholder="Password (Recommended)"/>
+                      {/* <div className="input-group-append" style={{width:'5em !important'}}> */}
+                        <button className="btn form-control" onClick={()=>setShowPass(!showPass)}
                         style={{borderTopLeftRadius: 0, borderBottomLeftRadius: 0, minWidth: '20%', maxWidth: '20%'}} 
                         type="button">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -118,5 +119,8 @@ export default function Top() {
         </Row>
       </Container>
     </div>
+    <div className='header py-5 py-md-5 py-lg-5 z-3'></div>
+    </>
+    
   )
 }

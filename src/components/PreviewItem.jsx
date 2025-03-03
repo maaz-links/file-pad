@@ -7,8 +7,10 @@ import EditInterface from './EditInterface';
 import { toast } from 'react-toastify';
 import { PreviewPopup } from '../pages/ItemsList';
 
+import playbutton from '/src/assets/img/round-play-button.png'
+
 export default function PreviewItem(
-    { data, copyToClipboard, setPaste, handleDownload, confirmDeletion, currentUID, rerenderItems, ...props }
+    { data, copyToClipboard, setPaste, handleDownload, confirmDeletion, currentUID, rerenderItems, setPreviewSrc, ...props }
 ) {
 
     const location = useLocation();
@@ -45,13 +47,13 @@ export default function PreviewItem(
     }
 
 
-    const [previewSrc, setPreviewSrc] = useState('');
+    
     if (data.length == 0) {
         return null;
     }
     return (
         <>
-        <div style={{padding:'0 15px', height: '700px', overflowY:'scroll'}}>
+        {/* <div style={{padding:'0 15px', height: '700px', overflowY:'scroll'}}> */}
         {data.map((item, index) => (
             <div className='preview-item d-grid mb-3' {...props} key={index}>
                 <div className="form-box d-none d-md-block">
@@ -141,8 +143,9 @@ export default function PreviewItem(
 
                     :
                     checkIfThumbnailhasFile(item.thumbnail) ?
-                        (<div className="preview-item-img position-relative">
-                            <img src={item.thumbnail} onClick={() => setPreviewSrc(item.file_location)} className='position-absolute top-0 start-0 w-100 h-100 object-fit-cover' alt="" />
+                        (<div className="preview-item-img position-relative" onClick={() => setPreviewSrc(item.file_location)}>
+                            <img src={item.thumbnail} className='position-absolute top-0 start-0 w-100 h-100 object-fit-cover' alt="" />
+                            {(/^video\//.test(item.mime)) && <img src={playbutton} style={{width:'20%',top:'35%',left:'40%' }} className='position-absolute object-fit-cover' alt="" />}
                         </div>) :
                         (<div className="preview-item-img position-relative rounded-3 bg-dark">
                             <img src={IconFile(item.file_detail)} className='position-absolute top-50 start-50 object-fit-cover' alt="" />
@@ -151,8 +154,7 @@ export default function PreviewItem(
                 </div>
             </div>
         ))}
-        </div>
-        <PreviewPopup previewSrc={previewSrc} setPreviewSrc={setPreviewSrc}/>
+        {/* </div> */}
         {(location.pathname === '/preview') && <EditInterface currentUID={currentUID} editRef={editRef} fileUID={fileUIDtoEdit} rerenderItems={rerenderItems}/>}
         </>
     )

@@ -36,11 +36,11 @@ export default function DropDownExpiry({ className=""}) {
     return (
         <div ref={dropdownRef} className={`page-dropdown position-relative z-1 ${className}`}>
             <button onClick={() => setModal(!modal)} 
-            style={{minWidth:'14em',maxWidth:'14em',
-                textOverflow: 'ellipsis',
-                overflow: 'hidden',
-                whiteSpace:'nowrap',
-            }} 
+            // style={{minWidth:'14em',maxWidth:'14em',
+            //     textOverflow: 'ellipsis',
+            //     overflow: 'hidden',
+            //     whiteSpace:'nowrap',
+            // }} 
             
             className="w-100 d-flex align-items-center justify-content-between gap-2">
                 <span>
@@ -53,7 +53,7 @@ export default function DropDownExpiry({ className=""}) {
                 </span>
             </button>
             {modal &&
-                <div className="list mt-1 p-2 position-absolute z-3 top-100 left-0 w-100 overflow-auto">
+                <div className="list mt-1 p-2 position-absolute z-3 top-100 left-0 w-100 overflow-auto" style={{minWidth:'20em'}}>
                     {expireslist.map((item, index) => (
                         <button onClick={() => handleClick(item)} key={index}>{`Expires: ${item[0]}`}</button>
                     ))}

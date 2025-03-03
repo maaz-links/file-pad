@@ -229,29 +229,29 @@ input[type=number] {
     }
 }
 
-/* width */
-::-webkit-scrollbar {
-    width: 10px;
-  }
+// /* width */
+// ::-webkit-scrollbar {
+//     width: 10px;
+//   }
   
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: #363539;
-    border-radius: 10px;
-  }
+//   /* Track */
+//   ::-webkit-scrollbar-track {
+//     background: #363539;
+//     border-radius: 10px;
+//   }
 
-  ::-webkit-scrollbar-track:disabled {
-    background: $bg;
-    border-radius: 10px;
-  }
+//   ::-webkit-scrollbar-track:disabled {
+//     background: $bg;
+//     border-radius: 10px;
+//   }
   
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 10px;
-  }
+//   /* Handle */
+//   ::-webkit-scrollbar-thumb {
+//     background: #888;
+//     border-radius: 10px;
+//   }
   
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
+//   /* Handle on hover */
+//   ::-webkit-scrollbar-thumb:hover {
+//     background: #555;
+//   }

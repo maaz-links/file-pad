@@ -28,7 +28,7 @@ export default function TextView(props) {
                         {(data.length !== 0) &&
                             <>
                                 <div className="create-top d-flex gap-2 gap-md-4 align-items-center mb-4 mb-lg-5">
-                                    <h3 className='mb-0'>expires</h3><Expiry unix={data[0].expiry_date} />
+                                {(data.length !== 0) && (data[0].expiry_date < (Date.now()/1000 + 259200000*60)) && <><h3 className='mb-0'>Expires</h3><Expiry unix={data[0].expiry_date} /></>}
                                 </div>
                                 <div className="list d-flex align-items-center gap-3">
                                     <div className="des" style={{ maxWidth: "none" }}>
